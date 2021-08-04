@@ -118,6 +118,8 @@ namespace SistemaLoja.Servicos
             this.label36 = new System.Windows.Forms.Label();
             this.rbtn_VoltarTroca = new System.Windows.Forms.RadioButton();
             this.rbtn_SaidaTroca = new System.Windows.Forms.RadioButton();
+            this.label37 = new System.Windows.Forms.Label();
+            this.lb_IdTroca = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridN)).BeginInit();
             this.pnlRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -332,6 +334,7 @@ namespace SistemaLoja.Servicos
             this.cbx_Qtde.Name = "cbx_Qtde";
             this.cbx_Qtde.Size = new System.Drawing.Size(56, 21);
             this.cbx_Qtde.TabIndex = 135;
+            this.cbx_Qtde.TextChanged += new System.EventHandler(this.cbx_Qtde_TextChanged);
             // 
             // label31
             // 
@@ -1105,6 +1108,7 @@ namespace SistemaLoja.Servicos
             this.btn_Finalizar_Venda.Text = "Finalizar Troca";
             this.btn_Finalizar_Venda.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Finalizar_Venda.UseVisualStyleBackColor = false;
+            this.btn_Finalizar_Venda.Click += new System.EventHandler(this.btn_Finalizar_Venda_Click);
             // 
             // btn_Inserir
             // 
@@ -1187,7 +1191,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_ValorCompra
             // 
-            this.txt_ValorCompra.Location = new System.Drawing.Point(108, 2);
+            this.txt_ValorCompra.Location = new System.Drawing.Point(108, 27);
             this.txt_ValorCompra.Name = "txt_ValorCompra";
             this.txt_ValorCompra.Size = new System.Drawing.Size(121, 20);
             this.txt_ValorCompra.TabIndex = 166;
@@ -1196,7 +1200,7 @@ namespace SistemaLoja.Servicos
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(16, 6);
+            this.label21.Location = new System.Drawing.Point(16, 31);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(88, 13);
             this.label21.TabIndex = 167;
@@ -1255,7 +1259,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_ValorPago
             // 
-            this.txt_ValorPago.Location = new System.Drawing.Point(108, 28);
+            this.txt_ValorPago.Location = new System.Drawing.Point(108, 53);
             this.txt_ValorPago.Name = "txt_ValorPago";
             this.txt_ValorPago.Size = new System.Drawing.Size(121, 20);
             this.txt_ValorPago.TabIndex = 174;
@@ -1264,7 +1268,7 @@ namespace SistemaLoja.Servicos
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(43, 32);
+            this.label3.Location = new System.Drawing.Point(43, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 13);
             this.label3.TabIndex = 175;
@@ -1272,7 +1276,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_QtdItens
             // 
-            this.txt_QtdItens.Location = new System.Drawing.Point(108, 55);
+            this.txt_QtdItens.Location = new System.Drawing.Point(108, 80);
             this.txt_QtdItens.Name = "txt_QtdItens";
             this.txt_QtdItens.Size = new System.Drawing.Size(121, 20);
             this.txt_QtdItens.TabIndex = 176;
@@ -1281,7 +1285,7 @@ namespace SistemaLoja.Servicos
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(48, 59);
+            this.label36.Location = new System.Drawing.Point(48, 84);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(56, 13);
             this.label36.TabIndex = 177;
@@ -1313,11 +1317,35 @@ namespace SistemaLoja.Servicos
             this.rbtn_SaidaTroca.UseVisualStyleBackColor = true;
             this.rbtn_SaidaTroca.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label37.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label37.Location = new System.Drawing.Point(13, 4);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(91, 18);
+            this.label37.TabIndex = 181;
+            this.label37.Text = "Nº da Troca:";
+            // 
+            // lb_IdTroca
+            // 
+            this.lb_IdTroca.AutoSize = true;
+            this.lb_IdTroca.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_IdTroca.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lb_IdTroca.Location = new System.Drawing.Point(110, 4);
+            this.lb_IdTroca.Name = "lb_IdTroca";
+            this.lb_IdTroca.Size = new System.Drawing.Size(17, 18);
+            this.lb_IdTroca.TabIndex = 180;
+            this.lb_IdTroca.Text = "0";
+            // 
             // FrmTroca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 529);
+            this.Controls.Add(this.label37);
+            this.Controls.Add(this.lb_IdTroca);
             this.Controls.Add(this.rbtn_SaidaTroca);
             this.Controls.Add(this.rbtn_VoltarTroca);
             this.Controls.Add(this.txt_QtdItens);
@@ -1363,6 +1391,7 @@ namespace SistemaLoja.Servicos
             this.Controls.Add(this.txtPoduto);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.img);
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmTroca";
             this.Text = "Troca";
@@ -1471,5 +1500,7 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.RadioButton rbtn_VoltarTroca;
         private System.Windows.Forms.RadioButton rbtn_SaidaTroca;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label lb_IdTroca;
     }
 }
