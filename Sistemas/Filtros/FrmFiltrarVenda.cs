@@ -28,11 +28,11 @@ namespace SistemaLoja.Filtros
             con.AbrirCon();
             if (Program.forAberto == "caixa")
             {
-                sql = "SELECT tb_venda.id_Cliente, tb_venda.dataVenda, tbcliestes.id, tbcliestes.nome FROM tb_venda INNER JOIN tbcliestes ON tb_venda.id_Cliente = tbcliestes.id where valorPago = 00.0 order by dataVenda asc";
+                sql = "SELECT tb_venda.id_Venda, tb_venda.dataVenda, tb_venda.id_Cliente, tbcliestes.nome FROM tb_venda INNER JOIN tbcliestes ON tb_venda.id_Cliente = tbcliestes.id where valorPago = 00.0 order by dataVenda asc";
             }
             else
             {
-                sql = "SELECT tb_venda.id_Cliente, tb_venda.dataVenda, tbcliestes.id, tbcliestes.nome FROM tb_venda INNER JOIN tbcliestes ON tb_venda.id_Cliente = tbcliestes.id where valorPago > 00.0 order by dataVenda asc";
+                sql = "SELECT tb_venda.id_Venda, tb_venda.dataVenda, tb_venda.id_Cliente, tbcliestes.nome FROM tb_venda INNER JOIN tbcliestes ON tb_venda.id_Cliente = tbcliestes.id where valorPago > 00.0 order by dataVenda asc";
             }
             //sql = "SELECT * FROM tb_Venda where valorPago = 00.0 order by dataVenda asc";
             cmd = new MySqlCommand(sql, con.con);

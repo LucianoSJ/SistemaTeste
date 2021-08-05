@@ -108,6 +108,7 @@ namespace SistemaLoja.Servicos
             lbl_ID_Venda.Text = Program.idVenda;
             lbl_id_Cli.Text = Program.idcliente;
             lbl_nomeCliente.Text = Program.nomecliente;
+            btn_OK_Cliente.Enabled = true;
         }
 
         private void btn_OK_Cliente_Click(object sender, EventArgs e)
@@ -124,14 +125,14 @@ namespace SistemaLoja.Servicos
             decimal totalCusto = 0;
             foreach (DataGridViewRow dt in gridC.Rows)
             {
-                decimal v1 = Convert.ToDecimal(dt.Cells[2].Value);
-                decimal v2 = Convert.ToDecimal(dt.Cells[3].Value);
-                decimal subtotal = v1 * v2;
+                decimal qt = Convert.ToDecimal(dt.Cells[2].Value);
+                decimal v = Convert.ToDecimal(dt.Cells[3].Value);
+                decimal subtotal = v * qt;
                 qt_Itens = (qt_Itens + Convert.ToInt16(dt.Cells[2].Value));
 
-                decimal c1 = Convert.ToDecimal(dt.Cells[2].Value);
-                decimal c2 = Convert.ToDecimal(dt.Cells[4].Value);
-                decimal custo = c1 * c2;
+                decimal qt2 = Convert.ToDecimal(dt.Cells[2].Value);
+                decimal v2 = Convert.ToDecimal(dt.Cells[4].Value);
+                decimal custo = v2 * qt2;
 
                 dt.Cells[5].Value = subtotal;
                 total = total + subtotal;
@@ -141,6 +142,33 @@ namespace SistemaLoja.Servicos
                 txt_ValorCompra.Text = String.Format("{0:C}", total);
                 //txt_CustoTotal.Text = Convert.ToString(totalCusto);
                 txt_QtdItens.Text = Convert.ToString(qt_Itens);
+            }
+        }
+
+        private void ValorTotalItemTroca()
+        {
+            int qt_Itens = 0;
+            decimal total = 0;
+            decimal totalCusto = 0;
+            foreach (DataGridViewRow dt in gridT.Rows)
+            {
+                decimal qt = Convert.ToDecimal(dt.Cells[3].Value);
+                decimal v = Convert.ToDecimal(dt.Cells[4].Value);
+                decimal subtotal = v * qt;
+                qt_Itens = (qt_Itens + Convert.ToInt16(dt.Cells[3].Value));
+
+                /*decimal qt2 = Convert.ToDecimal(dt.Cells[2].Value);
+                decimal v2 = Convert.ToDecimal(dt.Cells[4].Value);
+                decimal custo = v2 * qt2;*/
+
+                dt.Cells[6].Value = subtotal;
+                total = total + subtotal;
+                //totalCusto = totalCusto + custo;
+
+                //txt_ValorPago.Text = String.Format("{0:C}", total);
+                txt_Valor_Troca.Text = String.Format("{0:C}", total);
+                //txt_CustoTotal.Text = Convert.ToString(totalCusto);
+                txt_Q_Troca.Text = Convert.ToString(qt_Itens);
             }
         }
 
@@ -183,6 +211,7 @@ namespace SistemaLoja.Servicos
             txt_ID_Produto.Text = gridC.CurrentRow.Cells[0].Value.ToString();
             txtPoduto.Text = gridC.CurrentRow.Cells[1].Value.ToString();
             cbx_Qtde.Text = gridC.CurrentRow.Cells[2].Value.ToString();
+            txt_Q_orig.Text = gridC.CurrentRow.Cells[2].Value.ToString();
             txtValor.Text = gridC.CurrentRow.Cells[3].Value.ToString();
             txt_Custo.Text = gridC.CurrentRow.Cells[4].Value.ToString();
             txt_Valor_Total.Text = gridC.CurrentRow.Cells[5].Value.ToString();
@@ -207,6 +236,8 @@ namespace SistemaLoja.Servicos
             }
             con.FecharCon();
             ValorTotalItem();
+            btn_Editar.Enabled = true;
+            btn_Excluir.Enabled = false;
         }
 
         private void btn_Editar_Click(object sender, EventArgs e)
@@ -220,18 +251,61 @@ namespace SistemaLoja.Servicos
                 cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
                 cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
                 cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
-
                 cmd.ExecuteNonQuery();
+                if (int.Parse(cbx_Qtde.Text) == int.Parse(txt_Q_orig.Text))
+                {
+                    ExcluirItemDaVenda();
+                }
+                else
+                {
+                EditarQuantidadeEmVendasParaMenos();
+                }
                 Listar();
                 ValorTotalItem();
                 con.FecharCon();
                 ListarTroca();
                 rbtn_SaidaTroca.Enabled = true;
+                Limpar();
+                btn_Editar.Enabled = false;
+        }
+
+        private void EditarQuantidadeEmVendasParaMenos()
+        {
+            int quantidade = int.Parse(txt_Q_orig.Text) - int.Parse(cbx_Qtde.Text);
+            con.AbrirCon();
+            sql = "UPDATE tb_itensVenda SET quantidade= @quantidade where id_Produto = @id_Produto And id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.Parameters.AddWithValue("@quantidade", quantidade);
+            cmd.ExecuteNonQuery();
+        }
+
+        private void EditarQuantidadeEmVendasParaMais()
+        {
+            int quantidade = int.Parse(txt_Q_orig.Text) + int.Parse(cbx_Qtde.Text);
+            con.AbrirCon();
+            sql = "UPDATE tb_itensVenda SET quantidade= @quantidade where id_Produto = @id_Produto And id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.Parameters.AddWithValue("@quantidade", quantidade);
+            cmd.ExecuteNonQuery();
+        }
+
+        private void ExcluirItemDaVenda()
+        {
+            con.AbrirCon();
+            sql = "DELETE FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.ExecuteNonQuery();
         }
         private void ListarTroca()
         {
             con.AbrirCon();
-            sql = "SELECT p.id_Produto, f.nome, p.quantidade, p.valorVenda, p.movimentacao FROM tb_itenstroca as p INNER JOIN tbprodutos as f ON p.id_Produto = f.id where id_Venda = @id_Venda order by p.id_Produto asc";
+            sql = "SELECT p.id, p.id_Produto, f.nome, p.quantidade, p.valorVenda, p.movimentacao FROM tb_itenstroca as p INNER JOIN tbprodutos as f ON p.id_Produto = f.id where id_Venda = @id_Venda order by p.id_Produto asc";
             cmd = new MySqlCommand(sql, con.con);
             cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
             MySqlDataAdapter da = new MySqlDataAdapter();
@@ -240,21 +314,24 @@ namespace SistemaLoja.Servicos
             da.Fill(dt);
             gridT.DataSource = dt;
             con.FecharCon();
+            dt.Columns.Add("Total", typeof(Double));
             FormatarDGTrocca();
         }
 
         private void FormatarDGTrocca()
         {
-            gridT.Columns[0].HeaderText = "ID";
-            gridT.Columns[1].HeaderText = "Produto";
-            gridT.Columns[2].HeaderText = "Qtde.";
-            gridT.Columns[3].HeaderText = "Valor";
-            gridC.Columns[3].DefaultCellStyle.Format = "C2";
-            gridT.Columns[4].HeaderText = "Movimentação.";
-            gridT.Columns[0].Width = 80;
-            gridT.Columns[1].Width = 336;
-            gridT.Columns[2].Width = 60;
-            gridT.Columns[3].Width = 100;
+            gridT.Columns[1].HeaderText = "ID Prod.";
+            gridT.Columns[2].HeaderText = "Produto";
+            gridT.Columns[3].HeaderText = "Qtde.";
+            gridT.Columns[4].HeaderText = "Valor";
+            gridT.Columns[4].DefaultCellStyle.Format = "C2";
+            gridT.Columns[5].HeaderText = "Movimentação.";
+            gridT.Columns[6].DefaultCellStyle.Format = "C2";
+            gridT.Columns[1].Width = 80;
+            gridT.Columns[2].Width = 236;
+            gridT.Columns[3].Width = 60;
+            gridT.Columns[4].Width = 100;
+            gridT.Columns[0].Visible = false;
         }
 
         private void txt_Desconto_KeyPress(object sender, KeyPressEventArgs e)
@@ -303,6 +380,12 @@ namespace SistemaLoja.Servicos
         {
             if (txtValor.Text != string.Empty)
             {
+                if (int.Parse(cbx_Qtde.Text) > int.Parse(txt_Q_orig.Text))
+                {
+                    MessageBox.Show("Não é permitido trocar uma quantidade maior do que foi comprada pelo cliente!", "ATENÇÂO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    cbx_Qtde.Text = "1";
+                    return;
+                }
                 decimal valor = Convert.ToDecimal(txtValor.Text.Replace("R$", ""));
                 int quantidade = int.Parse(cbx_Qtde.Text);
                 decimal total = valor * quantidade;
@@ -345,6 +428,7 @@ namespace SistemaLoja.Servicos
                     Listar();
                     ValorTotalItem();
                     ListarTroca();
+                    ValorTotalItemTroca();
                     rbtn_SaidaTroca.Enabled = true;
                     con.FecharCon();
                 }
@@ -383,6 +467,8 @@ namespace SistemaLoja.Servicos
                 gridN.Columns.Clear();
                 gridN.Rows.Clear();
                 gridN.Refresh();
+
+                Listar();
             }
             lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
         }
@@ -390,6 +476,94 @@ namespace SistemaLoja.Servicos
         private void btn_Finalizar_Venda_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void gridT_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            txt_Grid.Text = gridT.CurrentRow.Cells[0].Value.ToString();
+            txt_ID_Produto.Text = gridT.CurrentRow.Cells[1].Value.ToString();
+            txtPoduto.Text = gridT.CurrentRow.Cells[2].Value.ToString();
+            cbx_Qtde.Text = gridT.CurrentRow.Cells[3].Value.ToString();
+            txtValor.Text = gridT.CurrentRow.Cells[4].Value.ToString();
+            txt_Custo.Text = gridT.CurrentRow.Cells[5].Value.ToString();
+            txt_Valor_Total.Text = gridT.CurrentRow.Cells[6].Value.ToString();
+            Bolquear();
+            btn_Editar.Enabled = true;
+            cbx_Qtde.Enabled = true;
+ 
+            MySqlDataReader reader;
+            con.AbrirCon();
+            sql = "SELECT * FROM tbprodutos where id = @id";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id", int.Parse(txt_ID_Produto.Text));
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    txtCodBarras.Text = Convert.ToString(reader["codBarras"]);
+                    txtEstoque.Text = Convert.ToString(reader["estoque"]);
+                }
+            }
+            FiltrarQuantidadeDoItemNaTabelaVenda();
+            con.FecharCon();
+            ValorTotalItem();
+            btn_Editar.Enabled = false;
+            btn_Excluir.Enabled = true;
+        }
+
+        private void FiltrarQuantidadeDoItemNaTabelaVenda()
+        {
+            MySqlDataReader reader;
+            con.AbrirCon();
+            sql = "SELECT * FROM tb_itensvenda where id_Venda = @id_Venda And id_Produto = @id_Produto";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    txt_Q_orig.Text = Convert.ToString(reader["quantidade"]);
+                }
+            }
+        }
+
+        private void btn_Excluir_Click(object sender, EventArgs e)
+        {
+            var resultado = MessageBox.Show("Deseja Realmente Excluir o Item da Troca?", "EXCLUIR", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (resultado == DialogResult.Yes)
+            {
+                EditarQuantidadeEmVendasParaMais();
+                con.AbrirCon();
+                sql = "DELETE FROM tb_itenstroca where id = @id";
+                cmd = new MySqlCommand(sql, con.con);
+                cmd.Parameters.AddWithValue("@id", int.Parse(txt_Grid.Text));
+                cmd.ExecuteNonQuery();
+                con.FecharCon();
+                Listar();
+                ValorTotalItem();
+                con.FecharCon();
+                ListarTroca();
+                lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
+                Limpar();
+                btn_Excluir.Enabled = false;
+            }
+        }
+
+        private void Limpar()
+        {
+            txtCodBarras.Clear();
+            txt_ID_Produto.Clear();
+            txtEstoque.Clear();
+            txtPoduto.Clear();
+            txtValor.Clear();
+            cbx_Qtde.Text = "1";
+            txt_Valor_Total.Clear();
+            txtCodBarras.Focus();
         }
     }
  }

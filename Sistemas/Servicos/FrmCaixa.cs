@@ -461,14 +461,14 @@ namespace SistemaLoja.Servicos
             decimal totalCusto = 0;
             foreach (DataGridViewRow dt in grid.Rows)
             {
-                decimal v1 = Convert.ToDecimal(dt.Cells[2].Value);
-                decimal v2 = Convert.ToDecimal(dt.Cells[3].Value);
-                decimal subtotal = v1 * v2;
+                decimal qt = Convert.ToDecimal(dt.Cells[2].Value);
+                decimal v = Convert.ToDecimal(dt.Cells[3].Value);
+                decimal subtotal = v * qt;
                 qt_Itens = (qt_Itens + Convert.ToInt16(dt.Cells[2].Value));
 
-                decimal c1 = Convert.ToDecimal(dt.Cells[2].Value);
-                decimal c2 = Convert.ToDecimal(dt.Cells[4].Value);
-                decimal custo = c1 * c2;
+                decimal qt2 = Convert.ToDecimal(dt.Cells[2].Value);
+                decimal v2 = Convert.ToDecimal(dt.Cells[4].Value);
+                decimal custo = v2 * qt2;
 
                 dt.Cells[5].Value = subtotal;
                 total = total + subtotal;
@@ -813,9 +813,7 @@ namespace SistemaLoja.Servicos
         }
 
         private void btn_Editar_Click(object sender, EventArgs e)
-
         {
-            con.FecharCon();
             con.AbrirCon();
             sql = "UPDATE tb_itensVenda SET quantidade= @quantidade where id_Produto = @id_Produto And id_Venda = @id_Venda";
             cmd = new MySqlCommand(sql, con.con);

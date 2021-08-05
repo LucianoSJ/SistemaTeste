@@ -120,6 +120,12 @@ namespace SistemaLoja.Servicos
             this.rbtn_SaidaTroca = new System.Windows.Forms.RadioButton();
             this.label37 = new System.Windows.Forms.Label();
             this.lb_IdTroca = new System.Windows.Forms.Label();
+            this.txt_Q_Troca = new System.Windows.Forms.TextBox();
+            this.label38 = new System.Windows.Forms.Label();
+            this.txt_Grid = new System.Windows.Forms.TextBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.txt_Q_orig = new System.Windows.Forms.TextBox();
+            this.label40 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridN)).BeginInit();
             this.pnlRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -1088,6 +1094,7 @@ namespace SistemaLoja.Servicos
             this.btn_Excluir.Text = "Excluir";
             this.btn_Excluir.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Excluir.UseVisualStyleBackColor = false;
+            this.btn_Excluir.Click += new System.EventHandler(this.btn_Excluir_Click);
             // 
             // btn_Finalizar_Venda
             // 
@@ -1178,6 +1185,7 @@ namespace SistemaLoja.Servicos
             this.gridT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridT.Size = new System.Drawing.Size(318, 157);
             this.gridT.TabIndex = 163;
+            this.gridT.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridT_CellClick);
             // 
             // label20
             // 
@@ -1339,11 +1347,73 @@ namespace SistemaLoja.Servicos
             this.lb_IdTroca.TabIndex = 180;
             this.lb_IdTroca.Text = "0";
             // 
+            // txt_Q_Troca
+            // 
+            this.txt_Q_Troca.Location = new System.Drawing.Point(525, 9);
+            this.txt_Q_Troca.Name = "txt_Q_Troca";
+            this.txt_Q_Troca.Size = new System.Drawing.Size(44, 20);
+            this.txt_Q_Troca.TabIndex = 182;
+            this.txt_Q_Troca.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(465, 13);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(56, 13);
+            this.label38.TabIndex = 183;
+            this.label38.Text = "Qtd. Itens:";
+            // 
+            // txt_Grid
+            // 
+            this.txt_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txt_Grid.Location = new System.Drawing.Point(264, 166);
+            this.txt_Grid.Name = "txt_Grid";
+            this.txt_Grid.Size = new System.Drawing.Size(64, 20);
+            this.txt_Grid.TabIndex = 184;
+            this.txt_Grid.Visible = false;
+            // 
+            // label39
+            // 
+            this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(209, 172);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(52, 13);
+            this.label39.TabIndex = 185;
+            this.label39.Text = "ID Troca:";
+            this.label39.Visible = false;
+            // 
+            // txt_Q_orig
+            // 
+            this.txt_Q_orig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txt_Q_orig.Location = new System.Drawing.Point(212, 150);
+            this.txt_Q_orig.Name = "txt_Q_orig";
+            this.txt_Q_orig.Size = new System.Drawing.Size(46, 20);
+            this.txt_Q_orig.TabIndex = 186;
+            // 
+            // label40
+            // 
+            this.label40.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(147, 156);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(59, 13);
+            this.label40.TabIndex = 187;
+            this.label40.Text = "Qt Original:";
+            this.label40.Visible = false;
+            // 
             // FrmTroca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 529);
+            this.Controls.Add(this.label40);
+            this.Controls.Add(this.txt_Q_orig);
+            this.Controls.Add(this.label39);
+            this.Controls.Add(this.txt_Grid);
+            this.Controls.Add(this.txt_Q_Troca);
+            this.Controls.Add(this.label38);
             this.Controls.Add(this.label37);
             this.Controls.Add(this.lb_IdTroca);
             this.Controls.Add(this.rbtn_SaidaTroca);
@@ -1391,8 +1461,8 @@ namespace SistemaLoja.Servicos
             this.Controls.Add(this.txtPoduto);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.img);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "FrmTroca";
             this.Text = "Troca";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -1502,5 +1572,11 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.RadioButton rbtn_SaidaTroca;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label lb_IdTroca;
+        private System.Windows.Forms.TextBox txt_Q_Troca;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.TextBox txt_Grid;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.TextBox txt_Q_orig;
+        private System.Windows.Forms.Label label40;
     }
 }
