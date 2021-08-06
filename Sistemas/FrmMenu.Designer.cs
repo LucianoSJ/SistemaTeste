@@ -76,6 +76,7 @@ namespace SistemaLoja
             this.pnlTopo = new System.Windows.Forms.Panel();
             this.btnNovaVenda = new System.Windows.Forms.Button();
             this.pnlRight = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -93,7 +94,6 @@ namespace SistemaLoja
             this.lbl_Data = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.pnlTopo.SuspendLayout();
             this.pnlRight.SuspendLayout();
@@ -113,7 +113,7 @@ namespace SistemaLoja
             this.MenuSair});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(882, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1350, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -472,7 +472,7 @@ namespace SistemaLoja
             this.pnlTopo.Controls.Add(this.btnNovaVenda);
             this.pnlTopo.Location = new System.Drawing.Point(0, 27);
             this.pnlTopo.Name = "pnlTopo";
-            this.pnlTopo.Size = new System.Drawing.Size(632, 106);
+            this.pnlTopo.Size = new System.Drawing.Size(1100, 106);
             this.pnlTopo.TabIndex = 1;
             // 
             // btnNovaVenda
@@ -514,10 +514,21 @@ namespace SistemaLoja
             this.pnlRight.Controls.Add(this.bl_Hora);
             this.pnlRight.Controls.Add(this.lbl_Data);
             this.pnlRight.Controls.Add(this.label1);
-            this.pnlRight.Location = new System.Drawing.Point(632, 27);
+            this.pnlRight.Location = new System.Drawing.Point(1100, 27);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(250, 424);
+            this.pnlRight.Size = new System.Drawing.Size(250, 703);
             this.pnlRight.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label3.Location = new System.Drawing.Point(198, 331);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(16, 18);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "0";
             // 
             // label13
             // 
@@ -698,22 +709,11 @@ namespace SistemaLoja
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label3.Location = new System.Drawing.Point(198, 331);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(16, 18);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "0";
-            // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 450);
+            this.ClientSize = new System.Drawing.Size(1350, 729);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlTopo);
             this.Controls.Add(this.menuStrip1);

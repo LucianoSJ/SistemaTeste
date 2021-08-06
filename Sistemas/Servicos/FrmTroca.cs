@@ -81,7 +81,6 @@ namespace SistemaLoja.Servicos
             gridC.Columns[0].Width = 80;
             gridC.Columns[1].Width = 336;
             gridC.Columns[2].Width = 60;
-
             gridC.Columns[4].Visible = false;
         }
 
@@ -89,11 +88,13 @@ namespace SistemaLoja.Servicos
         {
             Filtros.FrmFiltrarVenda filtrarVenda = new Filtros.FrmFiltrarVenda();
             filtrarVenda.Show();
+            btn_OK_Cliente.Enabled = true;
         }
 
         private void FrmTroca_Load(object sender, EventArgs e)
         {
             Program.forAberto = "troca";
+            lbl_ID_Venda.Text = "0";
             lbl_Usuario.Text = Program.nomeUsuario;
             lbl_id_User.Text = Program.idUsuario;
             rbtn_VoltarTroca.Checked = true;
@@ -108,7 +109,6 @@ namespace SistemaLoja.Servicos
             lbl_ID_Venda.Text = Program.idVenda;
             lbl_id_Cli.Text = Program.idcliente;
             lbl_nomeCliente.Text = Program.nomecliente;
-            btn_OK_Cliente.Enabled = true;
         }
 
         private void btn_OK_Cliente_Click(object sender, EventArgs e)
@@ -116,6 +116,7 @@ namespace SistemaLoja.Servicos
             FiltarTroca();
             //Listar();
             ValorTotalItem();
+            btn_OK_Cliente.Enabled = false;
         }
 
         private void ValorTotalItem()
@@ -140,8 +141,16 @@ namespace SistemaLoja.Servicos
 
                 txt_ValorPago.Text = String.Format("{0:C}", total);
                 txt_ValorCompra.Text = String.Format("{0:C}", total);
-                //txt_CustoTotal.Text = Convert.ToString(totalCusto);
+                txt_CustoTotal.Text = Convert.ToString(totalCusto);
                 txt_QtdItens.Text = Convert.ToString(qt_Itens);
+            }
+
+            if (gridC.RowCount == 0)
+            {
+                txt_ValorPago.Clear();
+                txt_ValorCompra.Clear();
+                txt_CustoTotal.Clear();
+                txt_QtdItens.Clear();
             }
         }
 
@@ -149,7 +158,6 @@ namespace SistemaLoja.Servicos
         {
             int qt_Itens = 0;
             decimal total = 0;
-            decimal totalCusto = 0;
             foreach (DataGridViewRow dt in gridT.Rows)
             {
                 decimal qt = Convert.ToDecimal(dt.Cells[3].Value);
@@ -157,29 +165,36 @@ namespace SistemaLoja.Servicos
                 decimal subtotal = v * qt;
                 qt_Itens = (qt_Itens + Convert.ToInt16(dt.Cells[3].Value));
 
-                /*decimal qt2 = Convert.ToDecimal(dt.Cells[2].Value);
-                decimal v2 = Convert.ToDecimal(dt.Cells[4].Value);
-                decimal custo = v2 * qt2;*/
-
                 dt.Cells[6].Value = subtotal;
                 total = total + subtotal;
-                //totalCusto = totalCusto + custo;
-
-                //txt_ValorPago.Text = String.Format("{0:C}", total);
+       
                 txt_Valor_Troca.Text = String.Format("{0:C}", total);
-                //txt_CustoTotal.Text = Convert.ToString(totalCusto);
                 txt_Q_Troca.Text = Convert.ToString(qt_Itens);
+            }
+
+            if (gridT.RowCount == 0)
+            {
+                txt_Valor_Troca.Clear();
+                txt_Q_Troca.Clear();
             }
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             Bolquear();
+            gridC.Enabled = true;
+            gridT.Enabled = true;
+            Limpar();
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             Habilitar();
+            gridC.Enabled = false;
+            gridT.Enabled = false;
+            Limpar();
+            //this.gridC.DefaultCellStyle.SelectionForeColor = Color.Yellow;
+            //this.gridT.DefaultCellStyle.SelectionForeColor = Color.Yellow;
         }
 
         private void Bolquear()
@@ -235,13 +250,42 @@ namespace SistemaLoja.Servicos
                 }
             }
             con.FecharCon();
-            ValorTotalItem();
             btn_Editar.Enabled = true;
             btn_Excluir.Enabled = false;
         }
 
         private void btn_Editar_Click(object sender, EventArgs e)
         {
+            if (int.Parse(cbx_Qtde.Text) > int.Parse(txt_Q_orig.Text))
+            {
+                MessageBox.Show("Não é permitido trocar uma quantidade maior do que foi comprada pelo cliente!", "ATENÇÂO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cbx_Qtde.Text = "1";
+                return;
+            }
+            else
+            {
+                VerificaSeOItemJáEstaNaTroca();
+            }  
+        }
+
+        private void VerificaSeOItemJáEstaNaTroca()
+        {
+            con.AbrirCon();
+            MySqlCommand cmdItem;
+            cmdItem = new MySqlCommand("SELECT * FROM tb_itenstroca where id_Venda = @id_Venda And id_Produto = @id_Produto", con.con);
+            cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            MySqlDataAdapter dat = new MySqlDataAdapter();
+            dat.SelectCommand = cmdItem;
+            DataTable dta = new DataTable();
+            dat.Fill(dta);
+            if (dta.Rows.Count > 0)
+            {
+                MessageBox.Show("O Item Já foi inserido na troca, caso precise altear a quantidade, exclua e insira novamente!","ITEM JÁ INSERIDO NA TROCA",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            else
+            {
                 con.AbrirCon();
                 sql = "INSERT INTO tb_itenstroca (id_troca, id_Venda, id_Cliente, id_Produto, quantidade, valorVenda, movimentacao, dataDaTroca, Status) VALUES (@id_troca, @id_Venda, @id_Cliente, @id_Produto, @quantidade, @valorVenda, 'Entrada', now(), 'Aberta')";
                 cmd = new MySqlCommand(sql, con.con);
@@ -258,15 +302,13 @@ namespace SistemaLoja.Servicos
                 }
                 else
                 {
-                EditarQuantidadeEmVendasParaMenos();
+                    EditarQuantidadeEmVendasParaMenos();
                 }
-                Listar();
-                ValorTotalItem();
-                con.FecharCon();
-                ListarTroca();
+                FechaAConexaoECalculaValores();
                 rbtn_SaidaTroca.Enabled = true;
-                Limpar();
                 btn_Editar.Enabled = false;
+                Limpar();
+            }
         }
 
         private void EditarQuantidadeEmVendasParaMenos()
@@ -380,12 +422,6 @@ namespace SistemaLoja.Servicos
         {
             if (txtValor.Text != string.Empty)
             {
-                if (int.Parse(cbx_Qtde.Text) > int.Parse(txt_Q_orig.Text))
-                {
-                    MessageBox.Show("Não é permitido trocar uma quantidade maior do que foi comprada pelo cliente!", "ATENÇÂO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    cbx_Qtde.Text = "1";
-                    return;
-                }
                 decimal valor = Convert.ToDecimal(txtValor.Text.Replace("R$", ""));
                 int quantidade = int.Parse(cbx_Qtde.Text);
                 decimal total = valor * quantidade;
@@ -425,12 +461,8 @@ namespace SistemaLoja.Servicos
                     {
                         lb_IdTroca.Text = Convert.ToString(reader["id_troca"]);
                     }
-                    Listar();
-                    ValorTotalItem();
-                    ListarTroca();
-                    ValorTotalItemTroca();
+                    FechaAConexaoECalculaValores();
                     rbtn_SaidaTroca.Enabled = true;
-                    con.FecharCon();
                 }
             }
             else
@@ -489,7 +521,7 @@ namespace SistemaLoja.Servicos
             txt_Valor_Total.Text = gridT.CurrentRow.Cells[6].Value.ToString();
             Bolquear();
             btn_Editar.Enabled = true;
-            cbx_Qtde.Enabled = true;
+            cbx_Qtde.Enabled = false;
  
             MySqlDataReader reader;
             con.AbrirCon();
@@ -504,13 +536,17 @@ namespace SistemaLoja.Servicos
                 {
                     txtCodBarras.Text = Convert.ToString(reader["codBarras"]);
                     txtEstoque.Text = Convert.ToString(reader["estoque"]);
+                    txt_Custo.Text = Convert.ToString(reader["valor_compra"]);
                 }
             }
+
+            txt_CustoTotal.Text = Convert.ToString((Convert.ToDecimal(txt_Custo.Text.Replace("R$", "")) * int.Parse(cbx_Qtde.Text)));
+            
             FiltrarQuantidadeDoItemNaTabelaVenda();
-            con.FecharCon();
-            ValorTotalItem();
+            //FechaAConexaoECalculaValores();
             btn_Editar.Enabled = false;
             btn_Excluir.Enabled = true;
+            con.FecharCon();
         }
 
         private void FiltrarQuantidadeDoItemNaTabelaVenda()
@@ -537,20 +573,92 @@ namespace SistemaLoja.Servicos
             var resultado = MessageBox.Show("Deseja Realmente Excluir o Item da Troca?", "EXCLUIR", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (resultado == DialogResult.Yes)
             {
+                VerificaSeOItemJáFoiExcluidoDaVenda();
+                DeletaItemDaTroca();
+            }
+            Limpar();
+            FechaAConexaoECalculaValores();
+        }
+
+        private void DeletaItemDaTroca()
+        {
+            con.AbrirCon();
+            sql = "DELETE FROM tb_itenstroca where id = @id";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id", int.Parse(txt_Grid.Text));
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
+        }
+
+        private void VerificaSeOItemJáFoiExcluidoDaVenda()
+        {
+            con.AbrirCon();
+            MySqlCommand cmdItem;
+            cmdItem = new MySqlCommand("SELECT * FROM tb_itensvenda where id_Venda = @id_Venda And id_Produto = @id_Produto", con.con);
+            cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            MySqlDataAdapter dat = new MySqlDataAdapter();
+            dat.SelectCommand = cmdItem;
+            DataTable dta = new DataTable();
+            dat.Fill(dta);
+            if (dta.Rows.Count > 0)
+            {
                 EditarQuantidadeEmVendasParaMais();
+            }
+            else
+            {
+                InsereItensNaTabelaVendas();
+            }
+            lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
+            btn_Excluir.Enabled = false;
+        }
+
+        private void FechaAConexaoECalculaValores()
+        {
+            con.FecharCon();
+            Listar();
+            ListarTroca();
+            ValorTotalItem();
+            ValorTotalItemTroca();
+        }
+
+        private void InsereItensNaTabelaVendas()
+        {
+            con.AbrirCon();
+            sql = "INSERT INTO tb_itensVenda (id_Venda, id_Produto, quantidade, valorVenda, valorCusto) VALUES (@id_Venda, @id_Produto, @quantidade, @valorVenda, @valorCusto)";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Venda", lbl_ID_Venda.Text);
+            cmd.Parameters.AddWithValue("@id_Produto", txt_ID_Produto.Text);
+            cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
+            cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@valorCusto", Convert.ToDouble(txt_Custo.Text.Replace("R$", "")));
+            cmd.ExecuteNonQuery();
+        }
+
+        private void VerificaSeoItemEstaNaVenda()
+        {
+            // Verificar se o item já está na venda
+            MySqlCommand cmdItem;
+            cmdItem = new MySqlCommand("SELECT * FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda", con.con);
+            cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            MySqlDataAdapter dat = new MySqlDataAdapter();
+            dat.SelectCommand = cmdItem;
+            DataTable dta = new DataTable();
+            dat.Fill(dta);
+            if (dta.Rows.Count == 0)
+            {
                 con.AbrirCon();
-                sql = "DELETE FROM tb_itenstroca where id = @id";
+                sql = "INSERT INTO tb_itensVenda (id_Venda, id_Produto, quantidade, valorVenda, valorCusto) VALUES (@id_Venda, @id_Produto, @quantidade, @valorVenda, @valorCusto)";
                 cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@id", int.Parse(txt_Grid.Text));
+                cmd.Parameters.AddWithValue("@id_Venda", lbl_ID_Venda.Text);
+                cmd.Parameters.AddWithValue("@id_Produto", txt_ID_Produto.Text);
+                cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
+                cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
+                cmd.Parameters.AddWithValue("@valorCusto", Convert.ToDouble(txt_Custo.Text.Replace("R$", "")));
+
                 cmd.ExecuteNonQuery();
-                con.FecharCon();
-                Listar();
-                ValorTotalItem();
-                con.FecharCon();
-                ListarTroca();
-                lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
-                Limpar();
-                btn_Excluir.Enabled = false;
+                FechaAConexaoECalculaValores();
             }
         }
 
