@@ -104,7 +104,6 @@ namespace SistemaLoja.Servicos
             this.label19 = new System.Windows.Forms.Label();
             this.gridT = new System.Windows.Forms.DataGridView();
             this.label20 = new System.Windows.Forms.Label();
-            this.txt_ValorCompra = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.txt_Valor_Troca = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
@@ -113,7 +112,6 @@ namespace SistemaLoja.Servicos
             this.txt_ValorSaldo = new System.Windows.Forms.TextBox();
             this.label35 = new System.Windows.Forms.Label();
             this.txt_ValorPago = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.txt_QtdItens = new System.Windows.Forms.TextBox();
             this.label36 = new System.Windows.Forms.Label();
             this.rbtn_VoltarTroca = new System.Windows.Forms.RadioButton();
@@ -126,6 +124,8 @@ namespace SistemaLoja.Servicos
             this.label39 = new System.Windows.Forms.Label();
             this.txt_Q_orig = new System.Windows.Forms.TextBox();
             this.label40 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.lbl_valorCompraOriginal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridN)).BeginInit();
             this.pnlRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -1198,26 +1198,18 @@ namespace SistemaLoja.Servicos
             this.label20.TabIndex = 165;
             this.label20.Text = "Novos Itens (Troca Saída)";
             // 
-            // txt_ValorCompra
-            // 
-            this.txt_ValorCompra.Location = new System.Drawing.Point(108, 27);
-            this.txt_ValorCompra.Name = "txt_ValorCompra";
-            this.txt_ValorCompra.Size = new System.Drawing.Size(121, 20);
-            this.txt_ValorCompra.TabIndex = 166;
-            this.txt_ValorCompra.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(16, 31);
+            this.label21.Location = new System.Drawing.Point(16, 35);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(88, 13);
+            this.label21.Size = new System.Drawing.Size(115, 13);
             this.label21.TabIndex = 167;
-            this.label21.Text = "Valor da Compra:";
+            this.label21.Text = "Valor da Compra Atual:";
             // 
             // txt_Valor_Troca
             // 
-            this.txt_Valor_Troca.Location = new System.Drawing.Point(332, 24);
+            this.txt_Valor_Troca.Location = new System.Drawing.Point(356, 28);
             this.txt_Valor_Troca.Name = "txt_Valor_Troca";
             this.txt_Valor_Troca.Size = new System.Drawing.Size(121, 20);
             this.txt_Valor_Troca.TabIndex = 168;
@@ -1226,7 +1218,7 @@ namespace SistemaLoja.Servicos
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(248, 28);
+            this.label33.Location = new System.Drawing.Point(273, 35);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(80, 13);
             this.label33.TabIndex = 169;
@@ -1234,7 +1226,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_ValorItensNovos
             // 
-            this.txt_ValorItensNovos.Location = new System.Drawing.Point(332, 50);
+            this.txt_ValorItensNovos.Location = new System.Drawing.Point(133, 54);
             this.txt_ValorItensNovos.Name = "txt_ValorItensNovos";
             this.txt_ValorItensNovos.Size = new System.Drawing.Size(121, 20);
             this.txt_ValorItensNovos.TabIndex = 170;
@@ -1243,7 +1235,7 @@ namespace SistemaLoja.Servicos
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(234, 54);
+            this.label34.Location = new System.Drawing.Point(37, 61);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(94, 13);
             this.label34.TabIndex = 171;
@@ -1251,7 +1243,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_ValorSaldo
             // 
-            this.txt_ValorSaldo.Location = new System.Drawing.Point(333, 76);
+            this.txt_ValorSaldo.Location = new System.Drawing.Point(356, 54);
             this.txt_ValorSaldo.Name = "txt_ValorSaldo";
             this.txt_ValorSaldo.Size = new System.Drawing.Size(121, 20);
             this.txt_ValorSaldo.TabIndex = 172;
@@ -1260,7 +1252,7 @@ namespace SistemaLoja.Servicos
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(293, 80);
+            this.label35.Location = new System.Drawing.Point(316, 61);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(37, 13);
             this.label35.TabIndex = 173;
@@ -1268,24 +1260,15 @@ namespace SistemaLoja.Servicos
             // 
             // txt_ValorPago
             // 
-            this.txt_ValorPago.Location = new System.Drawing.Point(108, 53);
+            this.txt_ValorPago.Location = new System.Drawing.Point(133, 28);
             this.txt_ValorPago.Name = "txt_ValorPago";
             this.txt_ValorPago.Size = new System.Drawing.Size(121, 20);
             this.txt_ValorPago.TabIndex = 174;
             this.txt_ValorPago.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(43, 57);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 13);
-            this.label3.TabIndex = 175;
-            this.label3.Text = "Valor Pago:";
-            // 
             // txt_QtdItens
             // 
-            this.txt_QtdItens.Location = new System.Drawing.Point(108, 80);
+            this.txt_QtdItens.Location = new System.Drawing.Point(133, 80);
             this.txt_QtdItens.Name = "txt_QtdItens";
             this.txt_QtdItens.Size = new System.Drawing.Size(121, 20);
             this.txt_QtdItens.TabIndex = 176;
@@ -1294,7 +1277,7 @@ namespace SistemaLoja.Servicos
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(48, 84);
+            this.label36.Location = new System.Drawing.Point(75, 87);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(56, 13);
             this.label36.TabIndex = 177;
@@ -1331,7 +1314,7 @@ namespace SistemaLoja.Servicos
             this.label37.AutoSize = true;
             this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label37.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label37.Location = new System.Drawing.Point(13, 4);
+            this.label37.Location = new System.Drawing.Point(353, 2);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(91, 18);
             this.label37.TabIndex = 181;
@@ -1342,7 +1325,7 @@ namespace SistemaLoja.Servicos
             this.lb_IdTroca.AutoSize = true;
             this.lb_IdTroca.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_IdTroca.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lb_IdTroca.Location = new System.Drawing.Point(110, 4);
+            this.lb_IdTroca.Location = new System.Drawing.Point(450, 2);
             this.lb_IdTroca.Name = "lb_IdTroca";
             this.lb_IdTroca.Size = new System.Drawing.Size(17, 18);
             this.lb_IdTroca.TabIndex = 180;
@@ -1350,7 +1333,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_Q_Troca
             // 
-            this.txt_Q_Troca.Location = new System.Drawing.Point(516, 28);
+            this.txt_Q_Troca.Location = new System.Drawing.Point(356, 80);
             this.txt_Q_Troca.Name = "txt_Q_Troca";
             this.txt_Q_Troca.Size = new System.Drawing.Size(44, 20);
             this.txt_Q_Troca.TabIndex = 182;
@@ -1359,7 +1342,7 @@ namespace SistemaLoja.Servicos
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(456, 32);
+            this.label38.Location = new System.Drawing.Point(297, 87);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(56, 13);
             this.label38.TabIndex = 183;
@@ -1405,11 +1388,35 @@ namespace SistemaLoja.Servicos
             this.label40.Text = "Qt Original:";
             this.label40.Visible = false;
             // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label46.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label46.Location = new System.Drawing.Point(7, 2);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(124, 18);
+            this.label46.TabIndex = 194;
+            this.label46.Text = "Valor da Compra:";
+            // 
+            // lbl_valorCompraOriginal
+            // 
+            this.lbl_valorCompraOriginal.AutoSize = true;
+            this.lbl_valorCompraOriginal.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_valorCompraOriginal.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lbl_valorCompraOriginal.Location = new System.Drawing.Point(137, 2);
+            this.lbl_valorCompraOriginal.Name = "lbl_valorCompraOriginal";
+            this.lbl_valorCompraOriginal.Size = new System.Drawing.Size(17, 18);
+            this.lbl_valorCompraOriginal.TabIndex = 193;
+            this.lbl_valorCompraOriginal.Text = "0";
+            // 
             // FrmTroca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.label46);
+            this.Controls.Add(this.lbl_valorCompraOriginal);
             this.Controls.Add(this.label40);
             this.Controls.Add(this.txt_Q_orig);
             this.Controls.Add(this.label39);
@@ -1423,14 +1430,12 @@ namespace SistemaLoja.Servicos
             this.Controls.Add(this.txt_QtdItens);
             this.Controls.Add(this.label36);
             this.Controls.Add(this.txt_ValorPago);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.txt_ValorSaldo);
             this.Controls.Add(this.label35);
             this.Controls.Add(this.txt_ValorItensNovos);
             this.Controls.Add(this.label34);
             this.Controls.Add(this.txt_Valor_Troca);
             this.Controls.Add(this.label33);
-            this.Controls.Add(this.txt_ValorCompra);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.label19);
@@ -1558,7 +1563,6 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.DataGridView gridT;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox txt_ValorCompra;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txt_Valor_Troca;
         private System.Windows.Forms.Label label33;
@@ -1567,7 +1571,6 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.TextBox txt_ValorSaldo;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.TextBox txt_ValorPago;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txt_QtdItens;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.RadioButton rbtn_VoltarTroca;
@@ -1580,5 +1583,7 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.TextBox txt_Q_orig;
         private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label lbl_valorCompraOriginal;
     }
 }

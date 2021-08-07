@@ -117,6 +117,26 @@ namespace SistemaLoja.Servicos
             //Listar();
             ValorTotalItem();
             btn_OK_Cliente.Enabled = false;
+            ValorOriginaDaCompra();
+        }
+
+        private void ValorOriginaDaCompra()
+        {
+            con.AbrirCon();
+            sql = "SELECT * FROM tb_venda where id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            MySqlDataReader reader;
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                   lbl_valorCompraOriginal.Text = String.Format("{0:C}", Convert.ToDecimal(reader["valorPago"]));
+                }
+            }
+            con.FecharCon();
         }
 
         private void ValorTotalItem()
@@ -140,15 +160,13 @@ namespace SistemaLoja.Servicos
                 totalCusto = totalCusto + custo;
 
                 txt_ValorPago.Text = String.Format("{0:C}", total);
-                txt_ValorCompra.Text = String.Format("{0:C}", total);
                 txt_CustoTotal.Text = Convert.ToString(totalCusto);
-                txt_QtdItens.Text = Convert.ToString(qt_Itens);
+                txt_QtdItens.Text = Convert.ToString(qt_Itens);  
             }
 
             if (gridC.RowCount == 0)
             {
                 txt_ValorPago.Clear();
-                txt_ValorCompra.Clear();
                 txt_CustoTotal.Clear();
                 txt_QtdItens.Clear();
             }
@@ -443,10 +461,6 @@ namespace SistemaLoja.Servicos
             dat.Fill(dta);
             if (dta.Rows.Count > 0)
             {
-                if (Program.forVendas != "Sim")
-                {
-                    MessageBox.Show("Cliente já tem uma venda em aberto!", "VENDA ABERTA", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
                 Program.forVendas = "Não";
                 con.AbrirCon();
                 sql = "SELECT * FROM tb_itenstroca where id_Venda = @id_Venda And Status = 'Aberta'";
@@ -619,7 +633,7 @@ namespace SistemaLoja.Servicos
             Listar();
             ListarTroca();
             ValorTotalItem();
-            ValorTotalItemTroca();
+            ValorTotalItemTroca();      
         }
 
         private void InsereItensNaTabelaVendas()
