@@ -36,7 +36,6 @@ namespace SistemaLoja.Servicos
             this.label7 = new System.Windows.Forms.Label();
             this.txt_Custo = new System.Windows.Forms.TextBox();
             this.lbl_Custo = new System.Windows.Forms.Label();
-            this.gridN = new System.Windows.Forms.DataGridView();
             this.txt_Valor_Total = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
             this.cbx_Qtde = new System.Windows.Forms.ComboBox();
@@ -103,7 +102,6 @@ namespace SistemaLoja.Servicos
             this.label16 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.gridT = new System.Windows.Forms.DataGridView();
-            this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.txt_Valor_Troca = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
@@ -126,7 +124,12 @@ namespace SistemaLoja.Servicos
             this.label40 = new System.Windows.Forms.Label();
             this.label46 = new System.Windows.Forms.Label();
             this.lbl_valorCompraOriginal = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.gridN)).BeginInit();
+            this.txt_Q_Novos = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txt_Q_Total = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txt_QtdTotal = new System.Windows.Forms.TextBox();
+            this.lbl_Q_Total = new System.Windows.Forms.Label();
             this.pnlRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridC)).BeginInit();
@@ -163,6 +166,7 @@ namespace SistemaLoja.Servicos
             this.txt_ID_Produto.Size = new System.Drawing.Size(49, 20);
             this.txt_ID_Produto.TabIndex = 155;
             this.txt_ID_Produto.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_ID_Produto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_ID_Produto_KeyPress);
             // 
             // label7
             // 
@@ -194,22 +198,6 @@ namespace SistemaLoja.Servicos
             this.lbl_Custo.TabIndex = 154;
             this.lbl_Custo.Text = "Valor Custo:";
             this.lbl_Custo.Visible = false;
-            // 
-            // gridN
-            // 
-            this.gridN.AllowUserToAddRows = false;
-            this.gridN.AllowUserToDeleteRows = false;
-            this.gridN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridN.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.gridN.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridN.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.gridN.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.gridN.Location = new System.Drawing.Point(725, 389);
-            this.gridN.Name = "gridN";
-            this.gridN.ReadOnly = true;
-            this.gridN.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridN.Size = new System.Drawing.Size(282, 328);
-            this.gridN.TabIndex = 152;
             // 
             // txt_Valor_Total
             // 
@@ -467,7 +455,7 @@ namespace SistemaLoja.Servicos
             this.btn_OK_Cliente.ForeColor = System.Drawing.Color.Black;
             this.btn_OK_Cliente.Image = ((System.Drawing.Image)(resources.GetObject("btn_OK_Cliente.Image")));
             this.btn_OK_Cliente.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_OK_Cliente.Location = new System.Drawing.Point(189, 4);
+            this.btn_OK_Cliente.Location = new System.Drawing.Point(209, 4);
             this.btn_OK_Cliente.Name = "btn_OK_Cliente";
             this.btn_OK_Cliente.Size = new System.Drawing.Size(29, 30);
             this.btn_OK_Cliente.TabIndex = 134;
@@ -959,6 +947,7 @@ namespace SistemaLoja.Servicos
             this.btn_Produto.TabIndex = 146;
             this.btn_Produto.Text = "+";
             this.btn_Produto.UseVisualStyleBackColor = true;
+            this.btn_Produto.Click += new System.EventHandler(this.btn_Produto_Click);
             // 
             // txtEstoque
             // 
@@ -988,6 +977,7 @@ namespace SistemaLoja.Servicos
             this.txtCodBarras.Size = new System.Drawing.Size(121, 20);
             this.txtCodBarras.TabIndex = 134;
             this.txtCodBarras.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtCodBarras.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodBarras_KeyPress);
             // 
             // label8
             // 
@@ -1013,7 +1003,7 @@ namespace SistemaLoja.Servicos
             this.gridC.Name = "gridC";
             this.gridC.ReadOnly = true;
             this.gridC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridC.Size = new System.Drawing.Size(711, 152);
+            this.gridC.Size = new System.Drawing.Size(1001, 152);
             this.gridC.TabIndex = 142;
             this.gridC.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridC_CellClick);
             // 
@@ -1137,6 +1127,7 @@ namespace SistemaLoja.Servicos
             this.btn_Inserir.Text = "Inserir";
             this.btn_Inserir.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Inserir.UseVisualStyleBackColor = false;
+            this.btn_Inserir.Click += new System.EventHandler(this.btn_Inserir_Click);
             // 
             // img
             // 
@@ -1166,9 +1157,9 @@ namespace SistemaLoja.Servicos
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(12, 544);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(187, 13);
+            this.label19.Size = new System.Drawing.Size(220, 13);
             this.label19.TabIndex = 164;
-            this.label19.Text = "Itens da Troca (Voltar para o Estoque)";
+            this.label19.Text = "Itens da Troca (Entrada e Saída de Estoque)";
             // 
             // gridT
             // 
@@ -1184,19 +1175,9 @@ namespace SistemaLoja.Servicos
             this.gridT.Name = "gridT";
             this.gridT.ReadOnly = true;
             this.gridT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridT.Size = new System.Drawing.Size(711, 157);
+            this.gridT.Size = new System.Drawing.Size(1001, 157);
             this.gridT.TabIndex = 163;
             this.gridT.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridT_CellClick);
-            // 
-            // label20
-            // 
-            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(722, 373);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(133, 13);
-            this.label20.TabIndex = 165;
-            this.label20.Text = "Novos Itens (Troca Saída)";
             // 
             // label21
             // 
@@ -1226,7 +1207,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_ValorItensNovos
             // 
-            this.txt_ValorItensNovos.Location = new System.Drawing.Point(133, 54);
+            this.txt_ValorItensNovos.Location = new System.Drawing.Point(356, 54);
             this.txt_ValorItensNovos.Name = "txt_ValorItensNovos";
             this.txt_ValorItensNovos.Size = new System.Drawing.Size(121, 20);
             this.txt_ValorItensNovos.TabIndex = 170;
@@ -1235,7 +1216,7 @@ namespace SistemaLoja.Servicos
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(37, 61);
+            this.label34.Location = new System.Drawing.Point(260, 61);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(94, 13);
             this.label34.TabIndex = 171;
@@ -1243,7 +1224,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_ValorSaldo
             // 
-            this.txt_ValorSaldo.Location = new System.Drawing.Point(356, 54);
+            this.txt_ValorSaldo.Location = new System.Drawing.Point(356, 80);
             this.txt_ValorSaldo.Name = "txt_ValorSaldo";
             this.txt_ValorSaldo.Size = new System.Drawing.Size(121, 20);
             this.txt_ValorSaldo.TabIndex = 172;
@@ -1252,7 +1233,7 @@ namespace SistemaLoja.Servicos
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(316, 61);
+            this.label35.Location = new System.Drawing.Point(316, 87);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(37, 13);
             this.label35.TabIndex = 173;
@@ -1268,7 +1249,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_QtdItens
             // 
-            this.txt_QtdItens.Location = new System.Drawing.Point(133, 80);
+            this.txt_QtdItens.Location = new System.Drawing.Point(133, 54);
             this.txt_QtdItens.Name = "txt_QtdItens";
             this.txt_QtdItens.Size = new System.Drawing.Size(121, 20);
             this.txt_QtdItens.TabIndex = 176;
@@ -1277,7 +1258,7 @@ namespace SistemaLoja.Servicos
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(75, 87);
+            this.label36.Location = new System.Drawing.Point(75, 61);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(56, 13);
             this.label36.TabIndex = 177;
@@ -1333,7 +1314,7 @@ namespace SistemaLoja.Servicos
             // 
             // txt_Q_Troca
             // 
-            this.txt_Q_Troca.Location = new System.Drawing.Point(356, 80);
+            this.txt_Q_Troca.Location = new System.Drawing.Point(543, 28);
             this.txt_Q_Troca.Name = "txt_Q_Troca";
             this.txt_Q_Troca.Size = new System.Drawing.Size(44, 20);
             this.txt_Q_Troca.TabIndex = 182;
@@ -1342,7 +1323,7 @@ namespace SistemaLoja.Servicos
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(297, 87);
+            this.label38.Location = new System.Drawing.Point(484, 35);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(56, 13);
             this.label38.TabIndex = 183;
@@ -1410,11 +1391,68 @@ namespace SistemaLoja.Servicos
             this.lbl_valorCompraOriginal.TabIndex = 193;
             this.lbl_valorCompraOriginal.Text = "0";
             // 
+            // txt_Q_Novos
+            // 
+            this.txt_Q_Novos.Location = new System.Drawing.Point(543, 54);
+            this.txt_Q_Novos.Name = "txt_Q_Novos";
+            this.txt_Q_Novos.Size = new System.Drawing.Size(44, 20);
+            this.txt_Q_Novos.TabIndex = 195;
+            this.txt_Q_Novos.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(484, 61);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.TabIndex = 196;
+            this.label3.Text = "Qtd. Itens:";
+            // 
+            // txt_Q_Total
+            // 
+            this.txt_Q_Total.Location = new System.Drawing.Point(543, 80);
+            this.txt_Q_Total.Name = "txt_Q_Total";
+            this.txt_Q_Total.Size = new System.Drawing.Size(44, 20);
+            this.txt_Q_Total.TabIndex = 197;
+            this.txt_Q_Total.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(484, 87);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(57, 13);
+            this.label20.TabIndex = 198;
+            this.label20.Text = "Qtd. Total:";
+            // 
+            // txt_QtdTotal
+            // 
+            this.txt_QtdTotal.Location = new System.Drawing.Point(133, 80);
+            this.txt_QtdTotal.Name = "txt_QtdTotal";
+            this.txt_QtdTotal.Size = new System.Drawing.Size(121, 20);
+            this.txt_QtdTotal.TabIndex = 199;
+            this.txt_QtdTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // lbl_Q_Total
+            // 
+            this.lbl_Q_Total.AutoSize = true;
+            this.lbl_Q_Total.Location = new System.Drawing.Point(6, 87);
+            this.lbl_Q_Total.Name = "lbl_Q_Total";
+            this.lbl_Q_Total.Size = new System.Drawing.Size(125, 13);
+            this.lbl_Q_Total.TabIndex = 200;
+            this.lbl_Q_Total.Text = "Qtd. Itens + Itens Novos:";
+            // 
             // FrmTroca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.txt_QtdTotal);
+            this.Controls.Add(this.lbl_Q_Total);
+            this.Controls.Add(this.txt_Q_Total);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.txt_Q_Novos);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label46);
             this.Controls.Add(this.lbl_valorCompraOriginal);
             this.Controls.Add(this.label40);
@@ -1437,7 +1475,6 @@ namespace SistemaLoja.Servicos
             this.Controls.Add(this.txt_Valor_Troca);
             this.Controls.Add(this.label33);
             this.Controls.Add(this.label21);
-            this.Controls.Add(this.label20);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.gridT);
             this.Controls.Add(this.label16);
@@ -1449,7 +1486,6 @@ namespace SistemaLoja.Servicos
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txt_Custo);
             this.Controls.Add(this.lbl_Custo);
-            this.Controls.Add(this.gridN);
             this.Controls.Add(this.btn_Finalizar_Venda);
             this.Controls.Add(this.txt_Valor_Total);
             this.Controls.Add(this.label32);
@@ -1475,7 +1511,6 @@ namespace SistemaLoja.Servicos
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Activated += new System.EventHandler(this.FrmTroca_Activated);
             this.Load += new System.EventHandler(this.FrmTroca_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.gridN)).EndInit();
             this.pnlRight.ResumeLayout(false);
             this.pnlRight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -1497,7 +1532,6 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txt_Custo;
         private System.Windows.Forms.Label lbl_Custo;
-        private System.Windows.Forms.DataGridView gridN;
         private System.Windows.Forms.Button btn_Finalizar_Venda;
         private System.Windows.Forms.TextBox txt_Valor_Total;
         private System.Windows.Forms.Label label32;
@@ -1562,7 +1596,6 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.DataGridView gridT;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox txt_Valor_Troca;
         private System.Windows.Forms.Label label33;
@@ -1585,5 +1618,11 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label lbl_valorCompraOriginal;
+        private System.Windows.Forms.TextBox txt_Q_Novos;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txt_Q_Total;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox txt_QtdTotal;
+        private System.Windows.Forms.Label lbl_Q_Total;
     }
 }

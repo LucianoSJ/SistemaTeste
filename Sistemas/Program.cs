@@ -8,6 +8,8 @@ namespace SistemaLoja
 {
     static class Program
     {
+        public static string troca = "Não";
+
         public static string forVendas;
         public static string ExecultadoVenda = "Não";
 

@@ -16,6 +16,7 @@ namespace SistemaLoja.Servicos
         Conexao con = new Conexao();
         string sql;
         MySqlCommand cmd;
+        int quantidade;
 
         public FrmTroca()
         {
@@ -67,23 +68,6 @@ namespace SistemaLoja.Servicos
             FormatarDG();
         }
 
-        private void FormatarDG()
-        {
-            gridC.Columns[0].HeaderText = "ID";
-            gridC.Columns[1].HeaderText = "Produto";
-            gridC.Columns[2].HeaderText = "Qtde.";
-            gridC.Columns[3].HeaderText = "Valor Un.";
-            gridC.Columns[4].HeaderText = "Custo.";
-            gridC.Columns[5].HeaderText = "Total";
-            gridC.Columns[3].DefaultCellStyle.Format = "C2";
-            gridC.Columns[4].DefaultCellStyle.Format = "C2";
-            gridC.Columns[5].DefaultCellStyle.Format = "C2";
-            gridC.Columns[0].Width = 80;
-            gridC.Columns[1].Width = 336;
-            gridC.Columns[2].Width = 60;
-            gridC.Columns[4].Visible = false;
-        }
-
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             Filtros.FrmFiltrarVenda filtrarVenda = new Filtros.FrmFiltrarVenda();
@@ -109,9 +93,87 @@ namespace SistemaLoja.Servicos
             lbl_ID_Venda.Text = Program.idVenda;
             lbl_id_Cli.Text = Program.idcliente;
             lbl_nomeCliente.Text = Program.nomecliente;
+
+            if (Program.vendedorAcionado == "Sim")
+            {
+                lbl_id_User.Text = Program.idUsuario;
+                lbl_Usuario.Text = Program.vendedor;
+            }
+
+            if (Program.CodBarras != "NT")
+            {
+                txtCodBarras.Text = Program.CodBarras;
+                Program.CodBarras = "NT";
+                ConsultaCodigoDeBarras();
+            }
         }
 
         private void btn_OK_Cliente_Click(object sender, EventArgs e)
+        {
+            FiltarValoresAntesDeClicarEmInserirNovosItens();
+            VerificarSeJaIniciouAinsercaoDeItensNovos();
+            if (Program.troca == "Sim")
+            {
+                FiltarTrocaAtualJaIniciadoInsercaodeNovosItens();
+                rbtn_VoltarTroca.Checked = false;
+                rbtn_SaidaTroca.Checked = true;
+                gridT.Enabled = false;
+                Limpar();
+                cbx_Qtde.Enabled = true;
+                btn_Editar.Enabled = false;
+                btn_Inserir.Enabled = true;
+                Habilitar();
+                rbtn_VoltarTroca.Enabled = false;
+                rbtn_SaidaTroca.Enabled = false;
+            }   
+        }
+
+        private void VerificarSeJaIniciouAinsercaoDeItensNovos()
+        {
+            FiltarValoresAntesDeClicarEmInserirNovosItens();
+            con.AbrirCon();
+            MySqlCommand cmdItem;
+            cmdItem = new MySqlCommand("SELECT * FROM tb_trocaatual where id_troca = @id_troca", con.con);
+            cmdItem.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            MySqlDataAdapter dat = new MySqlDataAdapter();
+            dat.SelectCommand = cmdItem;
+            DataTable dta = new DataTable();
+            dat.Fill(dta);
+            if (dta.Rows.Count > 0)
+            {
+                Program.troca = "Sim";
+            }
+        }
+
+        private void FiltarTrocaAtualJaIniciadoInsercaodeNovosItens()
+        {
+            con.AbrirCon();
+            sql = "SELECT * FROM tb_trocaatual where id_troca = @id_troca";
+            cmd = new MySqlCommand(sql, con.con);
+            MySqlDataReader reader;
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    lbl_valorCompraOriginal.Text = Convert.ToString(String.Format("{0:C}", reader["ValorDaCompra"]));
+                    txt_ValorPago.Text = Convert.ToString(String.Format("{0:C}", reader["ValorCompraAtual"]));
+                    txt_QtdItens.Text = Convert.ToString(reader["QtdeItens"]);
+                    txt_QtdTotal.Text = Convert.ToString(reader["QtdItensMaisNovo"]);
+                    txt_Valor_Troca.Text = Convert.ToString(String.Format("{0:C}", reader["Valor_Troca"]));
+                    txt_ValorItensNovos.Text = Convert.ToString(String.Format("{0:C}", reader["ValorNovosItens"]));
+                    txt_ValorSaldo.Text = Convert.ToString(String.Format("{0:C}", reader["Saldo"]));
+                    txt_Q_Troca.Text = Convert.ToString(reader["QtdTroca"]);
+                    txt_Q_Novos.Text = Convert.ToString(reader["QtdeNovos"]);
+                    txt_Q_Total.Text = Convert.ToString(reader["QtdeTotal"]);
+                }
+            }
+            con.FecharCon();
+        }
+
+        private void FiltarValoresAntesDeClicarEmInserirNovosItens()
         {
             FiltarTroca();
             //Listar();
@@ -161,7 +223,16 @@ namespace SistemaLoja.Servicos
 
                 txt_ValorPago.Text = String.Format("{0:C}", total);
                 txt_CustoTotal.Text = Convert.ToString(totalCusto);
-                txt_QtdItens.Text = Convert.ToString(qt_Itens);  
+
+                if (rbtn_VoltarTroca.Checked == true)
+                {
+                    txt_QtdItens.Text = Convert.ToString(qt_Itens);
+                    txt_QtdTotal.Text = Convert.ToString(qt_Itens);
+                }
+                else
+                {
+                    txt_QtdTotal.Text = Convert.ToString(qt_Itens);
+                }
             }
 
             if (gridC.RowCount == 0)
@@ -187,13 +258,26 @@ namespace SistemaLoja.Servicos
                 total = total + subtotal;
        
                 txt_Valor_Troca.Text = String.Format("{0:C}", total);
-                txt_Q_Troca.Text = Convert.ToString(qt_Itens);
+                txt_ValorSaldo.Text = String.Format("{0:C}", total);
+
+                if (rbtn_VoltarTroca.Checked == true)
+                {
+                    txt_Q_Troca.Text = Convert.ToString(qt_Itens);
+                    txt_Q_Total.Text = Convert.ToString(qt_Itens);
+
+                }
+                else
+                {
+                    txt_Q_Total.Text = Convert.ToString(qt_Itens);
+                }
+
             }
 
             if (gridT.RowCount == 0)
             {
                 txt_Valor_Troca.Clear();
                 txt_Q_Troca.Clear();
+                txt_ValorSaldo.Clear();
             }
         }
 
@@ -207,12 +291,45 @@ namespace SistemaLoja.Servicos
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            Habilitar();
-            gridC.Enabled = false;
-            gridT.Enabled = false;
-            Limpar();
-            //this.gridC.DefaultCellStyle.SelectionForeColor = Color.Yellow;
-            //this.gridT.DefaultCellStyle.SelectionForeColor = Color.Yellow;
+            if (Program.troca == "Não")
+            {
+                var resultado = MessageBox.Show("Já inseriu todos os itens que serão trocados?", "ATENÇÂO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (resultado == DialogResult.Yes)
+                {
+                    SalvarValoresNaTabelaTrocaAtual();
+                    Habilitar();
+                    gridT.Enabled = false;
+                    Limpar();
+                    cbx_Qtde.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Insira primeiramente todos os itens que serão trocados, antes de inserir os novos itens!", "ATENÇÂO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            else
+            {
+                FiltarValoresAntesDeClicarEmInserirNovosItens();
+                VerificarSeJaIniciouAinsercaoDeItensNovos();
+            }
+        }
+
+        private void SalvarValoresNaTabelaTrocaAtual()
+        {
+            con.AbrirCon();
+            sql = "INSERT INTO tb_trocaatual (id_troca, ValorDaCompra, ValorCompraAtual, QtdeItens, QtdItensMaisNovo, Valor_Troca, ValorNovosItens, Saldo, QtdTroca, QtdeNovos, QtdeTotal) VALUES (@id_troca, @ValorDaCompra, @ValorCompraAtual, @QtdeItens, @QtdItensMaisNovo, @Valor_Troca, 0, @Saldo, @QtdTroca, 0, @QtdeTotal)";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            cmd.Parameters.AddWithValue("@ValorDaCompra", Convert.ToDouble(lbl_valorCompraOriginal.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@ValorCompraAtual", Convert.ToDouble(txt_ValorPago.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@QtdeItens", int.Parse(txt_QtdItens.Text));
+            cmd.Parameters.AddWithValue("@QtdItensMaisNovo", int.Parse(txt_QtdTotal.Text));
+            cmd.Parameters.AddWithValue("@Valor_Troca", Convert.ToDouble(txt_Valor_Troca.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@Saldo", Convert.ToDouble(txt_ValorSaldo.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@QtdTroca", int.Parse(txt_Q_Troca.Text));
+            cmd.Parameters.AddWithValue("@QtdeTotal", int.Parse(txt_Q_Total.Text));
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
         }
 
         private void Bolquear()
@@ -378,6 +495,24 @@ namespace SistemaLoja.Servicos
             FormatarDGTrocca();
         }
 
+        private void FormatarDG()
+        {
+            gridC.Columns[0].HeaderText = "ID";
+            gridC.Columns[1].HeaderText = "Produto";
+            gridC.Columns[2].HeaderText = "Qtde.";
+            gridC.Columns[3].HeaderText = "Valor Un.";
+            gridC.Columns[4].HeaderText = "Custo.";
+            gridC.Columns[5].HeaderText = "Total";
+            gridC.Columns[3].DefaultCellStyle.Format = "C2";
+            gridC.Columns[4].DefaultCellStyle.Format = "C2";
+            gridC.Columns[5].DefaultCellStyle.Format = "C2";
+            gridC.Columns[0].Width = 110;
+            gridC.Columns[1].Width = 420;
+            gridC.Columns[2].Width = 110;
+            gridC.Columns[3].Width = 110;
+            gridC.Columns[4].Visible = false;
+        }
+
         private void FormatarDGTrocca()
         {
             gridT.Columns[1].HeaderText = "ID Prod.";
@@ -387,11 +522,13 @@ namespace SistemaLoja.Servicos
             gridT.Columns[4].DefaultCellStyle.Format = "C2";
             gridT.Columns[5].HeaderText = "Movimentação.";
             gridT.Columns[6].DefaultCellStyle.Format = "C2";
-            gridT.Columns[1].Width = 80;
-            gridT.Columns[2].Width = 236;
-            gridT.Columns[3].Width = 60;
-            gridT.Columns[4].Width = 100;
+            gridT.Columns[1].Width = 110;
+            gridT.Columns[2].Width = 420;
+            gridT.Columns[3].Width = 110;
+            gridT.Columns[4].Width = 110;
+            gridT.Columns[5].Width = 120;
             gridT.Columns[0].Visible = false;
+            gridT.Columns[5].DisplayIndex = 6;
         }
 
         private void txt_Desconto_KeyPress(object sender, KeyPressEventArgs e)
@@ -508,11 +645,6 @@ namespace SistemaLoja.Servicos
                 gridT.Columns.Clear();
                 gridT.Rows.Clear();
                 gridT.Refresh();
-
-                gridN.DataSource = null;
-                gridN.Columns.Clear();
-                gridN.Rows.Clear();
-                gridN.Refresh();
 
                 Listar();
             }
@@ -687,5 +819,263 @@ namespace SistemaLoja.Servicos
             txt_Valor_Total.Clear();
             txtCodBarras.Focus();
         }
+
+        private void btn_Inserir_Click(object sender, EventArgs e)
+        {
+                CalcularItensNovos();
+                int qt_Itens = 0;
+                int qt_prod = 0;
+                int total_Itens = 0;
+                if (txtCodBarras.Text.ToString().Trim() == "")
+                {
+                    MessageBox.Show("Digite o Código de Barras", "Campo Vazio", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtCodBarras.Text = "";
+                    txtCodBarras.Focus();
+                    return;
+                }
+
+                // Verificar se o código de barras existe
+                MySqlCommand cmdVerificar;
+                cmdVerificar = new MySqlCommand("SELECT * FROM tbprodutos where codBarras = @codBarras", con.con);
+                cmdVerificar.Parameters.AddWithValue("@codBarras", txtCodBarras.Text);
+                MySqlDataAdapter da = new MySqlDataAdapter();
+                da.SelectCommand = cmdVerificar;
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                }
+                else
+                {
+                    MessageBox.Show("Código de Barras não Cadastrado!", "Sem Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtCodBarras.Text = "";
+                    txtCodBarras.Focus();
+                    return;
+                }
+
+                // Verificar se o item já está na venda
+                MySqlCommand cmdItem;
+                cmdItem = new MySqlCommand("SELECT * FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda", con.con);
+                cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+                cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+                MySqlDataAdapter dat = new MySqlDataAdapter();
+                dat.SelectCommand = cmdItem;
+                DataTable dta = new DataTable();
+                dat.Fill(dta);
+                if (dta.Rows.Count > 0)
+                {
+                    ConsultaQuantidade();
+                    ValorTotalItem();
+                    Limpar();
+                }
+                else
+                {
+                    con.AbrirCon();
+                    sql = "INSERT INTO tb_itensVenda (id_Venda, id_Produto, quantidade, valorVenda, valorCusto) VALUES (@id_Venda, @id_Produto, @quantidade, @valorVenda, @valorCusto)";
+                    cmd = new MySqlCommand(sql, con.con);
+                    cmd.Parameters.AddWithValue("@id_Venda", lbl_ID_Venda.Text);
+                    cmd.Parameters.AddWithValue("@id_Produto", txt_ID_Produto.Text);
+                    cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
+                    cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
+                    cmd.Parameters.AddWithValue("@valorCusto", Convert.ToDouble(txt_Custo.Text.Replace("R$", "")));
+
+                    cmd.ExecuteNonQuery();
+                    Listar();
+                    ValorTotalItem();
+                    Limpar();
+                    con.FecharCon();
+                }
+                lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
+        }
+
+        private void CalcularItensNovos()
+        {
+            int qt_Itens = int.Parse(txt_Q_Total.Text);
+            int qt_prod = int.Parse(cbx_Qtde.Text);
+            int total_Itens = qt_Itens + qt_prod;
+            
+            txt_Q_Total.Text = Convert.ToString(total_Itens);
+
+            if (txt_Q_Novos.Text != String.Empty)
+            {
+                qt_Itens = int.Parse(txt_Q_Novos.Text);
+            }
+            else
+            {
+                qt_Itens = 0;
+            }
+            
+            qt_prod = int.Parse(cbx_Qtde.Text);
+            total_Itens = qt_Itens + qt_prod;
+
+            txt_Q_Novos.Text = Convert.ToString(total_Itens);
+
+            if (txt_ValorItensNovos.Text != String.Empty)
+            {
+                txt_ValorItensNovos.Text = String.Format("{0:C}", Convert.ToString((Convert.ToDecimal(txt_ValorItensNovos.Text.Replace("R$", "")) + Convert.ToDecimal(txt_Valor_Total.Text.Replace("R$", "")))));
+            }
+            else
+            {
+                txt_ValorItensNovos.Text = String.Format("{0:C}", txt_Valor_Total.Text);
+            }
+            txt_ValorSaldo.Text = String.Format("{0:C}", Convert.ToString((Convert.ToDecimal(txt_ValorSaldo.Text.Replace("R$", "")) - Convert.ToDecimal(txt_ValorItensNovos.Text.Replace("R$", "")))));
+        }
+
+        private void ConsultaQuantidade()
+        {
+            con.AbrirCon();
+            sql = "SELECT * FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            MySqlDataReader reader;
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    quantidade = Convert.ToInt32(reader["quantidade"]);
+                    quantidade = quantidade + (int.Parse(cbx_Qtde.Text));
+                }
+            }
+            con.FecharCon();
+            con.AbrirCon();
+            sql = "UPDATE tb_itensVenda SET quantidade= @quantidade where id_Produto = @id_Produto And id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.Parameters.AddWithValue("@quantidade", quantidade);
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
+            Listar();
+            return;
+        }
+
+        private void txtCodBarras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                if (e.KeyChar == 13)
+                {
+                    if (txtCodBarras.Text != String.Empty)
+                    {
+                        Program.Botao = "codBarras";
+                        ConsultaCodigoDeBarras();
+                    }
+                    else
+                    {
+                        txtCodBarras.Focus();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ConsultaCodigoDeBarras()
+        {
+            con.AbrirCon();
+            if (Program.Botao == "codBarras")
+            {
+                sql = "SELECT * FROM tbprodutos where codBarras = @codBarras";
+                cmd = new MySqlCommand(sql, con.con);
+                MySqlDataReader reader;
+                cmd.Parameters.AddWithValue("@codBarras", txtCodBarras.Text);
+                reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        txt_ID_Produto.Text = Convert.ToString(reader["id"]);
+                        txtPoduto.Text = Convert.ToString(reader["nome"]);
+                        txtValor.Text = Convert.ToString(reader["valor_venda"]);
+                        txtEstoque.Text = Convert.ToString(reader["estoque"]);
+                        txt_Valor_Total.Text = Convert.ToString(reader["valor_venda"]);
+                        txt_Custo.Text = Convert.ToString(reader["valor_compra"]);
+                    }
+
+                    if (txt_Valor_Total.Text != String.Empty && cbx_Qtde.Text != String.Empty)
+                    {
+                        txt_Valor_Total.Text = (float.Parse(txtValor.Text) * int.Parse(cbx_Qtde.Text)).ToString();
+                        txt_Valor_Total.Text = double.Parse(txt_Valor_Total.Text).ToString("C2");
+                    }
+
+                    txtValor.Text = double.Parse(txtValor.Text).ToString("C2");
+                }
+                else
+                {
+                    MessageBox.Show("Produto Não Encontrado!", "Verifique o Código", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                con.FecharCon();
+            }
+
+            if (Program.Botao == "IDProduto")
+            {
+                sql = "SELECT * FROM tbprodutos where id = @id";
+                cmd = new MySqlCommand(sql, con.con);
+                MySqlDataReader reader;
+                cmd.Parameters.AddWithValue("@id", txt_ID_Produto.Text);
+                reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        txtCodBarras.Text = Convert.ToString(reader["codBarras"]);
+                        txtPoduto.Text = Convert.ToString(reader["nome"]);
+                        txtValor.Text = Convert.ToString(reader["valor_venda"]);
+                        txtEstoque.Text = Convert.ToString(reader["estoque"]);
+                        txt_Valor_Total.Text = Convert.ToString(reader["valor_venda"]);
+                        txt_Custo.Text = Convert.ToString(reader["valor_compra"]);
+                    }
+
+                    if (txt_Valor_Total.Text != String.Empty && cbx_Qtde.Text != String.Empty)
+                    {
+                        txt_Valor_Total.Text = (float.Parse(txtValor.Text) * int.Parse(cbx_Qtde.Text)).ToString();
+                        txt_Valor_Total.Text = double.Parse(txt_Valor_Total.Text).ToString("C2");
+                    }
+
+                    txtValor.Text = double.Parse(txtValor.Text).ToString("C2");
+                }
+                else
+                {
+                    MessageBox.Show("Produto Não Encontrado!", "Verifique o Código", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                con.FecharCon();
+            }
+        }
+
+        private void txt_ID_Produto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                if (e.KeyChar == 13)
+                {
+                    if (txtCodBarras.Text != String.Empty)
+                    {
+                        Program.Botao = "IDProduto";
+                        ConsultaCodigoDeBarras();
+                    }
+                    else
+                    {
+                        txtCodBarras.Focus();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btn_Produto_Click(object sender, EventArgs e)
+        {
+            Filtros.FrmFiltrarProduto frmFiltrarProduto = new Filtros.FrmFiltrarProduto();
+            frmFiltrarProduto.Show();
+        }
     }
- }
+}
