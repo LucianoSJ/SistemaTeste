@@ -256,21 +256,23 @@ namespace SistemaLoja.Servicos
 
                 dt.Cells[6].Value = subtotal;
                 total = total + subtotal;
-       
-                txt_Valor_Troca.Text = String.Format("{0:C}", total);
-                txt_ValorSaldo.Text = String.Format("{0:C}", total);
+                if(Program.troca == "Não") {
+                    txt_Valor_Troca.Text = String.Format("{0:C}", total);
+                    txt_ValorSaldo.Text = String.Format("{0:C}", total);
 
-                if (rbtn_VoltarTroca.Checked == true)
-                {
-                    txt_Q_Troca.Text = Convert.ToString(qt_Itens);
-                    txt_Q_Total.Text = Convert.ToString(qt_Itens);
+                    if (rbtn_VoltarTroca.Checked == true)
+                    {
+                        txt_Q_Troca.Text = Convert.ToString(qt_Itens);
+                        txt_Q_Total.Text = Convert.ToString(qt_Itens);
 
+                    }
+                    else
+                    {
+                        txt_Q_Total.Text = Convert.ToString(qt_Itens);
+                    }
                 }
-                else
-                {
-                    txt_Q_Total.Text = Convert.ToString(qt_Itens);
-                }
-
+                txt_Valor_Troca.Text = String.Format("{0:C}", txt_Valor_Troca.Text);
+                txt_ValorSaldo.Text = String.Format("{0:C}", txt_ValorSaldo.Text);
             }
 
             if (gridT.RowCount == 0)
@@ -332,7 +334,26 @@ namespace SistemaLoja.Servicos
             con.FecharCon();
         }
 
-        private void Bolquear()
+        private void AtualizarValoresNaTabelaTrocaAtual()
+        {
+            con.AbrirCon();
+            sql = "UPDATE tb_trocaatual SET ValorDaCompra= @ValorDaCompra, ValorCompraAtual= @ValorCompraAtual, QtdeItens= @QtdeItens, QtdItensMaisNovo= @QtdItensMaisNovo, Valor_Troca= @Valor_Troca, ValorNovosItens= @ValorNovosItens, Saldo= @Saldo, QtdTroca= @QtdTroca, QtdeNovos= @QtdeNovos, QtdeTotal= @QtdeTotal where id_troca = @id_troca";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            cmd.Parameters.AddWithValue("@ValorDaCompra", Convert.ToDouble(lbl_valorCompraOriginal.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@ValorCompraAtual", Convert.ToDouble(txt_ValorPago.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@QtdeItens", int.Parse(txt_QtdItens.Text));
+            cmd.Parameters.AddWithValue("@QtdItensMaisNovo", int.Parse(txt_QtdTotal.Text));
+            cmd.Parameters.AddWithValue("@Valor_Troca", Convert.ToDouble(txt_Valor_Troca.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@ValorNovosItens", Convert.ToDouble(txt_ValorItensNovos.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@Saldo", Convert.ToDouble(txt_ValorSaldo.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@QtdTroca", int.Parse(txt_Q_Troca.Text));
+            cmd.Parameters.AddWithValue("@QtdeNovos", int.Parse(txt_Q_Novos.Text));
+            cmd.Parameters.AddWithValue("@QtdeTotal", int.Parse(txt_Q_Total.Text));
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
+        }
+            private void Bolquear()
         {
             btn_Editar.Enabled = true;
             btn_Inserir.Enabled = false;
@@ -405,45 +426,115 @@ namespace SistemaLoja.Servicos
 
         private void VerificaSeOItemJáEstaNaTroca()
         {
+            String Status = "Saída";
+            if (Program.troca == "Não")
+            {
+                Status = "Entrada";
+            }
+
             con.AbrirCon();
             MySqlCommand cmdItem;
-            cmdItem = new MySqlCommand("SELECT * FROM tb_itenstroca where id_Venda = @id_Venda And id_Produto = @id_Produto", con.con);
-            cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmdItem = new MySqlCommand("SELECT * FROM tb_itenstroca where id_troca= @id_troca And id_Produto= @id_Produto And movimentacao= @movimentacao", con.con);
+            cmdItem.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
             cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmdItem.Parameters.AddWithValue("@movimentacao", Status);
             MySqlDataAdapter dat = new MySqlDataAdapter();
             dat.SelectCommand = cmdItem;
             DataTable dta = new DataTable();
             dat.Fill(dta);
             if (dta.Rows.Count > 0)
             {
-                MessageBox.Show("O Item Já foi inserido na troca, caso precise altear a quantidade, exclua e insira novamente!","ITEM JÁ INSERIDO NA TROCA",MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else
-            {
-                con.AbrirCon();
-                sql = "INSERT INTO tb_itenstroca (id_troca, id_Venda, id_Cliente, id_Produto, quantidade, valorVenda, movimentacao, dataDaTroca, Status) VALUES (@id_troca, @id_Venda, @id_Cliente, @id_Produto, @quantidade, @valorVenda, 'Entrada', now(), 'Aberta')";
-                cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
-                cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
-                cmd.Parameters.AddWithValue("@id_Cliente", int.Parse(lbl_id_Cli.Text));
-                cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
-                cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
-                cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
-                cmd.ExecuteNonQuery();
-                if (int.Parse(cbx_Qtde.Text) == int.Parse(txt_Q_orig.Text))
+                if (Program.troca == "Não")
                 {
-                    ExcluirItemDaVenda();
+                    MessageBox.Show("O Item Já foi inserido na troca, caso precise altear a quantidade, exclua e insira novamente!", "ITEM JÁ INSERIDO NA TROCA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
                 else
                 {
-                    EditarQuantidadeEmVendasParaMenos();
+                    AtualizaQtdeDoItemDeSaidaNaTabelaTroca();
                 }
-                FechaAConexaoECalculaValores();
-                rbtn_SaidaTroca.Enabled = true;
-                btn_Editar.Enabled = false;
-                Limpar();
             }
+            else
+            {
+                if (Program.troca == "Não")
+                {
+                    InsereNaTabelaTroca();
+                }
+                else
+                {
+                    InserirItensNaTabelaTrocaSaidaDeProdutos();
+                }
+            }
+        }
+
+        private void AtualizaQtdeDoItemDeSaidaNaTabelaTroca()
+        {
+            int quantidade = 0;
+            MySqlDataReader reader;
+            con.AbrirCon();
+            sql = "SELECT * FROM tb_itenstroca where id_troca = @id_troca And id_Produto = @id_Produto And movimentacao= 'Saída'";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    quantidade = Convert.ToInt32(reader["quantidade"]);
+                }
+            }
+            quantidade = quantidade + int.Parse(cbx_Qtde.Text);
+            con.FecharCon();
+
+            con.AbrirCon();
+            sql = "UPDATE tb_itenstroca SET quantidade= @quantidade where id_troca = @id_troca And id_Produto = @id_Produto And movimentacao= 'Saída'";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@quantidade", quantidade);
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
+        }
+        private void InsereNaTabelaTroca()
+        {
+            con.AbrirCon();
+            sql = "INSERT INTO tb_itenstroca (id_troca, id_Venda, id_Cliente, id_Produto, quantidade, valorVenda, movimentacao, dataDaTroca, Status) VALUES (@id_troca, @id_Venda, @id_Cliente, @id_Produto, @quantidade, @valorVenda, 'Entrada', now(), 'Aberta')";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.Parameters.AddWithValue("@id_Cliente", int.Parse(lbl_id_Cli.Text));
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
+            cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
+            cmd.ExecuteNonQuery();
+            if (int.Parse(cbx_Qtde.Text) == int.Parse(txt_Q_orig.Text))
+            {
+                ExcluirItemDaVenda();
+            }
+            else
+            {
+                EditarQuantidadeEmVendasParaMenos();
+            }
+            FechaAConexaoECalculaValores();
+            rbtn_SaidaTroca.Enabled = true;
+            btn_Editar.Enabled = false;
+            Limpar();
+        }
+
+        private void InserirItensNaTabelaTrocaSaidaDeProdutos()
+        {
+            con.AbrirCon();
+            sql = "INSERT INTO tb_itenstroca (id_troca, id_Venda, id_Cliente, id_Produto, quantidade, valorVenda, movimentacao, dataDaTroca, Status) VALUES (@id_troca, @id_Venda, @id_Cliente, @id_Produto, @quantidade, @valorVenda, 'Saída', now(), 'Aberta')";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.Parameters.AddWithValue("@id_Cliente", int.Parse(lbl_id_Cli.Text));
+            cmd.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
+            cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
+            cmd.ExecuteNonQuery();
         }
 
         private void EditarQuantidadeEmVendasParaMenos()
@@ -781,33 +872,6 @@ namespace SistemaLoja.Servicos
             cmd.ExecuteNonQuery();
         }
 
-        private void VerificaSeoItemEstaNaVenda()
-        {
-            // Verificar se o item já está na venda
-            MySqlCommand cmdItem;
-            cmdItem = new MySqlCommand("SELECT * FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda", con.con);
-            cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
-            cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
-            MySqlDataAdapter dat = new MySqlDataAdapter();
-            dat.SelectCommand = cmdItem;
-            DataTable dta = new DataTable();
-            dat.Fill(dta);
-            if (dta.Rows.Count == 0)
-            {
-                con.AbrirCon();
-                sql = "INSERT INTO tb_itensVenda (id_Venda, id_Produto, quantidade, valorVenda, valorCusto) VALUES (@id_Venda, @id_Produto, @quantidade, @valorVenda, @valorCusto)";
-                cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@id_Venda", lbl_ID_Venda.Text);
-                cmd.Parameters.AddWithValue("@id_Produto", txt_ID_Produto.Text);
-                cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
-                cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
-                cmd.Parameters.AddWithValue("@valorCusto", Convert.ToDouble(txt_Custo.Text.Replace("R$", "")));
-
-                cmd.ExecuteNonQuery();
-                FechaAConexaoECalculaValores();
-            }
-        }
-
         private void Limpar()
         {
             txtCodBarras.Clear();
@@ -822,7 +886,11 @@ namespace SistemaLoja.Servicos
 
         private void btn_Inserir_Click(object sender, EventArgs e)
         {
-                CalcularItensNovos();
+            if (txt_ValorSaldo.Text.Substring(0, 1) == "-")
+            {
+                MessageBox.Show("O saldo já está negativo, encerre a troca!", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
                 int qt_Itens = 0;
                 int qt_prod = 0;
                 int total_Itens = 0;
@@ -852,9 +920,12 @@ namespace SistemaLoja.Servicos
                     txtCodBarras.Focus();
                     return;
                 }
+                 VerificaSeOItemJáEstaNaTroca();
+                 ListarTroca();
+                 CalcularItensNovos();
 
-                // Verificar se o item já está na venda
-                MySqlCommand cmdItem;
+            // Verificar se o item já está na venda
+            MySqlCommand cmdItem;
                 cmdItem = new MySqlCommand("SELECT * FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda", con.con);
                 cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
                 cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
@@ -886,6 +957,8 @@ namespace SistemaLoja.Servicos
                     con.FecharCon();
                 }
                 lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
+                AtualizarValoresNaTabelaTrocaAtual();
+                ValorTotalItemTroca();
         }
 
         private void CalcularItensNovos()

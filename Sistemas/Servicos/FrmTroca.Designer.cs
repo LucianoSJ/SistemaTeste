@@ -1356,7 +1356,6 @@ namespace SistemaLoja.Servicos
             this.txt_Q_orig.Name = "txt_Q_orig";
             this.txt_Q_orig.Size = new System.Drawing.Size(56, 20);
             this.txt_Q_orig.TabIndex = 186;
-            this.txt_Q_orig.Visible = false;
             // 
             // label40
             // 
