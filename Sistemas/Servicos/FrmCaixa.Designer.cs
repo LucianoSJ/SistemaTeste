@@ -388,6 +388,7 @@ namespace SistemaLoja.Servicos
             this.cbx_QtdeParcelas.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cbx_QtdeParcelas.FormattingEnabled = true;
             this.cbx_QtdeParcelas.Items.AddRange(new object[] {
+            "0",
             "1",
             "2",
             "3",

@@ -21,6 +21,7 @@ namespace SistemaLoja.Servicos
         int qtde;
         Double total;
         int quantidade;
+        String LiberarConsutaParcelas = "Não";
         public FrmCaixa()
         {
             InitializeComponent();
@@ -225,14 +226,15 @@ namespace SistemaLoja.Servicos
         private void FormatarDG_Parcelas()
         {
             grid_Parcelas.Columns[0].Visible = false;
-            grid_Parcelas.Columns[4].Visible = false;
+            grid_Parcelas.Columns[3].Visible = false;
             grid_Parcelas.Columns[5].Visible = false;
+            grid_Parcelas.Columns[6].Visible = false;
             grid_Parcelas.Columns[1].Width = 60;
             grid_Parcelas.Columns[2].Width = 81;
-            grid_Parcelas.Columns[3].Width = 75;
+            grid_Parcelas.Columns[4].Width = 75;
             grid_Parcelas.Columns[1].HeaderText = "Nº";
             grid_Parcelas.Columns[2].HeaderText = "Valor";
-            grid_Parcelas.Columns[3].HeaderText = "Vencimento";
+            grid_Parcelas.Columns[4].HeaderText = "Vencimento";
             grid_Parcelas.Columns[2].DefaultCellStyle.Format = "C2";
         }
 
@@ -267,7 +269,6 @@ namespace SistemaLoja.Servicos
                 lbl_Sub_TotalA.Text = String.Format("{0:C}", subTotal);
                 lbl_Sub_Total.Text = String.Format("{0:C}", subTotal);
                 lbl_Desconto.Text = String.Format("{0:C}", desconto);
-                //MessageBox.Show(ex.Message, "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -742,29 +743,53 @@ namespace SistemaLoja.Servicos
 
         private void cbx_QtdeParcelas_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (Program.ExecultadoVenda == "Sim")
+            if (LiberarConsutaParcelas == "Sim")
             {
-                return;
-            }
-
-            if (cbx_FormPagamento.Text == String.Empty && lbl_ID_Venda.Text != "0")
-            {
-                MessageBox.Show("Selecinoe o forma de Pagamento", "ATENÇÂO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if(lbl_ID_Venda.Text != "0" && cbx_QtdeParcelas.Text != string.Empty)
-            {
-                var resultado = MessageBox.Show("Confirma o Pagamendo da 1º Parcela para o Dia: " + txt_Data_Primeira_Parce.Text, "1º PARCELA", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (resultado == DialogResult.Yes)
+                if (cbx_QtdeParcelas.Text == "0")
                 {
-                    ValorParcelas();
                     ExcluirParcelas();
-                    GeradorDeParcelas();
-                    ListarParcelas();
-                    //FormatarDG_Parcelas();
+                    cbx_FormPagamento.Text = "";
+                    cbx_QtdeParcelas.Text = "0";
+                }
+                else
+                {
+                    if (Program.ExecultadoVenda == "Sim")
+                    {
+                        return;
+                    }
+
+                    if (cbx_FormPagamento.Text == String.Empty && lbl_ID_Venda.Text != "0")
+                    {
+                        MessageBox.Show("Selecinoe o forma de Pagamento", "ATENÇÂO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (lbl_ID_Venda.Text != "0" && cbx_QtdeParcelas.Text != string.Empty)
+                    {
+                        var resultado = MessageBox.Show("Confirma o Pagamendo da 1º Parcela para o Dia: " + txt_Data_Primeira_Parce.Text, "1º PARCELA", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (resultado == DialogResult.Yes)
+                        {
+                            AtualizaFormaDePagamento();
+                            ValorParcelas();
+                            ExcluirParcelas();
+                            GeradorDeParcelas();
+                            ListarParcelas();
+                            //FormatarDG_Parcelas();   
+                        }
+                    }
                 }
             }
+        }
+
+        private void AtualizaFormaDePagamento()
+        {
+            con.AbrirCon();
+            sql = "UPDATE tb_Venda SET formaDePagamento = @formaDePagamento where id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.Parameters.AddWithValue("@formaDePagamento", cbx_FormPagamento.Text);
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
         }
 
         private void btn_Teste_Click(object sender, EventArgs e)
@@ -855,6 +880,26 @@ namespace SistemaLoja.Servicos
             FiltarVenda();
             btn_OK_Cliente.Enabled = false;
             HabilitarCampos();
+            FiltrarFormaDEPagamento();
+        }
+
+        private void FiltrarFormaDEPagamento()
+        {
+            MySqlDataReader reader;
+            con.AbrirCon();
+            sql = "SELECT * FROM tb_venda where id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    cbx_FormPagamento.Text = Convert.ToString(reader["formaDePagamento"]);
+                }
+            }
+            con.FecharCon();
         }
 
         private void FiltarVenda()
@@ -998,6 +1043,7 @@ namespace SistemaLoja.Servicos
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
+            LiberarConsutaParcelas = "Não";
             Filtros.FrmFiltrarVenda frmFiltrarVenda = new Filtros.FrmFiltrarVenda();
             frmFiltrarVenda.Show();
         }

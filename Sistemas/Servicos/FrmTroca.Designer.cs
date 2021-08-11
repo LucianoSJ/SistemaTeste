@@ -96,7 +96,6 @@ namespace SistemaLoja.Servicos
             this.label2 = new System.Windows.Forms.Label();
             this.btn_Editar = new System.Windows.Forms.Button();
             this.btn_Excluir = new System.Windows.Forms.Button();
-            this.btn_Finalizar_Venda = new System.Windows.Forms.Button();
             this.btn_Inserir = new System.Windows.Forms.Button();
             this.img = new System.Windows.Forms.PictureBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -130,18 +129,22 @@ namespace SistemaLoja.Servicos
             this.label20 = new System.Windows.Forms.Label();
             this.txt_QtdTotal = new System.Windows.Forms.TextBox();
             this.lbl_Q_Total = new System.Windows.Forms.Label();
+            this.lbl_Parcelas = new System.Windows.Forms.Label();
+            this.grid_Parcelas = new System.Windows.Forms.DataGridView();
+            this.btn_Finalizar_Troca = new System.Windows.Forms.Button();
             this.pnlRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grid_Parcelas)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_CustoTotal
             // 
             this.txt_CustoTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txt_CustoTotal.Enabled = false;
-            this.txt_CustoTotal.Location = new System.Drawing.Point(241, 174);
+            this.txt_CustoTotal.Location = new System.Drawing.Point(241, 194);
             this.txt_CustoTotal.Name = "txt_CustoTotal";
             this.txt_CustoTotal.Size = new System.Drawing.Size(78, 20);
             this.txt_CustoTotal.TabIndex = 157;
@@ -151,7 +154,7 @@ namespace SistemaLoja.Servicos
             // 
             this.lbl_CustoTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbl_CustoTotal.AutoSize = true;
-            this.lbl_CustoTotal.Location = new System.Drawing.Point(172, 179);
+            this.lbl_CustoTotal.Location = new System.Drawing.Point(172, 199);
             this.lbl_CustoTotal.Name = "lbl_CustoTotal";
             this.lbl_CustoTotal.Size = new System.Drawing.Size(64, 13);
             this.lbl_CustoTotal.TabIndex = 158;
@@ -161,7 +164,7 @@ namespace SistemaLoja.Servicos
             // txt_ID_Produto
             // 
             this.txt_ID_Produto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txt_ID_Produto.Location = new System.Drawing.Point(258, 275);
+            this.txt_ID_Produto.Location = new System.Drawing.Point(258, 295);
             this.txt_ID_Produto.Name = "txt_ID_Produto";
             this.txt_ID_Produto.Size = new System.Drawing.Size(49, 20);
             this.txt_ID_Produto.TabIndex = 155;
@@ -172,7 +175,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(214, 282);
+            this.label7.Location = new System.Drawing.Point(214, 302);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(46, 13);
             this.label7.TabIndex = 156;
@@ -182,7 +185,7 @@ namespace SistemaLoja.Servicos
             // 
             this.txt_Custo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txt_Custo.Enabled = false;
-            this.txt_Custo.Location = new System.Drawing.Point(85, 174);
+            this.txt_Custo.Location = new System.Drawing.Point(85, 194);
             this.txt_Custo.Name = "txt_Custo";
             this.txt_Custo.Size = new System.Drawing.Size(78, 20);
             this.txt_Custo.TabIndex = 153;
@@ -192,7 +195,7 @@ namespace SistemaLoja.Servicos
             // 
             this.lbl_Custo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbl_Custo.AutoSize = true;
-            this.lbl_Custo.Location = new System.Drawing.Point(16, 179);
+            this.lbl_Custo.Location = new System.Drawing.Point(16, 199);
             this.lbl_Custo.Name = "lbl_Custo";
             this.lbl_Custo.Size = new System.Drawing.Size(64, 13);
             this.lbl_Custo.TabIndex = 154;
@@ -202,7 +205,7 @@ namespace SistemaLoja.Servicos
             // txt_Valor_Total
             // 
             this.txt_Valor_Total.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txt_Valor_Total.Location = new System.Drawing.Point(342, 329);
+            this.txt_Valor_Total.Location = new System.Drawing.Point(342, 349);
             this.txt_Valor_Total.Name = "txt_Valor_Total";
             this.txt_Valor_Total.Size = new System.Drawing.Size(78, 20);
             this.txt_Valor_Total.TabIndex = 149;
@@ -212,7 +215,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(275, 336);
+            this.label32.Location = new System.Drawing.Point(275, 356);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(61, 13);
             this.label32.TabIndex = 150;
@@ -324,7 +327,7 @@ namespace SistemaLoja.Servicos
             "98",
             "99",
             "100"});
-            this.cbx_Qtde.Location = new System.Drawing.Point(212, 331);
+            this.cbx_Qtde.Location = new System.Drawing.Point(212, 351);
             this.cbx_Qtde.Name = "cbx_Qtde";
             this.cbx_Qtde.Size = new System.Drawing.Size(56, 21);
             this.cbx_Qtde.TabIndex = 135;
@@ -334,7 +337,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label31.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(170, 338);
+            this.label31.Location = new System.Drawing.Point(170, 358);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(36, 13);
             this.label31.TabIndex = 148;
@@ -390,7 +393,7 @@ namespace SistemaLoja.Servicos
             this.pnlRight.Controls.Add(this.label5);
             this.pnlRight.Location = new System.Drawing.Point(1017, 2);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(333, 715);
+            this.pnlRight.Size = new System.Drawing.Size(333, 735);
             this.pnlRight.TabIndex = 147;
             // 
             // label17
@@ -399,7 +402,7 @@ namespace SistemaLoja.Servicos
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.Black;
-            this.label17.Location = new System.Drawing.Point(44, 654);
+            this.label17.Location = new System.Drawing.Point(44, 674);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(108, 25);
             this.label17.TabIndex = 139;
@@ -411,7 +414,7 @@ namespace SistemaLoja.Servicos
             this.lbl_Sub_TotalA.AutoSize = true;
             this.lbl_Sub_TotalA.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Sub_TotalA.ForeColor = System.Drawing.Color.Navy;
-            this.lbl_Sub_TotalA.Location = new System.Drawing.Point(145, 650);
+            this.lbl_Sub_TotalA.Location = new System.Drawing.Point(145, 670);
             this.lbl_Sub_TotalA.Name = "lbl_Sub_TotalA";
             this.lbl_Sub_TotalA.Size = new System.Drawing.Size(30, 31);
             this.lbl_Sub_TotalA.TabIndex = 138;
@@ -423,7 +426,7 @@ namespace SistemaLoja.Servicos
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label14.Location = new System.Drawing.Point(65, 625);
+            this.label14.Location = new System.Drawing.Point(65, 645);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(86, 25);
             this.label14.TabIndex = 137;
@@ -435,7 +438,7 @@ namespace SistemaLoja.Servicos
             this.lbl_V_Entrada.AutoSize = true;
             this.lbl_V_Entrada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_V_Entrada.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lbl_V_Entrada.Location = new System.Drawing.Point(149, 629);
+            this.lbl_V_Entrada.Location = new System.Drawing.Point(149, 649);
             this.lbl_V_Entrada.Name = "lbl_V_Entrada";
             this.lbl_V_Entrada.Size = new System.Drawing.Size(18, 20);
             this.lbl_V_Entrada.TabIndex = 136;
@@ -467,7 +470,7 @@ namespace SistemaLoja.Servicos
             // 
             this.txt_Data_Primeira_Parce.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_Data_Primeira_Parce.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.txt_Data_Primeira_Parce.Location = new System.Drawing.Point(159, 481);
+            this.txt_Data_Primeira_Parce.Location = new System.Drawing.Point(159, 491);
             this.txt_Data_Primeira_Parce.Name = "txt_Data_Primeira_Parce";
             this.txt_Data_Primeira_Parce.Size = new System.Drawing.Size(133, 20);
             this.txt_Data_Primeira_Parce.TabIndex = 124;
@@ -478,6 +481,7 @@ namespace SistemaLoja.Servicos
             this.cbx_QtdeParcelas.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cbx_QtdeParcelas.FormattingEnabled = true;
             this.cbx_QtdeParcelas.Items.AddRange(new object[] {
+            "0",
             "1",
             "2",
             "3",
@@ -502,10 +506,11 @@ namespace SistemaLoja.Servicos
             "22",
             "23",
             "24"});
-            this.cbx_QtdeParcelas.Location = new System.Drawing.Point(159, 456);
+            this.cbx_QtdeParcelas.Location = new System.Drawing.Point(159, 466);
             this.cbx_QtdeParcelas.Name = "cbx_QtdeParcelas";
             this.cbx_QtdeParcelas.Size = new System.Drawing.Size(50, 21);
             this.cbx_QtdeParcelas.TabIndex = 123;
+            this.cbx_QtdeParcelas.SelectedValueChanged += new System.EventHandler(this.cbx_QtdeParcelas_SelectedValueChanged);
             // 
             // lbl_id_Cli
             // 
@@ -547,7 +552,7 @@ namespace SistemaLoja.Servicos
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label30.Location = new System.Drawing.Point(23, 506);
+            this.label30.Location = new System.Drawing.Point(23, 516);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(136, 18);
             this.label30.TabIndex = 45;
@@ -557,7 +562,7 @@ namespace SistemaLoja.Servicos
             // 
             this.txt_Valor_Parcela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_Valor_Parcela.Enabled = false;
-            this.txt_Valor_Parcela.Location = new System.Drawing.Point(159, 506);
+            this.txt_Valor_Parcela.Location = new System.Drawing.Point(159, 516);
             this.txt_Valor_Parcela.Name = "txt_Valor_Parcela";
             this.txt_Valor_Parcela.Size = new System.Drawing.Size(133, 20);
             this.txt_Valor_Parcela.TabIndex = 44;
@@ -569,7 +574,7 @@ namespace SistemaLoja.Servicos
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label29.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label29.Location = new System.Drawing.Point(16, 481);
+            this.label29.Location = new System.Drawing.Point(16, 491);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(143, 18);
             this.label29.TabIndex = 43;
@@ -581,7 +586,7 @@ namespace SistemaLoja.Servicos
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label28.Location = new System.Drawing.Point(29, 458);
+            this.label28.Location = new System.Drawing.Point(29, 468);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(130, 18);
             this.label28.TabIndex = 41;
@@ -593,7 +598,7 @@ namespace SistemaLoja.Servicos
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label27.Location = new System.Drawing.Point(-4, 351);
+            this.label27.Location = new System.Drawing.Point(-4, 361);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(390, 22);
             this.label27.TabIndex = 39;
@@ -605,7 +610,7 @@ namespace SistemaLoja.Servicos
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label26.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label26.Location = new System.Drawing.Point(37, 285);
+            this.label26.Location = new System.Drawing.Point(37, 295);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(101, 18);
             this.label26.TabIndex = 38;
@@ -614,11 +619,12 @@ namespace SistemaLoja.Servicos
             // txt_Entrada
             // 
             this.txt_Entrada.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Entrada.Location = new System.Drawing.Point(138, 285);
+            this.txt_Entrada.Location = new System.Drawing.Point(138, 295);
             this.txt_Entrada.Name = "txt_Entrada";
             this.txt_Entrada.Size = new System.Drawing.Size(123, 20);
             this.txt_Entrada.TabIndex = 37;
             this.txt_Entrada.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_Entrada.TextChanged += new System.EventHandler(this.txt_Entrada_TextChanged);
             this.txt_Entrada.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Entrada_KeyPress);
             // 
             // label25
@@ -627,7 +633,7 @@ namespace SistemaLoja.Servicos
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label25.Location = new System.Drawing.Point(7, 261);
+            this.label25.Location = new System.Drawing.Point(7, 271);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(131, 18);
             this.label25.TabIndex = 36;
@@ -648,10 +654,11 @@ namespace SistemaLoja.Servicos
             "Depósito",
             "Boleto",
             "Outos"});
-            this.cbx_Entrada.Location = new System.Drawing.Point(138, 258);
+            this.cbx_Entrada.Location = new System.Drawing.Point(138, 268);
             this.cbx_Entrada.Name = "cbx_Entrada";
             this.cbx_Entrada.Size = new System.Drawing.Size(123, 21);
             this.cbx_Entrada.TabIndex = 35;
+            this.cbx_Entrada.SelectedIndexChanged += new System.EventHandler(this.cbx_Entrada_SelectedIndexChanged);
             // 
             // label24
             // 
@@ -659,7 +666,7 @@ namespace SistemaLoja.Servicos
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label24.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label24.Location = new System.Drawing.Point(8, 233);
+            this.label24.Location = new System.Drawing.Point(8, 243);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(130, 18);
             this.label24.TabIndex = 34;
@@ -668,11 +675,12 @@ namespace SistemaLoja.Servicos
             // txt_Dinheiro
             // 
             this.txt_Dinheiro.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Dinheiro.Location = new System.Drawing.Point(138, 230);
+            this.txt_Dinheiro.Location = new System.Drawing.Point(138, 240);
             this.txt_Dinheiro.Name = "txt_Dinheiro";
             this.txt_Dinheiro.Size = new System.Drawing.Size(123, 20);
             this.txt_Dinheiro.TabIndex = 33;
             this.txt_Dinheiro.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_Dinheiro.TextChanged += new System.EventHandler(this.txt_Dinheiro_TextChanged);
             this.txt_Dinheiro.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Dinheiro_KeyPress);
             // 
             // label23
@@ -681,7 +689,7 @@ namespace SistemaLoja.Servicos
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label23.Location = new System.Drawing.Point(61, 203);
+            this.label23.Location = new System.Drawing.Point(61, 213);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(77, 18);
             this.label23.TabIndex = 32;
@@ -690,11 +698,12 @@ namespace SistemaLoja.Servicos
             // txt_Desconto
             // 
             this.txt_Desconto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_Desconto.Location = new System.Drawing.Point(138, 204);
+            this.txt_Desconto.Location = new System.Drawing.Point(138, 214);
             this.txt_Desconto.Name = "txt_Desconto";
             this.txt_Desconto.Size = new System.Drawing.Size(123, 20);
             this.txt_Desconto.TabIndex = 31;
             this.txt_Desconto.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_Desconto.TextChanged += new System.EventHandler(this.txt_Desconto_TextChanged);
             this.txt_Desconto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Desconto_KeyPress);
             // 
             // label22
@@ -703,7 +712,7 @@ namespace SistemaLoja.Servicos
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label22.Location = new System.Drawing.Point(6, 433);
+            this.label22.Location = new System.Drawing.Point(6, 443);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(156, 18);
             this.label22.TabIndex = 30;
@@ -724,7 +733,7 @@ namespace SistemaLoja.Servicos
             "Depósito",
             "Boleto",
             "Outos"});
-            this.cbx_FormPagamento.Location = new System.Drawing.Point(159, 430);
+            this.cbx_FormPagamento.Location = new System.Drawing.Point(159, 440);
             this.cbx_FormPagamento.Name = "cbx_FormPagamento";
             this.cbx_FormPagamento.Size = new System.Drawing.Size(133, 21);
             this.cbx_FormPagamento.TabIndex = 29;
@@ -735,7 +744,7 @@ namespace SistemaLoja.Servicos
             this.lbl_Sub_Total.AutoSize = true;
             this.lbl_Sub_Total.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Sub_Total.ForeColor = System.Drawing.Color.Navy;
-            this.lbl_Sub_Total.Location = new System.Drawing.Point(13, 648);
+            this.lbl_Sub_Total.Location = new System.Drawing.Point(13, 668);
             this.lbl_Sub_Total.Name = "lbl_Sub_Total";
             this.lbl_Sub_Total.Size = new System.Drawing.Size(30, 31);
             this.lbl_Sub_Total.TabIndex = 27;
@@ -748,7 +757,7 @@ namespace SistemaLoja.Servicos
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label18.Location = new System.Drawing.Point(49, 599);
+            this.label18.Location = new System.Drawing.Point(49, 619);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(101, 25);
             this.label18.TabIndex = 26;
@@ -760,7 +769,7 @@ namespace SistemaLoja.Servicos
             this.lbl_Desconto.AutoSize = true;
             this.lbl_Desconto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Desconto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lbl_Desconto.Location = new System.Drawing.Point(149, 604);
+            this.lbl_Desconto.Location = new System.Drawing.Point(149, 624);
             this.lbl_Desconto.Name = "lbl_Desconto";
             this.lbl_Desconto.Size = new System.Drawing.Size(18, 20);
             this.lbl_Desconto.TabIndex = 25;
@@ -772,7 +781,7 @@ namespace SistemaLoja.Servicos
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label10.Location = new System.Drawing.Point(84, 679);
+            this.label10.Location = new System.Drawing.Point(84, 699);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(69, 25);
             this.label10.TabIndex = 24;
@@ -784,7 +793,7 @@ namespace SistemaLoja.Servicos
             this.lbl_Troco.AutoSize = true;
             this.lbl_Troco.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Troco.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lbl_Troco.Location = new System.Drawing.Point(150, 683);
+            this.lbl_Troco.Location = new System.Drawing.Point(150, 703);
             this.lbl_Troco.Name = "lbl_Troco";
             this.lbl_Troco.Size = new System.Drawing.Size(18, 20);
             this.lbl_Troco.TabIndex = 23;
@@ -818,7 +827,7 @@ namespace SistemaLoja.Servicos
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label12.Location = new System.Drawing.Point(83, 573);
+            this.label12.Location = new System.Drawing.Point(83, 593);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(67, 25);
             this.label12.TabIndex = 20;
@@ -830,7 +839,7 @@ namespace SistemaLoja.Servicos
             this.lbl_Valor_da_Compra.AutoSize = true;
             this.lbl_Valor_da_Compra.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Valor_da_Compra.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lbl_Valor_da_Compra.Location = new System.Drawing.Point(149, 577);
+            this.lbl_Valor_da_Compra.Location = new System.Drawing.Point(149, 597);
             this.lbl_Valor_da_Compra.Name = "lbl_Valor_da_Compra";
             this.lbl_Valor_da_Compra.Size = new System.Drawing.Size(18, 20);
             this.lbl_Valor_da_Compra.TabIndex = 19;
@@ -908,7 +917,7 @@ namespace SistemaLoja.Servicos
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label11.Location = new System.Drawing.Point(-4, 545);
+            this.label11.Location = new System.Drawing.Point(-4, 565);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(390, 22);
             this.label11.TabIndex = 10;
@@ -941,7 +950,7 @@ namespace SistemaLoja.Servicos
             this.btn_Produto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_Produto.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaption;
             this.btn_Produto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Produto.Location = new System.Drawing.Point(397, 301);
+            this.btn_Produto.Location = new System.Drawing.Point(397, 321);
             this.btn_Produto.Name = "btn_Produto";
             this.btn_Produto.Size = new System.Drawing.Size(23, 23);
             this.btn_Produto.TabIndex = 146;
@@ -953,7 +962,7 @@ namespace SistemaLoja.Servicos
             // 
             this.txtEstoque.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtEstoque.Enabled = false;
-            this.txtEstoque.Location = new System.Drawing.Point(368, 275);
+            this.txtEstoque.Location = new System.Drawing.Point(368, 295);
             this.txtEstoque.Name = "txtEstoque";
             this.txtEstoque.Size = new System.Drawing.Size(53, 20);
             this.txtEstoque.TabIndex = 139;
@@ -963,7 +972,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(313, 282);
+            this.label9.Location = new System.Drawing.Point(313, 302);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 144;
@@ -972,7 +981,7 @@ namespace SistemaLoja.Servicos
             // txtCodBarras
             // 
             this.txtCodBarras.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtCodBarras.Location = new System.Drawing.Point(85, 277);
+            this.txtCodBarras.Location = new System.Drawing.Point(85, 297);
             this.txtCodBarras.Name = "txtCodBarras";
             this.txtCodBarras.Size = new System.Drawing.Size(121, 20);
             this.txtCodBarras.TabIndex = 134;
@@ -983,7 +992,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(14, 284);
+            this.label8.Location = new System.Drawing.Point(14, 304);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(65, 13);
             this.label8.TabIndex = 143;
@@ -999,7 +1008,7 @@ namespace SistemaLoja.Servicos
             this.gridC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridC.Cursor = System.Windows.Forms.Cursors.Hand;
             this.gridC.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.gridC.Location = new System.Drawing.Point(10, 389);
+            this.gridC.Location = new System.Drawing.Point(10, 409);
             this.gridC.Name = "gridC";
             this.gridC.ReadOnly = true;
             this.gridC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1010,7 +1019,7 @@ namespace SistemaLoja.Servicos
             // txtValor
             // 
             this.txtValor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtValor.Location = new System.Drawing.Point(85, 331);
+            this.txtValor.Location = new System.Drawing.Point(85, 351);
             this.txtValor.Name = "txtValor";
             this.txtValor.Size = new System.Drawing.Size(78, 20);
             this.txtValor.TabIndex = 138;
@@ -1020,7 +1029,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 338);
+            this.label4.Location = new System.Drawing.Point(7, 358);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(73, 13);
             this.label4.TabIndex = 141;
@@ -1029,7 +1038,7 @@ namespace SistemaLoja.Servicos
             // txtPoduto
             // 
             this.txtPoduto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtPoduto.Location = new System.Drawing.Point(85, 303);
+            this.txtPoduto.Location = new System.Drawing.Point(85, 323);
             this.txtPoduto.Name = "txtPoduto";
             this.txtPoduto.Size = new System.Drawing.Size(306, 20);
             this.txtPoduto.TabIndex = 137;
@@ -1038,7 +1047,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(32, 310);
+            this.label2.Location = new System.Drawing.Point(32, 330);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 140;
@@ -1056,7 +1065,7 @@ namespace SistemaLoja.Servicos
             this.btn_Editar.ForeColor = System.Drawing.Color.Black;
             this.btn_Editar.Image = ((System.Drawing.Image)(resources.GetObject("btn_Editar.Image")));
             this.btn_Editar.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Editar.Location = new System.Drawing.Point(431, 296);
+            this.btn_Editar.Location = new System.Drawing.Point(431, 316);
             this.btn_Editar.Name = "btn_Editar";
             this.btn_Editar.Size = new System.Drawing.Size(64, 57);
             this.btn_Editar.TabIndex = 161;
@@ -1078,7 +1087,7 @@ namespace SistemaLoja.Servicos
             this.btn_Excluir.ForeColor = System.Drawing.Color.Black;
             this.btn_Excluir.Image = ((System.Drawing.Image)(resources.GetObject("btn_Excluir.Image")));
             this.btn_Excluir.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Excluir.Location = new System.Drawing.Point(582, 294);
+            this.btn_Excluir.Location = new System.Drawing.Point(582, 314);
             this.btn_Excluir.Name = "btn_Excluir";
             this.btn_Excluir.Size = new System.Drawing.Size(61, 57);
             this.btn_Excluir.TabIndex = 160;
@@ -1086,27 +1095,6 @@ namespace SistemaLoja.Servicos
             this.btn_Excluir.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btn_Excluir.UseVisualStyleBackColor = false;
             this.btn_Excluir.Click += new System.EventHandler(this.btn_Excluir_Click);
-            // 
-            // btn_Finalizar_Venda
-            // 
-            this.btn_Finalizar_Venda.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Finalizar_Venda.BackColor = System.Drawing.Color.Transparent;
-            this.btn_Finalizar_Venda.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btn_Finalizar_Venda.FlatAppearance.BorderSize = 0;
-            this.btn_Finalizar_Venda.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.btn_Finalizar_Venda.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Finalizar_Venda.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Finalizar_Venda.ForeColor = System.Drawing.Color.Black;
-            this.btn_Finalizar_Venda.Image = ((System.Drawing.Image)(resources.GetObject("btn_Finalizar_Venda.Image")));
-            this.btn_Finalizar_Venda.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Finalizar_Venda.Location = new System.Drawing.Point(894, 2);
-            this.btn_Finalizar_Venda.Name = "btn_Finalizar_Venda";
-            this.btn_Finalizar_Venda.Size = new System.Drawing.Size(117, 87);
-            this.btn_Finalizar_Venda.TabIndex = 151;
-            this.btn_Finalizar_Venda.Text = "Finalizar Troca";
-            this.btn_Finalizar_Venda.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btn_Finalizar_Venda.UseVisualStyleBackColor = false;
-            this.btn_Finalizar_Venda.Click += new System.EventHandler(this.btn_Finalizar_Venda_Click);
             // 
             // btn_Inserir
             // 
@@ -1120,7 +1108,7 @@ namespace SistemaLoja.Servicos
             this.btn_Inserir.ForeColor = System.Drawing.Color.Black;
             this.btn_Inserir.Image = ((System.Drawing.Image)(resources.GetObject("btn_Inserir.Image")));
             this.btn_Inserir.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btn_Inserir.Location = new System.Drawing.Point(501, 296);
+            this.btn_Inserir.Location = new System.Drawing.Point(501, 316);
             this.btn_Inserir.Name = "btn_Inserir";
             this.btn_Inserir.Size = new System.Drawing.Size(68, 56);
             this.btn_Inserir.TabIndex = 136;
@@ -1136,7 +1124,7 @@ namespace SistemaLoja.Servicos
             this.img.BackColor = System.Drawing.SystemColors.ControlLight;
             this.img.Location = new System.Drawing.Point(778, 92);
             this.img.Name = "img";
-            this.img.Size = new System.Drawing.Size(233, 278);
+            this.img.Size = new System.Drawing.Size(233, 298);
             this.img.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.img.TabIndex = 145;
             this.img.TabStop = false;
@@ -1145,7 +1133,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(14, 372);
+            this.label16.Location = new System.Drawing.Point(14, 392);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(84, 13);
             this.label16.TabIndex = 162;
@@ -1155,7 +1143,7 @@ namespace SistemaLoja.Servicos
             // 
             this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(12, 544);
+            this.label19.Location = new System.Drawing.Point(12, 564);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(220, 13);
             this.label19.TabIndex = 164;
@@ -1171,7 +1159,7 @@ namespace SistemaLoja.Servicos
             this.gridT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridT.Cursor = System.Windows.Forms.Cursors.Hand;
             this.gridT.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.gridT.Location = new System.Drawing.Point(10, 560);
+            this.gridT.Location = new System.Drawing.Point(10, 580);
             this.gridT.Name = "gridT";
             this.gridT.ReadOnly = true;
             this.gridT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1268,7 +1256,7 @@ namespace SistemaLoja.Servicos
             // 
             this.rbtn_VoltarTroca.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.rbtn_VoltarTroca.AutoSize = true;
-            this.rbtn_VoltarTroca.Location = new System.Drawing.Point(17, 210);
+            this.rbtn_VoltarTroca.Location = new System.Drawing.Point(17, 220);
             this.rbtn_VoltarTroca.Name = "rbtn_VoltarTroca";
             this.rbtn_VoltarTroca.Size = new System.Drawing.Size(167, 17);
             this.rbtn_VoltarTroca.TabIndex = 178;
@@ -1281,7 +1269,7 @@ namespace SistemaLoja.Servicos
             // 
             this.rbtn_SaidaTroca.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.rbtn_SaidaTroca.AutoSize = true;
-            this.rbtn_SaidaTroca.Location = new System.Drawing.Point(17, 233);
+            this.rbtn_SaidaTroca.Location = new System.Drawing.Point(17, 243);
             this.rbtn_SaidaTroca.Name = "rbtn_SaidaTroca";
             this.rbtn_SaidaTroca.Size = new System.Drawing.Size(177, 17);
             this.rbtn_SaidaTroca.TabIndex = 179;
@@ -1332,17 +1320,16 @@ namespace SistemaLoja.Servicos
             // txt_Grid
             // 
             this.txt_Grid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txt_Grid.Location = new System.Drawing.Point(264, 366);
+            this.txt_Grid.Location = new System.Drawing.Point(708, 370);
             this.txt_Grid.Name = "txt_Grid";
             this.txt_Grid.Size = new System.Drawing.Size(64, 20);
             this.txt_Grid.TabIndex = 184;
-            this.txt_Grid.Visible = false;
             // 
             // label39
             // 
             this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(209, 372);
+            this.label39.Location = new System.Drawing.Point(653, 376);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(52, 13);
             this.label39.TabIndex = 185;
@@ -1352,16 +1339,17 @@ namespace SistemaLoja.Servicos
             // txt_Q_orig
             // 
             this.txt_Q_orig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txt_Q_orig.Location = new System.Drawing.Point(212, 350);
+            this.txt_Q_orig.Location = new System.Drawing.Point(212, 370);
             this.txt_Q_orig.Name = "txt_Q_orig";
             this.txt_Q_orig.Size = new System.Drawing.Size(56, 20);
             this.txt_Q_orig.TabIndex = 186;
+            this.txt_Q_orig.Visible = false;
             // 
             // label40
             // 
             this.label40.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(147, 356);
+            this.label40.Location = new System.Drawing.Point(147, 376);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(59, 13);
             this.label40.TabIndex = 187;
@@ -1441,11 +1429,60 @@ namespace SistemaLoja.Servicos
             this.lbl_Q_Total.TabIndex = 200;
             this.lbl_Q_Total.Text = "Qtd. Itens + Itens Novos:";
             // 
+            // lbl_Parcelas
+            // 
+            this.lbl_Parcelas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Parcelas.AutoSize = true;
+            this.lbl_Parcelas.Location = new System.Drawing.Point(752, 19);
+            this.lbl_Parcelas.Name = "lbl_Parcelas";
+            this.lbl_Parcelas.Size = new System.Drawing.Size(48, 13);
+            this.lbl_Parcelas.TabIndex = 202;
+            this.lbl_Parcelas.Text = "Parcelas";
+            // 
+            // grid_Parcelas
+            // 
+            this.grid_Parcelas.AllowUserToAddRows = false;
+            this.grid_Parcelas.AllowUserToDeleteRows = false;
+            this.grid_Parcelas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.grid_Parcelas.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.grid_Parcelas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grid_Parcelas.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.grid_Parcelas.GridColor = System.Drawing.SystemColors.ControlLightLight;
+            this.grid_Parcelas.Location = new System.Drawing.Point(649, 32);
+            this.grid_Parcelas.Name = "grid_Parcelas";
+            this.grid_Parcelas.ReadOnly = true;
+            this.grid_Parcelas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grid_Parcelas.Size = new System.Drawing.Size(263, 359);
+            this.grid_Parcelas.TabIndex = 201;
+            // 
+            // btn_Finalizar_Troca
+            // 
+            this.btn_Finalizar_Troca.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Finalizar_Troca.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Finalizar_Troca.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_Finalizar_Troca.FlatAppearance.BorderSize = 0;
+            this.btn_Finalizar_Troca.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.btn_Finalizar_Troca.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Finalizar_Troca.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Finalizar_Troca.ForeColor = System.Drawing.Color.Black;
+            this.btn_Finalizar_Troca.Image = ((System.Drawing.Image)(resources.GetObject("btn_Finalizar_Troca.Image")));
+            this.btn_Finalizar_Troca.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_Finalizar_Troca.Location = new System.Drawing.Point(918, 2);
+            this.btn_Finalizar_Troca.Name = "btn_Finalizar_Troca";
+            this.btn_Finalizar_Troca.Size = new System.Drawing.Size(93, 72);
+            this.btn_Finalizar_Troca.TabIndex = 203;
+            this.btn_Finalizar_Troca.Text = "Finalizar";
+            this.btn_Finalizar_Troca.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btn_Finalizar_Troca.UseVisualStyleBackColor = false;
+            this.btn_Finalizar_Troca.Click += new System.EventHandler(this.btn_Finalizar_Troca_Click);
+            // 
             // FrmTroca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.ClientSize = new System.Drawing.Size(1350, 749);
+            this.Controls.Add(this.lbl_Parcelas);
+            this.Controls.Add(this.grid_Parcelas);
             this.Controls.Add(this.txt_QtdTotal);
             this.Controls.Add(this.lbl_Q_Total);
             this.Controls.Add(this.txt_Q_Total);
@@ -1485,7 +1522,6 @@ namespace SistemaLoja.Servicos
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txt_Custo);
             this.Controls.Add(this.lbl_Custo);
-            this.Controls.Add(this.btn_Finalizar_Venda);
             this.Controls.Add(this.txt_Valor_Total);
             this.Controls.Add(this.label32);
             this.Controls.Add(this.cbx_Qtde);
@@ -1503,6 +1539,7 @@ namespace SistemaLoja.Servicos
             this.Controls.Add(this.txtPoduto);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.img);
+            this.Controls.Add(this.btn_Finalizar_Troca);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "FrmTroca";
@@ -1516,6 +1553,7 @@ namespace SistemaLoja.Servicos
             ((System.ComponentModel.ISupportInitialize)(this.gridC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.img)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grid_Parcelas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1531,7 +1569,6 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txt_Custo;
         private System.Windows.Forms.Label lbl_Custo;
-        private System.Windows.Forms.Button btn_Finalizar_Venda;
         private System.Windows.Forms.TextBox txt_Valor_Total;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.ComboBox cbx_Qtde;
@@ -1623,5 +1660,8 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox txt_QtdTotal;
         private System.Windows.Forms.Label lbl_Q_Total;
+        private System.Windows.Forms.Label lbl_Parcelas;
+        private System.Windows.Forms.DataGridView grid_Parcelas;
+        private System.Windows.Forms.Button btn_Finalizar_Troca;
     }
 }
