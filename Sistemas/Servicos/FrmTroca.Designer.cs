@@ -1324,6 +1324,7 @@ namespace SistemaLoja.Servicos
             this.txt_Grid.Name = "txt_Grid";
             this.txt_Grid.Size = new System.Drawing.Size(64, 20);
             this.txt_Grid.TabIndex = 184;
+            this.txt_Grid.Visible = false;
             // 
             // label39
             // 
@@ -1452,7 +1453,7 @@ namespace SistemaLoja.Servicos
             this.grid_Parcelas.Name = "grid_Parcelas";
             this.grid_Parcelas.ReadOnly = true;
             this.grid_Parcelas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grid_Parcelas.Size = new System.Drawing.Size(263, 359);
+            this.grid_Parcelas.Size = new System.Drawing.Size(263, 357);
             this.grid_Parcelas.TabIndex = 201;
             // 
             // btn_Finalizar_Troca

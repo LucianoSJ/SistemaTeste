@@ -19,6 +19,13 @@ namespace SistemaLoja.Servicos
         int quantidade;
         String LiberarConsutaParcelas = "Não";
 
+        decimal valorCompraOriginal = 0;
+        decimal valorPagoOriginal = 0;
+        decimal valorDescontoOriginal = 0;
+        decimal valorDeEntradaOriginal = 0;
+        String id_TrocaOriginal = "";
+        String formadeEntradaOriginal = "";
+
         public FrmTroca()
         {
             InitializeComponent();
@@ -27,7 +34,7 @@ namespace SistemaLoja.Servicos
         private void GerarCodigoTroca()
         {
             con.AbrirCon();
-            sql = "SELECT max(id_Venda) from tb_itenstroca";
+            sql = "SELECT max(id_troca) from tb_itenstroca";
 
             try
             {
@@ -71,6 +78,13 @@ namespace SistemaLoja.Servicos
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
+            IniciarNovaTrocaLimpaTudo();
+            Filtros.FrmFiltrarVenda filtrarVenda = new Filtros.FrmFiltrarVenda();
+            filtrarVenda.Show();
+        }
+
+        private void IniciarNovaTrocaLimpaTudo()
+        {
             LiberarConsutaParcelas = "Não";
             lbl_valorCompraOriginal.Text = "0";
             lb_IdTroca.Text = "0";
@@ -83,8 +97,6 @@ namespace SistemaLoja.Servicos
             txt_Q_Troca.Clear();
             txt_Q_Novos.Clear();
             txt_Q_Total.Clear();
-            Filtros.FrmFiltrarVenda filtrarVenda = new Filtros.FrmFiltrarVenda();
-            filtrarVenda.Show();
             btn_OK_Cliente.Enabled = true;
             Bolquear();
             cbx_FormPagamento.Text = "";
@@ -105,6 +117,7 @@ namespace SistemaLoja.Servicos
             lbl_Parcelas.Visible = false;
             img.Visible = true;
             txt_Data_Primeira_Parce.Text = DateTime.Now.ToShortDateString();
+            IniciarNovaTrocaLimpaTudo();
         }
 
         private void FrmTroca_Activated(object sender, EventArgs e)
@@ -129,6 +142,11 @@ namespace SistemaLoja.Servicos
 
         private void btn_OK_Cliente_Click(object sender, EventArgs e)
         {
+            if (lbl_ID_Venda.Text == "0")
+            {
+                MessageBox.Show("Selecione uma venda para efetuar a troca!", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             FiltarValoresAntesDeClicarEmInserirNovosItens();
             VerificarSeJaIniciouAinsercaoDeItensNovos();
             if (Program.troca == "Sim")
@@ -154,21 +172,27 @@ namespace SistemaLoja.Servicos
 
         private void FiltrarFormaDEPagamento()
         {
-            MySqlDataReader reader;
-            con.AbrirCon();
-            sql = "SELECT * FROM tb_venda where id_Venda = @id_Venda";
-            cmd = new MySqlCommand(sql, con.con);
-            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
-            reader = cmd.ExecuteReader();
-
-            if (reader.HasRows)
+            try
             {
-                while (reader.Read())
+                MySqlDataReader reader;
+                con.AbrirCon();
+                sql = "SELECT * FROM tb_venda where id_Venda = @id_Venda";
+                cmd = new MySqlCommand(sql, con.con);
+                cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+                reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
                 {
-                    cbx_FormPagamento.Text = Convert.ToString(reader["formaDePagamento"]);
+                    while (reader.Read())
+                    {
+                        cbx_FormPagamento.Text = Convert.ToString(reader["formaDePagamento"]);
+                    }
                 }
+                con.FecharCon();
             }
-            con.FecharCon();
+            catch (Exception)
+            {
+            }
         }
 
         private void VerificaSeExiteParcelasNaTroca()
@@ -360,6 +384,11 @@ namespace SistemaLoja.Servicos
                 var resultado = MessageBox.Show("Já inseriu todos os itens que serão trocados?", "ATENÇÂO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (resultado == DialogResult.Yes)
                 {
+                    if (gridC.RowCount == 0)
+                    {
+                        txt_ValorPago.Text = "0";
+                        txt_QtdItens.Text = "0";
+                    }
                     SalvarValoresNaTabelaTrocaAtual();
                     Habilitar();
                     gridT.Enabled = false;
@@ -509,8 +538,11 @@ namespace SistemaLoja.Servicos
             {
                 if (Program.troca == "Não")
                 {
-                    MessageBox.Show("O Item Já foi inserido na troca, caso precise altear a quantidade, exclua e insira novamente!", "ITEM JÁ INSERIDO NA TROCA", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    if (rbtn_SaidaTroca.Checked != true)
+                    {
+                        MessageBox.Show("O Item Já foi inserido na troca, caso precise altear a quantidade, exclua e insira novamente!", "ITEM JÁ INSERIDO NA TROCA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
                 }
                 else
                 {
@@ -1057,6 +1089,7 @@ namespace SistemaLoja.Servicos
                 txt_ValorItensNovos.Text = String.Format("{0:C}", txt_Valor_Total.Text);
             }
             txt_ValorSaldo.Text = String.Format("{0:C}", Convert.ToString((Convert.ToDecimal(txt_ValorSaldo.Text.Replace("R$", "")) - Convert.ToDecimal(txt_ValorItensNovos.Text.Replace("R$", "")))));
+            txt_ValorSaldo.Text = String.Format("{0:C}", txt_ValorSaldo.Text);
         }
 
         private void ConsultaQuantidade()
@@ -1494,18 +1527,24 @@ namespace SistemaLoja.Servicos
 
         private void ListarParcelas()
         {
-            con.AbrirCon();
-            sql = "SELECT * FROM tb_Parcelas where id_Venda = @id_Venda And id_troca= @id_troca";
-            cmd = new MySqlCommand(sql, con.con);
-            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
-            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
-            MySqlDataAdapter da = new MySqlDataAdapter();
-            da.SelectCommand = cmd;
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            grid_Parcelas.DataSource = dt;
-            con.FecharCon();
-            FormatarDG_Parcelas();
+            try
+            {
+                con.AbrirCon();
+                sql = "SELECT * FROM tb_Parcelas where id_Venda = @id_Venda And id_troca= @id_troca";
+                cmd = new MySqlCommand(sql, con.con);
+                cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+                cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+                MySqlDataAdapter da = new MySqlDataAdapter();
+                da.SelectCommand = cmd;
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                grid_Parcelas.DataSource = dt;
+                con.FecharCon();
+                FormatarDG_Parcelas();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void FormatarDG_Parcelas()
@@ -1535,52 +1574,24 @@ namespace SistemaLoja.Servicos
                     MessageBox.Show("Selecione um Cliente!", "Campo Vazio", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
-                if (cbx_FormPagamento.Text == String.Empty)
-                {
-                    MessageBox.Show("Selecione a forma de Pagamento!", "Campo Vazio", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 AtualizarValoresDoCaixa();
-                AtualizarEstoque();
-
-                Decimal desconto = 0;
-                Decimal valorEntrada = 0;
-                String formaEndrada = "";
-
-                if (txt_Desconto.Text != String.Empty)
-                {
-                    desconto = Convert.ToDecimal(txt_Desconto.Text);
-                }
-                if (txt_Entrada.Text != String.Empty)
-                {
-                    valorEntrada = Convert.ToDecimal(txt_Entrada.Text.Replace(",", "."));
-                }
-                if (cbx_Entrada.Text != String.Empty)
-                {
-                    formaEndrada = cbx_Entrada.Text;
-                }
-
-                {
-                    con.AbrirCon();
-                    sql = "UPDATE tb_Venda SET valorCompra = @valorCompra, valorDesconto = @valorDesconto, valorPago = @valorPago, valorCustoTotal = @valorCustoTotal, formaDePagamento = @formaDePagamento, valorDeEntrada = @valorDeEntrada, formadeEntrada = @formadeEntrada where id_Venda = @id_Venda";
-                    cmd = new MySqlCommand(sql, con.con);
-                    cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
-                    cmd.Parameters.AddWithValue("@valorCompra", Convert.ToDouble(lbl_Valor_da_Compra.Text.Replace("R$", "")));
-                    cmd.Parameters.AddWithValue("@valorDesconto", desconto);
-                    cmd.Parameters.AddWithValue("@valorPago", Convert.ToDouble(lbl_Sub_Total.Text.Replace("R$", "")));
-                    cmd.Parameters.AddWithValue("@valorCustoTotal", Convert.ToDouble(txt_CustoTotal.Text));
-                    cmd.Parameters.AddWithValue("@formaDePagamento", cbx_FormPagamento.Text);
-                    cmd.Parameters.AddWithValue("@valorDeEntrada", txt_Entrada.Text.Replace(",", "."));
-                    cmd.Parameters.AddWithValue("@formadeEntrada", formaEndrada);
-
-                    cmd.ExecuteNonQuery();
-                    con.FecharCon();
-                    MessageBox.Show("Venda Finalizada com Sucesso!", "Finalizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Limpar();
-                }
+                FecharTroca();
+                ConsultarValoresDaVendaOriginal();
+                AlterarValoresDaVendaOriginal();
+                DeletaItemDatb_trocaatual();
+                IniciarNovaTrocaLimpaTudo();
+                Limpar();
             }
+        }
+
+        private void FecharTroca()
+        {
+            con.AbrirCon();
+            sql = "UPDATE tb_itenstroca SET Status= 'Fechada' where id_troca = @id_troca";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
         }
         private void AtualizarValoresDoCaixa()
         {
@@ -1624,6 +1635,76 @@ namespace SistemaLoja.Servicos
                     con.FecharCon();
                 }
             }
+        }
+
+        private void ConsultarValoresDaVendaOriginal()
+        {
+            con.AbrirCon();
+            sql = "SELECT* FROM tb_Venda where id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            MySqlDataReader reader;
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    valorCompraOriginal = Convert.ToDecimal(reader["valorCompra"]);
+                    valorPagoOriginal = Convert.ToDecimal(reader["valorPago"]);
+                    valorDescontoOriginal = Convert.ToDecimal(reader["valorDesconto"]);
+                    valorDeEntradaOriginal = Convert.ToDecimal(reader["valorDeEntrada"]);
+                    id_TrocaOriginal = Convert.ToString(reader["id_Troca"]);
+                    formadeEntradaOriginal = Convert.ToString(reader["formadeEntrada"]);
+                }
+                con.FecharCon();
+            }
+
+            valorCompraOriginal = valorCompraOriginal + Convert.ToDecimal(lbl_Sub_Total.Text.Replace("R$", ""));
+            valorPagoOriginal = valorPagoOriginal + Convert.ToDecimal(lbl_Sub_TotalA.Text.Replace("R$", ""));
+            valorDescontoOriginal = valorDescontoOriginal + Convert.ToDecimal(txt_Desconto.Text.Replace("R$", ""));
+            valorDeEntradaOriginal = valorDeEntradaOriginal + Convert.ToDecimal(txt_Entrada.Text.Replace("R$", ""));
+            if (int.Parse(id_TrocaOriginal) != 0)
+            {
+                id_TrocaOriginal = id_TrocaOriginal + "/" + lb_IdTroca.Text;
+            }
+            else
+            {
+                id_TrocaOriginal = lb_IdTroca.Text;
+            }
+
+            if (formadeEntradaOriginal == String.Empty)
+            {
+                formadeEntradaOriginal = cbx_Entrada.Text;
+            }
+        }
+
+        private void AlterarValoresDaVendaOriginal()
+        {
+            con.AbrirCon();
+            sql = "UPDATE tb_Venda SET valorCompra= @valorCompra, valorDesconto= @valorDesconto, formadeEntrada= @formadeEntrada, valorPago= @valorPago, valorCustoTotal= @valorCustoTotal, valorDeEntrada= @valorDeEntrada, id_Troca= @id_Troca  where id_Venda = @id_Venda";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            cmd.Parameters.AddWithValue("@valorCompra", valorCompraOriginal);
+            cmd.Parameters.AddWithValue("@valorDesconto", valorDescontoOriginal);
+            cmd.Parameters.AddWithValue("@formadeEntrada", formadeEntradaOriginal);
+            cmd.Parameters.AddWithValue("@valorPago", valorPagoOriginal);
+            cmd.Parameters.AddWithValue("@valorCustoTotal", Convert.ToDouble(txt_CustoTotal.Text));
+            cmd.Parameters.AddWithValue("@valorDeEntrada", valorDeEntradaOriginal);
+            cmd.Parameters.AddWithValue("@id_Troca", id_TrocaOriginal);
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
+            MessageBox.Show("Troca Finalizada com Sucesso!", "Finalizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void DeletaItemDatb_trocaatual()
+        {
+            con.AbrirCon();
+            sql = "DELETE FROM tb_trocaatual where id_troca = @id_troca";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
         }
     }
 }
