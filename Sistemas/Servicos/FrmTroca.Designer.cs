@@ -1403,6 +1403,7 @@ namespace SistemaLoja.Servicos
             this.txt_Q_Total.Size = new System.Drawing.Size(44, 20);
             this.txt_Q_Total.TabIndex = 197;
             this.txt_Q_Total.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_Q_Total.Visible = false;
             // 
             // label20
             // 
@@ -1412,6 +1413,7 @@ namespace SistemaLoja.Servicos
             this.label20.Size = new System.Drawing.Size(57, 13);
             this.label20.TabIndex = 198;
             this.label20.Text = "Qtd. Total:";
+            this.label20.Visible = false;
             // 
             // txt_QtdTotal
             // 

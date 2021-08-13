@@ -85,6 +85,7 @@ namespace SistemaLoja.Servicos
 
         private void IniciarNovaTrocaLimpaTudo()
         {
+            Limpar();
             LiberarConsutaParcelas = "Não";
             lbl_valorCompraOriginal.Text = "0";
             lb_IdTroca.Text = "0";
@@ -100,6 +101,17 @@ namespace SistemaLoja.Servicos
             btn_OK_Cliente.Enabled = true;
             Bolquear();
             cbx_FormPagamento.Text = "";
+            btn_Editar.Enabled = false;
+
+            gridC.DataSource = null;
+            gridC.Columns.Clear();
+            gridC.Rows.Clear();
+            gridC.Refresh();
+
+            gridT.DataSource = null;
+            gridT.Columns.Clear();
+            gridT.Rows.Clear();
+            gridT.Refresh();
         }
 
         private void FrmTroca_Load(object sender, EventArgs e)
@@ -155,7 +167,6 @@ namespace SistemaLoja.Servicos
                 rbtn_VoltarTroca.Checked = false;
                 rbtn_SaidaTroca.Checked = true;
                 gridT.Enabled = false;
-                Limpar();
                 cbx_Qtde.Enabled = true;
                 btn_Editar.Enabled = false;
                 btn_Inserir.Enabled = true;
@@ -344,8 +355,12 @@ namespace SistemaLoja.Servicos
                 total = total + subtotal;
                 if(Program.troca == "Não") {
                     txt_Valor_Troca.Text = String.Format("{0:C}", total);
-                    txt_ValorSaldo.Text = String.Format("{0:C}", total);
 
+                    if (rbtn_SaidaTroca.Checked != true)
+                    {
+                       txt_ValorSaldo.Text = String.Format("{0:C}", total);
+                    }
+                    
                     if (rbtn_VoltarTroca.Checked == true)
                     {
                         txt_Q_Troca.Text = Convert.ToString(qt_Itens);
@@ -374,7 +389,6 @@ namespace SistemaLoja.Servicos
             Bolquear();
             gridC.Enabled = true;
             gridT.Enabled = true;
-            Limpar();
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
@@ -384,16 +398,12 @@ namespace SistemaLoja.Servicos
                 var resultado = MessageBox.Show("Já inseriu todos os itens que serão trocados?", "ATENÇÂO", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (resultado == DialogResult.Yes)
                 {
-                    if (gridC.RowCount == 0)
-                    {
-                        txt_ValorPago.Text = "0";
-                        txt_QtdItens.Text = "0";
-                    }
                     SalvarValoresNaTabelaTrocaAtual();
                     Habilitar();
                     gridT.Enabled = false;
-                    Limpar();
                     cbx_Qtde.Enabled = true;
+                    rbtn_VoltarTroca.Enabled = false;
+                    rbtn_SaidaTroca.Enabled = false;
                 }
                 else
                 {
@@ -409,14 +419,30 @@ namespace SistemaLoja.Servicos
 
         private void SalvarValoresNaTabelaTrocaAtual()
         {
+            decimal valor;
+            int qtde;
+            int qtdeT;
+            if (gridC.RowCount == 0)
+            {
+                valor = 0;
+                qtde = 0;
+                qtdeT = 0;
+            }
+            else
+            {
+                valor = Convert.ToDecimal(txt_ValorPago.Text.Replace("R$", ""));
+                qtde = int.Parse(txt_QtdItens.Text);
+                qtdeT = int.Parse(txt_QtdTotal.Text);
+            }
+
             con.AbrirCon();
             sql = "INSERT INTO tb_trocaatual (id_troca, ValorDaCompra, ValorCompraAtual, QtdeItens, QtdItensMaisNovo, Valor_Troca, ValorNovosItens, Saldo, QtdTroca, QtdeNovos, QtdeTotal) VALUES (@id_troca, @ValorDaCompra, @ValorCompraAtual, @QtdeItens, @QtdItensMaisNovo, @Valor_Troca, 0, @Saldo, @QtdTroca, 0, @QtdeTotal)";
             cmd = new MySqlCommand(sql, con.con);
             cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
             cmd.Parameters.AddWithValue("@ValorDaCompra", Convert.ToDouble(lbl_valorCompraOriginal.Text.Replace("R$", "")));
-            cmd.Parameters.AddWithValue("@ValorCompraAtual", Convert.ToDouble(txt_ValorPago.Text.Replace("R$", "")));
-            cmd.Parameters.AddWithValue("@QtdeItens", int.Parse(txt_QtdItens.Text));
-            cmd.Parameters.AddWithValue("@QtdItensMaisNovo", int.Parse(txt_QtdTotal.Text));
+            cmd.Parameters.AddWithValue("@ValorCompraAtual", valor);
+            cmd.Parameters.AddWithValue("@QtdeItens", qtde);
+            cmd.Parameters.AddWithValue("@QtdItensMaisNovo", qtdeT);
             cmd.Parameters.AddWithValue("@Valor_Troca", Convert.ToDouble(txt_Valor_Troca.Text.Replace("R$", "")));
             cmd.Parameters.AddWithValue("@Saldo", Convert.ToDouble(txt_ValorSaldo.Text.Replace("R$", "")));
             cmd.Parameters.AddWithValue("@QtdTroca", int.Parse(txt_Q_Troca.Text));
@@ -427,20 +453,51 @@ namespace SistemaLoja.Servicos
 
         private void AtualizarValoresNaTabelaTrocaAtual()
         {
+            decimal valorPago = 0;
+            decimal valorItensNovos = 0;
+            int QtdItens = 0;
+            int QtdTotal = 0;
+            int QtdQ_Novos = 0;
+
+            if (txt_ValorPago.Text != String.Empty)
+            {
+                valorPago = Convert.ToDecimal(txt_ValorPago.Text.Replace("R$", ""));
+            }
+
+            if (txt_ValorItensNovos.Text != String.Empty)
+            {
+                valorItensNovos = Convert.ToDecimal(txt_ValorItensNovos.Text.Replace("R$", ""));
+            }
+
+            if (txt_QtdItens.Text != String.Empty)
+            {
+                QtdItens = int.Parse(txt_QtdItens.Text);
+            }
+
+            if (txt_QtdTotal.Text != String.Empty)
+            {
+                QtdTotal = int.Parse(txt_QtdTotal.Text);
+            }
+
+            if (txt_Q_Novos.Text != String.Empty)
+            {
+                QtdQ_Novos = int.Parse(txt_Q_Novos.Text);
+            }
+
             con.AbrirCon();
             sql = "UPDATE tb_trocaatual SET ValorDaCompra= @ValorDaCompra, ValorCompraAtual= @ValorCompraAtual, QtdeItens= @QtdeItens, QtdItensMaisNovo= @QtdItensMaisNovo, Valor_Troca= @Valor_Troca, ValorNovosItens= @ValorNovosItens, Saldo= @Saldo, QtdTroca= @QtdTroca, QtdeNovos= @QtdeNovos, QtdeTotal= @QtdeTotal where id_troca = @id_troca";
             cmd = new MySqlCommand(sql, con.con);
             cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
             cmd.Parameters.AddWithValue("@ValorDaCompra", Convert.ToDouble(lbl_valorCompraOriginal.Text.Replace("R$", "")));
-            cmd.Parameters.AddWithValue("@ValorCompraAtual", Convert.ToDouble(txt_ValorPago.Text.Replace("R$", "")));
-            cmd.Parameters.AddWithValue("@QtdeItens", int.Parse(txt_QtdItens.Text));
+            cmd.Parameters.AddWithValue("@ValorCompraAtual", valorPago);
+            cmd.Parameters.AddWithValue("@QtdeItens", QtdItens);
             cmd.Parameters.AddWithValue("@QtdItensMaisNovo", int.Parse(txt_QtdTotal.Text));
             cmd.Parameters.AddWithValue("@Valor_Troca", Convert.ToDouble(txt_Valor_Troca.Text.Replace("R$", "")));
-            cmd.Parameters.AddWithValue("@ValorNovosItens", Convert.ToDouble(txt_ValorItensNovos.Text.Replace("R$", "")));
+            cmd.Parameters.AddWithValue("@ValorNovosItens", valorItensNovos);
             cmd.Parameters.AddWithValue("@Saldo", Convert.ToDouble(txt_ValorSaldo.Text.Replace("R$", "")));
             cmd.Parameters.AddWithValue("@QtdTroca", int.Parse(txt_Q_Troca.Text));
-            cmd.Parameters.AddWithValue("@QtdeNovos", int.Parse(txt_Q_Novos.Text));
-            cmd.Parameters.AddWithValue("@QtdeTotal", int.Parse(txt_Q_Total.Text));
+            cmd.Parameters.AddWithValue("@QtdeNovos", QtdQ_Novos);
+            cmd.Parameters.AddWithValue("@QtdeTotal", QtdTotal);
             cmd.ExecuteNonQuery();
             con.FecharCon();
         }
@@ -513,7 +570,13 @@ namespace SistemaLoja.Servicos
             {
                 AtualizarEstoque();
                 VerificaSeOItemJáEstaNaTroca();
-            }  
+            }
+
+            if (gridC.RowCount == 0)
+            {
+                txt_QtdTotal.Clear();
+            }
+            Limpar();
         }
 
         private void VerificaSeOItemJáEstaNaTroca()
@@ -604,7 +667,8 @@ namespace SistemaLoja.Servicos
             cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
             cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
             cmd.ExecuteNonQuery();
-            if (int.Parse(cbx_Qtde.Text) == int.Parse(txt_Q_orig.Text))
+
+            if (int.Parse(cbx_Qtde.Text) == int.Parse(txt_Q_orig.Text) && rbtn_VoltarTroca.Checked == true)
             {
                 ExcluirItemDaVenda();
             }
@@ -615,7 +679,6 @@ namespace SistemaLoja.Servicos
             FechaAConexaoECalculaValores();
             rbtn_SaidaTroca.Enabled = true;
             btn_Editar.Enabled = false;
-            Limpar();
         }
 
         private void InserirItensNaTabelaTrocaSaidaDeProdutos()
@@ -908,8 +971,8 @@ namespace SistemaLoja.Servicos
                 VerificaSeOItemJáFoiExcluidoDaVenda();
                 DeletaItemDaTroca();
             }
-            Limpar();
             FechaAConexaoECalculaValores();
+            Limpar();
         }
 
         private void DeletaItemDaTroca()
@@ -978,7 +1041,15 @@ namespace SistemaLoja.Servicos
             txt_Valor_Total.Clear();
             txtCodBarras.Focus();
         }
-
+        private void CalculaSaldo()
+        {
+            decimal valoritensNovo = 0;
+            if (txt_ValorItensNovos.Text != String.Empty)
+            {
+                valoritensNovo = Convert.ToDecimal(txt_ValorItensNovos.Text.Replace("R$", ""));
+            }
+            txt_ValorSaldo.Text = Convert.ToString((Convert.ToDecimal(txt_ValorSaldo.Text.Replace("R$", "")) - (valoritensNovo + Convert.ToDecimal(txt_Valor_Total.Text.Replace("R$", "")))));
+        }
         private void btn_Inserir_Click(object sender, EventArgs e)
         {
             if (txt_ValorSaldo.Text.Substring(0, 1) == "-")
@@ -997,7 +1068,8 @@ namespace SistemaLoja.Servicos
                     return;
                 }
 
-                // Verificar se o código de barras existe
+            // Verificar se o código de barras existe
+                con.AbrirCon();
                 MySqlCommand cmdVerificar;
                 cmdVerificar = new MySqlCommand("SELECT * FROM tbprodutos where codBarras = @codBarras", con.con);
                 cmdVerificar.Parameters.AddWithValue("@codBarras", txtCodBarras.Text);
@@ -1015,13 +1087,16 @@ namespace SistemaLoja.Servicos
                     txtCodBarras.Focus();
                     return;
                 }
+                 con.FecharCon();
+                 CalcularItensNovos();
+                 //CalculaSaldo();
                  AtualizarEstoque();
                  VerificaSeOItemJáEstaNaTroca();
                  ListarTroca();
-                 CalcularItensNovos();
 
             // Verificar se o item já está na venda
-            MySqlCommand cmdItem;
+                con.AbrirCon();
+                MySqlCommand cmdItem;
                 cmdItem = new MySqlCommand("SELECT * FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda", con.con);
                 cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
                 cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
@@ -1033,10 +1108,10 @@ namespace SistemaLoja.Servicos
                 {
                     ConsultaQuantidade();
                     ValorTotalItem();
-                    Limpar();
                 }
                 else
                 {
+                    con.FecharCon();
                     con.AbrirCon();
                     sql = "INSERT INTO tb_itensVenda (id_Venda, id_Produto, quantidade, valorVenda, valorCusto) VALUES (@id_Venda, @id_Produto, @quantidade, @valorVenda, @valorCusto)";
                     cmd = new MySqlCommand(sql, con.con);
@@ -1049,13 +1124,13 @@ namespace SistemaLoja.Servicos
                     cmd.ExecuteNonQuery();
                     Listar();
                     ValorTotalItem();
-                    Limpar();
                     con.FecharCon();
                 }
                 lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
                 AtualizarValoresNaTabelaTrocaAtual();
                 ValorTotalItemTroca();
                 VerificaOSaldoDoValorDeTroca();
+                Limpar();
         }
 
         private void CalcularItensNovos()
@@ -1088,8 +1163,7 @@ namespace SistemaLoja.Servicos
             {
                 txt_ValorItensNovos.Text = String.Format("{0:C}", txt_Valor_Total.Text);
             }
-            txt_ValorSaldo.Text = String.Format("{0:C}", Convert.ToString((Convert.ToDecimal(txt_ValorSaldo.Text.Replace("R$", "")) - Convert.ToDecimal(txt_ValorItensNovos.Text.Replace("R$", "")))));
-            txt_ValorSaldo.Text = String.Format("{0:C}", txt_ValorSaldo.Text);
+            txt_ValorSaldo.Text = String.Format("{0:C}", Convert.ToString((Convert.ToDecimal(txt_Valor_Troca.Text.Replace("R$", "")) - Convert.ToDecimal(txt_ValorItensNovos.Text.Replace("R$", "")))));
         }
 
         private void ConsultaQuantidade()
@@ -1260,6 +1334,10 @@ namespace SistemaLoja.Servicos
                     lbl_Sub_Total.Text = txt_ValorSaldo.Text.Replace("-", "");
                     lbl_Valor_da_Compra.Text = txt_ValorSaldo.Text.Replace("-", "");
                     lbl_Qtd_Itens.Text = txt_Q_Total.Text;
+                    Bolquear();
+                    cbx_Qtde.Enabled = false;
+                    gridC.Enabled = false;
+                    btn_Editar.Enabled = false;
                 }
             }
             catch (Exception)
@@ -1580,7 +1658,6 @@ namespace SistemaLoja.Servicos
                 AlterarValoresDaVendaOriginal();
                 DeletaItemDatb_trocaatual();
                 IniciarNovaTrocaLimpaTudo();
-                Limpar();
             }
         }
 
@@ -1660,10 +1737,35 @@ namespace SistemaLoja.Servicos
                 con.FecharCon();
             }
 
-            valorCompraOriginal = valorCompraOriginal + Convert.ToDecimal(lbl_Sub_Total.Text.Replace("R$", ""));
-            valorPagoOriginal = valorPagoOriginal + Convert.ToDecimal(lbl_Sub_TotalA.Text.Replace("R$", ""));
-            valorDescontoOriginal = valorDescontoOriginal + Convert.ToDecimal(txt_Desconto.Text.Replace("R$", ""));
-            valorDeEntradaOriginal = valorDeEntradaOriginal + Convert.ToDecimal(txt_Entrada.Text.Replace("R$", ""));
+            decimal Valorlbl_Sub_Total = 0;
+            decimal Valorlbl_Sub_TotalA = 0;
+            decimal Valortxt_Desconto = 0;
+            decimal Valortxt_Entrada = 0;
+
+            if (lbl_Sub_Total.Text != String.Empty)
+            {
+                Valorlbl_Sub_Total = Convert.ToDecimal(lbl_Sub_Total.Text.Replace("R$", ""));
+            }
+
+            if (lbl_Sub_TotalA.Text != String.Empty)
+            {
+                Valorlbl_Sub_TotalA = Convert.ToDecimal(lbl_Sub_TotalA.Text.Replace("R$", ""));
+            }
+
+            if (txt_Desconto.Text != String.Empty)
+            {
+                Valortxt_Desconto = Convert.ToDecimal(txt_Desconto.Text.Replace("R$", ""));
+            }
+
+            if (txt_Entrada.Text != String.Empty)
+            {
+                Valortxt_Entrada = Convert.ToDecimal(txt_Entrada.Text.Replace("R$", ""));
+            }
+
+            valorCompraOriginal = valorCompraOriginal + Valorlbl_Sub_Total;
+            valorPagoOriginal = valorPagoOriginal + Valorlbl_Sub_TotalA;
+            valorDescontoOriginal = valorDescontoOriginal + Valortxt_Desconto;
+            valorDeEntradaOriginal = valorDeEntradaOriginal + Valortxt_Entrada;
             if (int.Parse(id_TrocaOriginal) != 0)
             {
                 id_TrocaOriginal = id_TrocaOriginal + "/" + lb_IdTroca.Text;
