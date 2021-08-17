@@ -364,7 +364,7 @@ namespace SistemaLoja
             this.cupomNãoFiscalToolStripMenuItem});
             this.vendasToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("vendasToolStripMenuItem.Image")));
             this.vendasToolStripMenuItem.Name = "vendasToolStripMenuItem";
-            this.vendasToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.vendasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.vendasToolStripMenuItem.Text = "Vendas";
             // 
             // porDiasToolStripMenuItem
@@ -404,6 +404,7 @@ namespace SistemaLoja
             // 
             // cupomNãoFiscalToolStripMenuItem
             // 
+            this.cupomNãoFiscalToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cupomNãoFiscalToolStripMenuItem.Image")));
             this.cupomNãoFiscalToolStripMenuItem.Name = "cupomNãoFiscalToolStripMenuItem";
             this.cupomNãoFiscalToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.cupomNãoFiscalToolStripMenuItem.Text = "Cupom Não Fiscal";
@@ -417,27 +418,28 @@ namespace SistemaLoja
             this.saldoToolStripMenuItem});
             this.estoqueToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("estoqueToolStripMenuItem1.Image")));
             this.estoqueToolStripMenuItem1.Name = "estoqueToolStripMenuItem1";
-            this.estoqueToolStripMenuItem1.Size = new System.Drawing.Size(116, 22);
+            this.estoqueToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.estoqueToolStripMenuItem1.Text = "Estoque";
             // 
             // entradaToolStripMenuItem2
             // 
             this.entradaToolStripMenuItem2.Image = ((System.Drawing.Image)(resources.GetObject("entradaToolStripMenuItem2.Image")));
             this.entradaToolStripMenuItem2.Name = "entradaToolStripMenuItem2";
-            this.entradaToolStripMenuItem2.Size = new System.Drawing.Size(148, 22);
+            this.entradaToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.entradaToolStripMenuItem2.Text = "Entrada";
             // 
             // saídasToolStripMenuItem
             // 
             this.saídasToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saídasToolStripMenuItem.Image")));
             this.saídasToolStripMenuItem.Name = "saídasToolStripMenuItem";
-            this.saídasToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.saídasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saídasToolStripMenuItem.Text = "Saídas";
             // 
             // saldoToolStripMenuItem
             // 
+            this.saldoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saldoToolStripMenuItem.Image")));
             this.saldoToolStripMenuItem.Name = "saldoToolStripMenuItem";
-            this.saldoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.saldoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saldoToolStripMenuItem.Text = "Saldo Mínimo";
             // 
             // MenuConfiguracoes

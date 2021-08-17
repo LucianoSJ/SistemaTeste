@@ -132,6 +132,11 @@ namespace SistemaLoja.Servicos
             this.lbl_Parcelas = new System.Windows.Forms.Label();
             this.grid_Parcelas = new System.Windows.Forms.DataGridView();
             this.btn_Finalizar_Troca = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.pnlRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridC)).BeginInit();
@@ -348,6 +353,11 @@ namespace SistemaLoja.Servicos
             this.pnlRight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlRight.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.pnlRight.Controls.Add(this.button5);
+            this.pnlRight.Controls.Add(this.button4);
+            this.pnlRight.Controls.Add(this.button3);
+            this.pnlRight.Controls.Add(this.button2);
+            this.pnlRight.Controls.Add(this.button1);
             this.pnlRight.Controls.Add(this.label17);
             this.pnlRight.Controls.Add(this.lbl_Sub_TotalA);
             this.pnlRight.Controls.Add(this.label14);
@@ -470,7 +480,7 @@ namespace SistemaLoja.Servicos
             // 
             this.txt_Data_Primeira_Parce.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_Data_Primeira_Parce.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.txt_Data_Primeira_Parce.Location = new System.Drawing.Point(159, 491);
+            this.txt_Data_Primeira_Parce.Location = new System.Drawing.Point(159, 511);
             this.txt_Data_Primeira_Parce.Name = "txt_Data_Primeira_Parce";
             this.txt_Data_Primeira_Parce.Size = new System.Drawing.Size(133, 20);
             this.txt_Data_Primeira_Parce.TabIndex = 124;
@@ -506,7 +516,7 @@ namespace SistemaLoja.Servicos
             "22",
             "23",
             "24"});
-            this.cbx_QtdeParcelas.Location = new System.Drawing.Point(159, 466);
+            this.cbx_QtdeParcelas.Location = new System.Drawing.Point(159, 486);
             this.cbx_QtdeParcelas.Name = "cbx_QtdeParcelas";
             this.cbx_QtdeParcelas.Size = new System.Drawing.Size(50, 21);
             this.cbx_QtdeParcelas.TabIndex = 123;
@@ -552,7 +562,7 @@ namespace SistemaLoja.Servicos
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label30.Location = new System.Drawing.Point(23, 516);
+            this.label30.Location = new System.Drawing.Point(23, 536);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(136, 18);
             this.label30.TabIndex = 45;
@@ -562,7 +572,7 @@ namespace SistemaLoja.Servicos
             // 
             this.txt_Valor_Parcela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_Valor_Parcela.Enabled = false;
-            this.txt_Valor_Parcela.Location = new System.Drawing.Point(159, 516);
+            this.txt_Valor_Parcela.Location = new System.Drawing.Point(159, 536);
             this.txt_Valor_Parcela.Name = "txt_Valor_Parcela";
             this.txt_Valor_Parcela.Size = new System.Drawing.Size(133, 20);
             this.txt_Valor_Parcela.TabIndex = 44;
@@ -574,7 +584,7 @@ namespace SistemaLoja.Servicos
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label29.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label29.Location = new System.Drawing.Point(16, 491);
+            this.label29.Location = new System.Drawing.Point(16, 511);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(143, 18);
             this.label29.TabIndex = 43;
@@ -586,7 +596,7 @@ namespace SistemaLoja.Servicos
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label28.Location = new System.Drawing.Point(29, 468);
+            this.label28.Location = new System.Drawing.Point(29, 488);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(130, 18);
             this.label28.TabIndex = 41;
@@ -598,7 +608,7 @@ namespace SistemaLoja.Servicos
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label27.Location = new System.Drawing.Point(-4, 361);
+            this.label27.Location = new System.Drawing.Point(-4, 341);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(390, 22);
             this.label27.TabIndex = 39;
@@ -712,7 +722,7 @@ namespace SistemaLoja.Servicos
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label22.Location = new System.Drawing.Point(6, 443);
+            this.label22.Location = new System.Drawing.Point(12, 376);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(156, 18);
             this.label22.TabIndex = 30;
@@ -733,7 +743,7 @@ namespace SistemaLoja.Servicos
             "Depósito",
             "Boleto",
             "Outos"});
-            this.cbx_FormPagamento.Location = new System.Drawing.Point(159, 440);
+            this.cbx_FormPagamento.Location = new System.Drawing.Point(165, 373);
             this.cbx_FormPagamento.Name = "cbx_FormPagamento";
             this.cbx_FormPagamento.Size = new System.Drawing.Size(133, 21);
             this.cbx_FormPagamento.TabIndex = 29;
@@ -1479,6 +1489,111 @@ namespace SistemaLoja.Servicos
             this.btn_Finalizar_Troca.UseVisualStyleBackColor = false;
             this.btn_Finalizar_Troca.Click += new System.EventHandler(this.btn_Finalizar_Troca_Click);
             // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.BackColor = System.Drawing.Color.Transparent;
+            this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.ForeColor = System.Drawing.Color.Black;
+            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
+            this.button5.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button5.Location = new System.Drawing.Point(233, 400);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(72, 36);
+            this.button5.TabIndex = 145;
+            this.button5.Text = "PIX";
+            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.BackColor = System.Drawing.Color.Transparent;
+            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.ForeColor = System.Drawing.Color.Black;
+            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button4.Location = new System.Drawing.Point(118, 400);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(102, 34);
+            this.button4.TabIndex = 144;
+            this.button4.Text = "Dinheiro";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.BackColor = System.Drawing.Color.Transparent;
+            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
+            this.button3.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button3.Location = new System.Drawing.Point(20, 435);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(92, 24);
+            this.button3.TabIndex = 143;
+            this.button3.Text = "Débito";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackColor = System.Drawing.Color.Transparent;
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.Color.Black;
+            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button2.Location = new System.Drawing.Point(20, 405);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(96, 24);
+            this.button2.TabIndex = 142;
+            this.button2.Text = "Crédito";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button1.Location = new System.Drawing.Point(113, 435);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(130, 24);
+            this.button1.TabIndex = 141;
+            this.button1.Text = "Promissória";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FrmTroca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1544,6 +1659,7 @@ namespace SistemaLoja.Servicos
             this.Controls.Add(this.img);
             this.Controls.Add(this.btn_Finalizar_Troca);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmTroca";
             this.Text = "Troca";
@@ -1666,5 +1782,10 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label lbl_Parcelas;
         private System.Windows.Forms.DataGridView grid_Parcelas;
         private System.Windows.Forms.Button btn_Finalizar_Troca;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }

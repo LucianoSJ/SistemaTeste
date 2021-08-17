@@ -1520,7 +1520,6 @@ namespace SistemaLoja.Servicos
                         if (resultado == DialogResult.Yes)
                         {
                             AtualizaFormaDePagamento();
-                            ValorParcelas();
                             ExcluirParcelas();
                             GeradorDeParcelas();
                             ListarParcelas();
@@ -1546,14 +1545,6 @@ namespace SistemaLoja.Servicos
             con.FecharCon();
         }
 
-        private void ValorParcelas()
-        {
-            decimal valorTotal = Convert.ToDecimal(lbl_Sub_TotalA.Text.Replace("R$", ""));
-            int qtde = int.Parse(cbx_QtdeParcelas.Text);
-            decimal valorparcelas = valorTotal / qtde;
-            txt_Valor_Parcela.Text = String.Format("{0:C}", valorparcelas);
-        }
-
         private void ExcluirParcelas()
         {
             con.AbrirCon();
@@ -1565,10 +1556,41 @@ namespace SistemaLoja.Servicos
             con.FecharCon();
         }
 
+        private double Truncar(double valor)
+        {
+            valor *= 100;
+            valor = Math.Truncate(valor);
+            valor /= 100;
+            return valor;
+        }
+
         private void GeradorDeParcelas()
         {
+            double x = 0;
+            int y = 0;
+            int z = 0;
+            double r = 0;
+            double w = 0;
+            double t = 0;
+            double valorParcela = 0;
+            //Exemplo
+            x = Convert.ToDouble(lbl_Sub_Total.Text.Replace("R$", "")); //(5003,15)
+            y = int.Parse(cbx_QtdeParcelas.Text);                      //(10)
+            z = y - 1;                                                //(10 - 1 = 9)
+            r = Truncar((x / y));                                    //Quebra em duas casas depois da vírgula
+            w = x - (z * r);                                        //(w = 5003,15 - (9 * 500,31) -> (w = 5003,15 - (4.502,79)) -> (w = 500,36)
+            t = w + (z * r);                                       //t = 500,36 + (9 * 500,31) -> t = 500,36 + 4.502,79 -> t = 5.003,15
             for (int i = 0; i < int.Parse(cbx_QtdeParcelas.Text); i++)
             {
+                if (i == 0)
+                {
+                    valorParcela = w;
+                }
+                else
+                {
+                    valorParcela = r;
+                }
+
                 DateTime dataPrimeiroVencimento = DateTime.Now;
                 String dataPagamento = DateTime.Now.ToString("dd/MM/yyyy");
                 String pago = "Não";
@@ -1586,15 +1608,14 @@ namespace SistemaLoja.Servicos
                 }
 
                 con.AbrirCon();
-                sql = "INSERT INTO tb_Parcelas (id_Venda, N_da_Parcela, Valor_Parcela, Pago, Data_Vencimento, Data_Pagamento, id_troca) VALUES (@id_Venda, @N_da_Parcela, @Valor_Parcela, @Pago, @Data_Vencimento, @Data_Pagamento, @id_troca)";
+                sql = "INSERT INTO tb_Parcelas (id_Venda, N_da_Parcela, Valor_Parcela, Data_Vencimento, Data_Pagamento, Pago) VALUES (@id_Venda, @N_da_Parcela, @Valor_Parcela, @Data_Vencimento, @Data_Pagamento, @Pago)";
                 cmd = new MySqlCommand(sql, con.con);
                 cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
                 cmd.Parameters.AddWithValue("@N_da_Parcela", Convert.ToString((i + 1)) + " / " + cbx_QtdeParcelas.Text);
-                cmd.Parameters.AddWithValue("@Valor_Parcela", Convert.ToDouble(txt_Valor_Parcela.Text.Replace("R$", "")));
-                cmd.Parameters.AddWithValue("@Pago", pago);
+                cmd.Parameters.AddWithValue("@Valor_Parcela", valorParcela);
                 cmd.Parameters.AddWithValue("@Data_Vencimento", dataPrimeiroVencimento.AddMonths(i).ToShortDateString());
                 cmd.Parameters.AddWithValue("@Data_Pagamento", Convert.ToString(dataPagamento));
-                cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
+                cmd.Parameters.AddWithValue("@Pago", pago);
 
 
                 cmd.ExecuteNonQuery();
@@ -1807,6 +1828,31 @@ namespace SistemaLoja.Servicos
             cmd.Parameters.AddWithValue("@id_troca", int.Parse(lb_IdTroca.Text));
             cmd.ExecuteNonQuery();
             con.FecharCon();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            cbx_FormPagamento.Text = "Crédito";
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            cbx_FormPagamento.Text = "Dinheiro";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            cbx_FormPagamento.Text = "Débito";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cbx_FormPagamento.Text = "Promissória";
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            cbx_FormPagamento.Text = "PIX";
         }
     }
 }
