@@ -29,7 +29,6 @@ namespace SistemaLoja.Filtros
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFiltrarVenda));
             this.grid = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +55,6 @@ namespace SistemaLoja.Filtros
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(538, 535);
             this.Controls.Add(this.grid);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmFiltrarVenda";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Filtrar Venda";

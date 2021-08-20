@@ -13,6 +13,7 @@ namespace SistemaLoja.Servicos
 {
     public partial class FrmCaixa : Form
     {
+
         Conexao con = new Conexao();
         string sql;
         MySqlCommand cmd;
@@ -92,7 +93,7 @@ namespace SistemaLoja.Servicos
             btn_Editar.Enabled = false;
             btn_Excluir.Enabled = false;
             HabilitarCampos();
-            txtCodBarras.Focus();         
+            txtCodBarras.Focus();
         }
 
         private void BloquearComandos()
@@ -188,7 +189,7 @@ namespace SistemaLoja.Servicos
             double w = 0;
             double t = 0;
             double valorParcela = 0;
-                                                                         //Exemplo
+            //Exemplo
             x = Convert.ToDouble(lbl_Sub_Total.Text.Replace("R$", "")); //(5003,15)
             y = int.Parse(cbx_QtdeParcelas.Text);                      //(10)
             z = y - 1;                                                //(10 - 1 = 9)
@@ -197,7 +198,7 @@ namespace SistemaLoja.Servicos
             t = w + (z * r);                                       //t = 500,36 + (9 * 500,31) -> t = 500,36 + 4.502,79 -> t = 5.003,15
             for (int i = 0; i < int.Parse(cbx_QtdeParcelas.Text); i++)
             {
-                if(i == 0)
+                if (i == 0)
                 {
                     valorParcela = w;
                 }
@@ -222,19 +223,19 @@ namespace SistemaLoja.Servicos
                     dataPagamento = "";
                 }
 
-            con.AbrirCon();
-            sql = "INSERT INTO tb_Parcelas (id_Venda, N_da_Parcela, Valor_Parcela, Data_Vencimento, Data_Pagamento, Pago) VALUES (@id_Venda, @N_da_Parcela, @Valor_Parcela, @Data_Vencimento, @Data_Pagamento, @Pago)";
-            cmd = new MySqlCommand(sql, con.con);
-            cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
-            cmd.Parameters.AddWithValue("@N_da_Parcela", Convert.ToString((i + 1)) + " / " + cbx_QtdeParcelas.Text);
-            cmd.Parameters.AddWithValue("@Valor_Parcela", valorParcela);
-            cmd.Parameters.AddWithValue("@Data_Vencimento", dataPrimeiroVencimento.AddMonths(i).ToShortDateString());
-            cmd.Parameters.AddWithValue("@Data_Pagamento", Convert.ToString(dataPagamento));
-            cmd.Parameters.AddWithValue("@Pago", pago);
+                con.AbrirCon();
+                sql = "INSERT INTO tb_Parcelas (id_Venda, N_da_Parcela, Valor_Parcela, Data_Vencimento, Data_Pagamento, Pago) VALUES (@id_Venda, @N_da_Parcela, @Valor_Parcela, @Data_Vencimento, @Data_Pagamento, @Pago)";
+                cmd = new MySqlCommand(sql, con.con);
+                cmd.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+                cmd.Parameters.AddWithValue("@N_da_Parcela", Convert.ToString((i + 1)) + " / " + cbx_QtdeParcelas.Text);
+                cmd.Parameters.AddWithValue("@Valor_Parcela", valorParcela);
+                cmd.Parameters.AddWithValue("@Data_Vencimento", dataPrimeiroVencimento.AddMonths(i).ToShortDateString());
+                cmd.Parameters.AddWithValue("@Data_Pagamento", Convert.ToString(dataPagamento));
+                cmd.Parameters.AddWithValue("@Pago", pago);
 
 
-            cmd.ExecuteNonQuery();
-        }
+                cmd.ExecuteNonQuery();
+            }
             con.FecharCon();
             ListarParcelas();
         }
@@ -372,7 +373,7 @@ namespace SistemaLoja.Servicos
                 }
                 else
                 {
-                    Int32 ra = Convert.ToInt32(cmd.ExecuteScalar())+1;
+                    Int32 ra = Convert.ToInt32(cmd.ExecuteScalar()) + 1;
                     lbl_ID_Venda.Text = ra.ToString();
                 }
             }
@@ -384,7 +385,7 @@ namespace SistemaLoja.Servicos
             finally
             {
                 con.FecharCon();
-            }   
+            }
         }
 
         private void ConsultaCodigoDeBarras()
@@ -458,7 +459,7 @@ namespace SistemaLoja.Servicos
                     MessageBox.Show("Produto Não Encontrado!", "Verifique o Código", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 con.FecharCon();
-            }   
+            }
         }
 
         private void Listar()
@@ -592,7 +593,7 @@ namespace SistemaLoja.Servicos
                 txtCodBarras.Text = Program.CodBarras;
                 Program.CodBarras = "NT";
                 ConsultaCodigoDeBarras();
-            } 
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -615,7 +616,7 @@ namespace SistemaLoja.Servicos
             }
 
             // Verificar se o código de barras existe
-           MySqlCommand cmdVerificar;
+            MySqlCommand cmdVerificar;
             cmdVerificar = new MySqlCommand("SELECT * FROM tbprodutos where codBarras = @codBarras", con.con);
             cmdVerificar.Parameters.AddWithValue("@codBarras", txtCodBarras.Text);
             MySqlDataAdapter da = new MySqlDataAdapter();
@@ -673,10 +674,10 @@ namespace SistemaLoja.Servicos
             Program.ExecultadoVenda = "Sim";
             cbx_QtdeParcelas.Text = "";
             var resultado = MessageBox.Show("Deseja Finalizar está Venda?", "Finalizar Venda", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-         if (resultado == DialogResult.Yes)
-        {
+            if (resultado == DialogResult.Yes)
+            {
 
-            if(int.Parse(lbl_id_Cli.Text) == 0)
+                if (int.Parse(lbl_id_Cli.Text) == 0)
                 {
                     MessageBox.Show("Selecione um Cliente!", "Campo Vazio", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -688,25 +689,25 @@ namespace SistemaLoja.Servicos
                     return;
                 }
 
-            AtualizarValoresDoCaixa();
-            AtualizarEstoque();
+                AtualizarValoresDoCaixa();
+                AtualizarEstoque();
 
-            Decimal desconto = 0;
-            Decimal valorEntrada = 0;
-            String formaEndrada = "";
+                Decimal desconto = 0;
+                Decimal valorEntrada = 0;
+                String formaEndrada = "";
 
-            if(txt_Desconto.Text != String.Empty)
-            {
-                desconto = Convert.ToDecimal(txt_Desconto.Text);
-            }
-            if(txt_Entrada.Text != String.Empty)
-            {
-                valorEntrada = Convert.ToDecimal(txt_Entrada.Text.Replace(",", "."));
-            }
-            if(cbx_Entrada.Text != String.Empty)
-            {
-                formaEndrada = cbx_Entrada.Text;
-            }
+                if (txt_Desconto.Text != String.Empty)
+                {
+                    desconto = Convert.ToDecimal(txt_Desconto.Text);
+                }
+                if (txt_Entrada.Text != String.Empty)
+                {
+                    valorEntrada = Convert.ToDecimal(txt_Entrada.Text.Replace(",", "."));
+                }
+                if (cbx_Entrada.Text != String.Empty)
+                {
+                    formaEndrada = cbx_Entrada.Text;
+                }
 
                 {
                     con.AbrirCon();
@@ -822,7 +823,7 @@ namespace SistemaLoja.Servicos
         }
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
-      {
+        {
             txt_ID_Produto.Text = grid.CurrentRow.Cells[0].Value.ToString();
             txtPoduto.Text = grid.CurrentRow.Cells[1].Value.ToString();
             cbx_Qtde.Text = grid.CurrentRow.Cells[2].Value.ToString();
@@ -839,23 +840,23 @@ namespace SistemaLoja.Servicos
             txt_Valor_Total.Enabled = false;
             btn_Produto.Enabled = false;
 
-                 MySqlDataReader reader;
-                  con.AbrirCon();
-                  sql = "SELECT * FROM tbprodutos where id = @id";
-                  cmd = new MySqlCommand(sql, con.con);
-                  cmd.Parameters.AddWithValue("@id", int.Parse(txt_ID_Produto.Text));
-                  reader = cmd.ExecuteReader();
+            MySqlDataReader reader;
+            con.AbrirCon();
+            sql = "SELECT * FROM tbprodutos where id = @id";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id", int.Parse(txt_ID_Produto.Text));
+            reader = cmd.ExecuteReader();
 
-                  if (reader.HasRows)
-                  {
-                      while (reader.Read())
-                      {
-                        txtCodBarras.Text = Convert.ToString(reader["codBarras"]);
-                       txtEstoque.Text = Convert.ToString(reader["estoque"]);
-                      }
-                  }
-                  con.FecharCon();
-                  ValorTotalItem();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    txtCodBarras.Text = Convert.ToString(reader["codBarras"]);
+                    txtEstoque.Text = Convert.ToString(reader["estoque"]);
+                }
+            }
+            con.FecharCon();
+            ValorTotalItem();
         }
 
         private void btn_Editar_Click(object sender, EventArgs e)
@@ -929,7 +930,7 @@ namespace SistemaLoja.Servicos
             // Verificar se o cliente esta com uma venda em aberto
             MySqlCommand cmdItem;
             cmdItem = new MySqlCommand("SELECT * FROM tb_Venda where id_Cliente = @id_Cliente And valorPago = 00.0", con.con);
-            cmdItem.Parameters.AddWithValue("@id_Cliente", int.Parse(lbl_id_Cli.Text));  
+            cmdItem.Parameters.AddWithValue("@id_Cliente", int.Parse(lbl_id_Cli.Text));
             MySqlDataAdapter dat = new MySqlDataAdapter();
             dat.SelectCommand = cmdItem;
             DataTable dta = new DataTable();
@@ -938,7 +939,7 @@ namespace SistemaLoja.Servicos
             {
                 if (Program.forVendas != "Sim")
                 {
-                    MessageBox.Show("Cliente já tem uma venda em aberto!", "VENDA ABERTA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);  
+                    MessageBox.Show("Cliente já tem uma venda em aberto!", "VENDA ABERTA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 Program.forVendas = "Não";
                 con.AbrirCon();
@@ -997,8 +998,8 @@ namespace SistemaLoja.Servicos
 
                 grid.DataSource = null;
                 grid.Columns.Clear();
-                grid.Rows.Clear();   
-                grid.Refresh();   
+                grid.Rows.Clear();
+                grid.Refresh();
             }
             lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
         }
@@ -1120,7 +1121,7 @@ namespace SistemaLoja.Servicos
 
         private void cbx_Qtde_TextChanged(object sender, EventArgs e)
         {
-            if(txtValor.Text != string.Empty)
+            if (txtValor.Text != string.Empty)
             {
                 decimal valor = Convert.ToDecimal(txtValor.Text.Replace("R$", ""));
                 int quantidade = int.Parse(cbx_Qtde.Text);

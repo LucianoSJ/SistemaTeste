@@ -94,6 +94,7 @@ namespace SistemaLoja
             this.lbl_Data = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.produtosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.pnlTopo.SuspendLayout();
             this.pnlRight.SuspendLayout();
@@ -404,7 +405,6 @@ namespace SistemaLoja
             // 
             // cupomNãoFiscalToolStripMenuItem
             // 
-            this.cupomNãoFiscalToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cupomNãoFiscalToolStripMenuItem.Image")));
             this.cupomNãoFiscalToolStripMenuItem.Name = "cupomNãoFiscalToolStripMenuItem";
             this.cupomNãoFiscalToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.cupomNãoFiscalToolStripMenuItem.Text = "Cupom Não Fiscal";
@@ -415,7 +415,8 @@ namespace SistemaLoja
             this.estoqueToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.entradaToolStripMenuItem2,
             this.saídasToolStripMenuItem,
-            this.saldoToolStripMenuItem});
+            this.saldoToolStripMenuItem,
+            this.produtosToolStripMenuItem});
             this.estoqueToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("estoqueToolStripMenuItem1.Image")));
             this.estoqueToolStripMenuItem1.Name = "estoqueToolStripMenuItem1";
             this.estoqueToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
@@ -437,7 +438,6 @@ namespace SistemaLoja
             // 
             // saldoToolStripMenuItem
             // 
-            this.saldoToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saldoToolStripMenuItem.Image")));
             this.saldoToolStripMenuItem.Name = "saldoToolStripMenuItem";
             this.saldoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saldoToolStripMenuItem.Text = "Saldo Mínimo";
@@ -711,6 +711,13 @@ namespace SistemaLoja
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // produtosToolStripMenuItem
+            // 
+            this.produtosToolStripMenuItem.Name = "produtosToolStripMenuItem";
+            this.produtosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.produtosToolStripMenuItem.Text = "Produtos";
+            this.produtosToolStripMenuItem.Click += new System.EventHandler(this.produtosToolStripMenuItem_Click);
+            // 
             // FrmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -805,5 +812,6 @@ namespace SistemaLoja
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem cupomNãoFiscalToolStripMenuItem;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem produtosToolStripMenuItem;
     }
 }

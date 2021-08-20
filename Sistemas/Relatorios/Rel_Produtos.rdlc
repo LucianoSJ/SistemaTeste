@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
-    <Height>2.3125in</Height>
+    <Height>2in</Height>
     <Style />
   </Body>
   <Width>6.5in</Width>
   <Page>
     <PageHeader>
-      <Height>2.54cm</Height>
+      <Height>1.5875cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -15,16 +15,46 @@
           <Source>Embedded</Source>
           <Value>ima_Sol</Value>
           <Sizing>FitProportional</Sizing>
-          <Top>0.20533cm</Top>
-          <Left>0.49953cm</Left>
-          <Height>2.15828cm</Height>
-          <Width>2.26729cm</Width>
+          <Height>1.5cm</Height>
+          <Width>1.5cm</Width>
           <Style>
             <Border>
               <Style>None</Style>
             </Border>
           </Style>
         </Image>
+        <Textbox Name="Textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value EvaluationMode="Constant" />
+                  <Style>
+                    <Format>D</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox1</rd:DefaultName>
+          <Top>0.26141cm</Top>
+          <Left>12.06183cm</Left>
+          <Height>0.6cm</Height>
+          <Width>4.11396cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -119,5 +149,5 @@ bablz79zgDZLAk6Gls7QauP0ql3d/rLV01Wrj9etAQgbhYA3IPX4d1kfwCFs0HDauLGP1h7GxyxtPWbd
     </EmbeddedImage>
   </EmbeddedImages>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>979a048e-d13e-4a66-82e4-672a791ce7aa</rd:ReportID>
+  <rd:ReportID>ca6c3864-dcb6-4c8b-882a-4832c39846ae</rd:ReportID>
 </Report>

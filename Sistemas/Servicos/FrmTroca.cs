@@ -13,6 +13,7 @@ namespace SistemaLoja.Servicos
 {
     public partial class FrmTroca : Form
     {
+
         Conexao con = new Conexao();
         string sql;
         MySqlCommand cmd;
@@ -292,7 +293,7 @@ namespace SistemaLoja.Servicos
             {
                 while (reader.Read())
                 {
-                   lbl_valorCompraOriginal.Text = String.Format("{0:C}", Convert.ToDecimal(reader["valorPago"]));
+                    lbl_valorCompraOriginal.Text = String.Format("{0:C}", Convert.ToDecimal(reader["valorPago"]));
                 }
             }
             con.FecharCon();
@@ -353,14 +354,15 @@ namespace SistemaLoja.Servicos
 
                 dt.Cells[6].Value = subtotal;
                 total = total + subtotal;
-                if(Program.troca == "Não") {
+                if (Program.troca == "Não")
+                {
                     txt_Valor_Troca.Text = String.Format("{0:C}", total);
 
                     if (rbtn_SaidaTroca.Checked != true)
                     {
-                       txt_ValorSaldo.Text = String.Format("{0:C}", total);
+                        txt_ValorSaldo.Text = String.Format("{0:C}", total);
                     }
-                    
+
                     if (rbtn_VoltarTroca.Checked == true)
                     {
                         txt_Q_Troca.Text = Convert.ToString(qt_Itens);
@@ -501,7 +503,7 @@ namespace SistemaLoja.Servicos
             cmd.ExecuteNonQuery();
             con.FecharCon();
         }
-            private void Bolquear()
+        private void Bolquear()
         {
             btn_Editar.Enabled = true;
             btn_Inserir.Enabled = false;
@@ -917,7 +919,7 @@ namespace SistemaLoja.Servicos
             Bolquear();
             btn_Editar.Enabled = true;
             cbx_Qtde.Enabled = false;
- 
+
             MySqlDataReader reader;
             con.AbrirCon();
             sql = "SELECT * FROM tbprodutos where id = @id";
@@ -936,7 +938,7 @@ namespace SistemaLoja.Servicos
             }
 
             txt_CustoTotal.Text = Convert.ToString((Convert.ToDecimal(txt_Custo.Text.Replace("R$", "")) * int.Parse(cbx_Qtde.Text)));
-            
+
             FiltrarQuantidadeDoItemNaTabelaVenda();
             //FechaAConexaoECalculaValores();
             btn_Editar.Enabled = false;
@@ -1014,7 +1016,7 @@ namespace SistemaLoja.Servicos
             Listar();
             ListarTroca();
             ValorTotalItem();
-            ValorTotalItemTroca();      
+            ValorTotalItemTroca();
         }
 
         private void InsereItensNaTabelaVendas()
@@ -1057,80 +1059,80 @@ namespace SistemaLoja.Servicos
                 MessageBox.Show("O saldo já está negativo, encerre a troca!", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-                int qt_Itens = 0;
-                int qt_prod = 0;
-                int total_Itens = 0;
-                if (txtCodBarras.Text.ToString().Trim() == "")
-                {
-                    MessageBox.Show("Digite o Código de Barras", "Campo Vazio", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtCodBarras.Text = "";
-                    txtCodBarras.Focus();
-                    return;
-                }
+            int qt_Itens = 0;
+            int qt_prod = 0;
+            int total_Itens = 0;
+            if (txtCodBarras.Text.ToString().Trim() == "")
+            {
+                MessageBox.Show("Digite o Código de Barras", "Campo Vazio", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtCodBarras.Text = "";
+                txtCodBarras.Focus();
+                return;
+            }
 
             // Verificar se o código de barras existe
-                con.AbrirCon();
-                MySqlCommand cmdVerificar;
-                cmdVerificar = new MySqlCommand("SELECT * FROM tbprodutos where codBarras = @codBarras", con.con);
-                cmdVerificar.Parameters.AddWithValue("@codBarras", txtCodBarras.Text);
-                MySqlDataAdapter da = new MySqlDataAdapter();
-                da.SelectCommand = cmdVerificar;
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                }
-                else
-                {
-                    MessageBox.Show("Código de Barras não Cadastrado!", "Sem Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtCodBarras.Text = "";
-                    txtCodBarras.Focus();
-                    return;
-                }
-                 con.FecharCon();
-                 CalcularItensNovos();
-                 //CalculaSaldo();
-                 AtualizarEstoque();
-                 VerificaSeOItemJáEstaNaTroca();
-                 ListarTroca();
+            con.AbrirCon();
+            MySqlCommand cmdVerificar;
+            cmdVerificar = new MySqlCommand("SELECT * FROM tbprodutos where codBarras = @codBarras", con.con);
+            cmdVerificar.Parameters.AddWithValue("@codBarras", txtCodBarras.Text);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            da.SelectCommand = cmdVerificar;
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+            }
+            else
+            {
+                MessageBox.Show("Código de Barras não Cadastrado!", "Sem Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtCodBarras.Text = "";
+                txtCodBarras.Focus();
+                return;
+            }
+            con.FecharCon();
+            CalcularItensNovos();
+            //CalculaSaldo();
+            AtualizarEstoque();
+            VerificaSeOItemJáEstaNaTroca();
+            ListarTroca();
 
             // Verificar se o item já está na venda
+            con.AbrirCon();
+            MySqlCommand cmdItem;
+            cmdItem = new MySqlCommand("SELECT * FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda", con.con);
+            cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
+            cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
+            MySqlDataAdapter dat = new MySqlDataAdapter();
+            dat.SelectCommand = cmdItem;
+            DataTable dta = new DataTable();
+            dat.Fill(dta);
+            if (dta.Rows.Count > 0)
+            {
+                ConsultaQuantidade();
+                ValorTotalItem();
+            }
+            else
+            {
+                con.FecharCon();
                 con.AbrirCon();
-                MySqlCommand cmdItem;
-                cmdItem = new MySqlCommand("SELECT * FROM tb_itensVenda where id_Produto = @id_Produto And id_Venda = @id_Venda", con.con);
-                cmdItem.Parameters.AddWithValue("@id_Produto", int.Parse(txt_ID_Produto.Text));
-                cmdItem.Parameters.AddWithValue("@id_Venda", int.Parse(lbl_ID_Venda.Text));
-                MySqlDataAdapter dat = new MySqlDataAdapter();
-                dat.SelectCommand = cmdItem;
-                DataTable dta = new DataTable();
-                dat.Fill(dta);
-                if (dta.Rows.Count > 0)
-                {
-                    ConsultaQuantidade();
-                    ValorTotalItem();
-                }
-                else
-                {
-                    con.FecharCon();
-                    con.AbrirCon();
-                    sql = "INSERT INTO tb_itensVenda (id_Venda, id_Produto, quantidade, valorVenda, valorCusto) VALUES (@id_Venda, @id_Produto, @quantidade, @valorVenda, @valorCusto)";
-                    cmd = new MySqlCommand(sql, con.con);
-                    cmd.Parameters.AddWithValue("@id_Venda", lbl_ID_Venda.Text);
-                    cmd.Parameters.AddWithValue("@id_Produto", txt_ID_Produto.Text);
-                    cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
-                    cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
-                    cmd.Parameters.AddWithValue("@valorCusto", Convert.ToDouble(txt_Custo.Text.Replace("R$", "")));
+                sql = "INSERT INTO tb_itensVenda (id_Venda, id_Produto, quantidade, valorVenda, valorCusto) VALUES (@id_Venda, @id_Produto, @quantidade, @valorVenda, @valorCusto)";
+                cmd = new MySqlCommand(sql, con.con);
+                cmd.Parameters.AddWithValue("@id_Venda", lbl_ID_Venda.Text);
+                cmd.Parameters.AddWithValue("@id_Produto", txt_ID_Produto.Text);
+                cmd.Parameters.AddWithValue("@quantidade", int.Parse(cbx_Qtde.Text));
+                cmd.Parameters.AddWithValue("@valorVenda", Convert.ToDouble(txtValor.Text.Replace("R$", "")));
+                cmd.Parameters.AddWithValue("@valorCusto", Convert.ToDouble(txt_Custo.Text.Replace("R$", "")));
 
-                    cmd.ExecuteNonQuery();
-                    Listar();
-                    ValorTotalItem();
-                    con.FecharCon();
-                }
-                lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
-                AtualizarValoresNaTabelaTrocaAtual();
-                ValorTotalItemTroca();
-                VerificaOSaldoDoValorDeTroca();
-                Limpar();
+                cmd.ExecuteNonQuery();
+                Listar();
+                ValorTotalItem();
+                con.FecharCon();
+            }
+            lbl_Sub_TotalA.Text = lbl_Sub_Total.Text;
+            AtualizarValoresNaTabelaTrocaAtual();
+            ValorTotalItemTroca();
+            VerificaOSaldoDoValorDeTroca();
+            Limpar();
         }
 
         private void CalcularItensNovos()
@@ -1138,7 +1140,7 @@ namespace SistemaLoja.Servicos
             int qt_Itens = int.Parse(txt_Q_Total.Text);
             int qt_prod = int.Parse(cbx_Qtde.Text);
             int total_Itens = qt_Itens + qt_prod;
-            
+
             txt_Q_Total.Text = Convert.ToString(total_Itens);
 
             if (txt_Q_Novos.Text != String.Empty)
@@ -1149,7 +1151,7 @@ namespace SistemaLoja.Servicos
             {
                 qt_Itens = 0;
             }
-            
+
             qt_prod = int.Parse(cbx_Qtde.Text);
             total_Itens = qt_Itens + qt_prod;
 
@@ -1351,21 +1353,21 @@ namespace SistemaLoja.Servicos
             int total = 0;
             int estoque = 0;
 
-                MySqlDataReader reader;
-                con.AbrirCon();
-                sql = "SELECT * FROM tbprodutos where id = @id";
-                cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@id", int.Parse(txt_ID_Produto.Text));
-                reader = cmd.ExecuteReader();
+            MySqlDataReader reader;
+            con.AbrirCon();
+            sql = "SELECT * FROM tbprodutos where id = @id";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id", int.Parse(txt_ID_Produto.Text));
+            reader = cmd.ExecuteReader();
 
-                if (reader.HasRows)
+            if (reader.HasRows)
+            {
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        estoque = Convert.ToInt16(reader["estoque"]);
-                    }
+                    estoque = Convert.ToInt16(reader["estoque"]);
                 }
-                con.FecharCon();
+            }
+            con.FecharCon();
 
             if (Program.troca == "Não")
             {
@@ -1375,14 +1377,14 @@ namespace SistemaLoja.Servicos
             {
                 total = estoque - int.Parse(cbx_Qtde.Text);
             }
-                
-                con.AbrirCon();
-                sql = "UPDATE tbprodutos SET estoque = @estoque where id = @id";
-                cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@id", int.Parse(txt_ID_Produto.Text));
-                cmd.Parameters.AddWithValue("@estoque", total);
-                cmd.ExecuteNonQuery();
-                con.FecharCon();
+
+            con.AbrirCon();
+            sql = "UPDATE tbprodutos SET estoque = @estoque where id = @id";
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@id", int.Parse(txt_ID_Produto.Text));
+            cmd.Parameters.AddWithValue("@estoque", total);
+            cmd.ExecuteNonQuery();
+            con.FecharCon();
         }
 
         private void txt_Desconto_TextChanged(object sender, EventArgs e)
@@ -1856,3 +1858,4 @@ namespace SistemaLoja.Servicos
         }
     }
 }
+

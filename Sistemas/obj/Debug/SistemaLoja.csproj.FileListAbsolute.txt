@@ -280,3 +280,6 @@ C:\Users\lucia\Documents\MeusProjetos\Sistemas\obj\Debug\SistemaLoja.csproj.Core
 C:\Users\lucia\Documents\MeusProjetos\Sistemas\obj\Debug\SistemaLoja.csproj.CopyComplete
 C:\Users\lucia\Documents\MeusProjetos\Sistemas\obj\Debug\SistemaLoja.exe
 C:\Users\lucia\Documents\MeusProjetos\Sistemas\obj\Debug\SistemaLoja.pdb
+C:\Users\lucia\Documents\MeusProjetos\Sistemas\obj\Debug\RdlCompile.cache
+C:\Users\lucia\Documents\MeusProjetos\Sistemas\obj\Debug\RdlCompile.compiled
+C:\Users\lucia\Documents\MeusProjetos\Sistemas\obj\Debug\SistemaLoja.Relatorios.Frm_Rel_Produtos.resources

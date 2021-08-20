@@ -148,5 +148,11 @@ namespace SistemaLoja
             Servicos.FrmTroca frmTroca = new Servicos.FrmTroca();
             frmTroca.Show();
         }
+
+        private void produtosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Relatorios.Frm_Rel_Produtos frm_Rel_Produtos = new Relatorios.Frm_Rel_Produtos();
+            frm_Rel_Produtos.Show();
+        }
     }
 }
