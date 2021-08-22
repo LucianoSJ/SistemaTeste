@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace SistemaLoja.Cadastros
         private void Listar()
         {
             con.AbrirCon();
-            sql = "SELECT p.id, p.nome, p.descricao, p.id_fornec, p.valor_venda, p.valor_compra, p.codBarras, p.DataCad, p.estoque, f.nome FROM tbprodutos as p INNER JOIN tbfornecedores as f ON p.id_fornec = f.id order by p.nome asc";
+            sql = "SELECT p.id, p.nome, p.descricao, p.id_fornec, p.valor_venda, p.valor_compra, p.codBarras, p.DataCad, p.estoque, f.nome, p.imagem FROM tbprodutos as p INNER JOIN tbfornecedores as f ON p.id_fornec = f.id order by p.nome asc";
             cmd = new MySqlCommand(sql, con.con);
             MySqlDataAdapter da = new MySqlDataAdapter();
             da.SelectCommand = cmd;
@@ -57,7 +58,7 @@ namespace SistemaLoja.Cadastros
         private void BuscarNome()
         {
             con.AbrirCon();
-            sql = "SELECT p.id, p.nome, p.descricao, p.id_fornec, p.valor_venda, p.valor_compra, p.codBarras, p.DataCad, p.estoque, f.nome FROM tbprodutos as p INNER JOIN tbfornecedores as f ON p.id_fornec = f.id where p.nome LIKE @nome order by p.nome asc";
+            sql = "SELECT p.id, p.nome, p.descricao, p.id_fornec, p.valor_venda, p.valor_compra, p.codBarras, p.DataCad, p.estoque, f.nome, p.imagem FROM tbprodutos as p INNER JOIN tbfornecedores as f ON p.id_fornec = f.id where p.nome LIKE @nome order by p.nome asc";
             cmd = new MySqlCommand(sql, con.con);
             cmd.Parameters.AddWithValue("@nome", txtBuscar.Text + "%");
             MySqlDataAdapter da = new MySqlDataAdapter();
@@ -81,6 +82,7 @@ namespace SistemaLoja.Cadastros
             grid.Columns[7].HeaderText = "Data Cad.";
             grid.Columns[8].HeaderText = "Estoque";
             grid.Columns[9].HeaderText = "Fornecedor";
+            grid.Columns[10].HeaderText = "Imagem";
             grid.Columns[0].Visible = false;
             grid.Columns[3].Visible = false;
          // Formatar coluna para moeda
@@ -132,6 +134,7 @@ namespace SistemaLoja.Cadastros
         private void limparFoto()
         {
             img.Image = Properties.Resources.sem_foto;
+            foto = "img/sem-foto.jpg";
         }
 
         private void FrmProdutos_Load(object sender, EventArgs e)
@@ -183,20 +186,20 @@ namespace SistemaLoja.Cadastros
 
         private void btnImg_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
+          /*  OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Imagens JPG(*.jpg;*.png)|*.jpg;*.png)|Todos os Arquivos(*.*)|*.*";
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 img.Image = new Bitmap(dialog.FileName);
-            }
-            /*OpenFileDialog dialog = new OpenFileDialog();
+            }*/
+            OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Imagens JPG(*.jpg;*.png)|*.jpg;*.png)|Todos os Arquivos(*.*)|*.*";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                string foto = dialog.FileName.ToString();
+                foto = dialog.FileName.ToString();
                 img.ImageLocation = foto;
-            }*/
+            }
         }
 
         private void btnSalvar_Click(object sender, EventArgs e)
@@ -211,7 +214,7 @@ namespace SistemaLoja.Cadastros
 
             //Código do botão para salvar
             con.AbrirCon();
-            sql = "INSERT INTO tbprodutos (nome, descricao, id_fornec ,valor_venda, valor_compra, codBarras, DataCad, foto) VALUES (@nome, @descricao, @fornecedores, @valor_venda, @valor_compra, @codBarras, curDate(), @foto)";
+            sql = "INSERT INTO tbprodutos (nome, descricao, id_fornec ,valor_venda, valor_compra, codBarras, DataCad, imagem) VALUES (@nome, @descricao, @fornecedores, @valor_venda, @valor_compra, @codBarras, curDate(), @imagem)";
             cmd = new MySqlCommand(sql, con.con);
             cmd.Parameters.AddWithValue("@nome", txtNome.Text);
             cmd.Parameters.AddWithValue("@descricao", txtDescricao.Text);
@@ -219,7 +222,7 @@ namespace SistemaLoja.Cadastros
             cmd.Parameters.AddWithValue("@valor_venda", txtValor.Text.Replace(",", "."));
             cmd.Parameters.AddWithValue("@valor_compra", txtCusto.Text.Replace(",", "."));
             cmd.Parameters.AddWithValue("@codBarras", txtCodBarras.Text);
-            cmd.Parameters.AddWithValue("@foto", img);
+            cmd.Parameters.AddWithValue("@imagem", Img());
             //cmd.Parameters.AddWithValue("@estoque",txtEstoque.Text);
 
             // Verificar se o código de barras já exeiste
@@ -264,7 +267,7 @@ namespace SistemaLoja.Cadastros
 
                 //Código do botão para editar
                 con.AbrirCon(); 
-                sql = "UPDATE tbprodutos SET nome = @nome, descricao = @descricao, id_fornec = @id_fornec, valor_venda = @valor_venda, valor_compra = @valor_compra, codBarras = @codBarras where id = @id";
+                sql = "UPDATE tbprodutos SET nome = @nome, descricao = @descricao, id_fornec = @id_fornec, valor_venda = @valor_venda, valor_compra = @valor_compra, codBarras = @codBarras, imagem = @imagem where id = @id";
                 cmd = new MySqlCommand(sql, con.con);
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@nome", txtNome.Text);
@@ -273,6 +276,7 @@ namespace SistemaLoja.Cadastros
                 cmd.Parameters.AddWithValue("@valor_venda", txtValor.Text.Replace(",", "."));
                 cmd.Parameters.AddWithValue("@valor_compra", txtCusto.Text.Replace(",", "."));
                 cmd.Parameters.AddWithValue("@codBarras", txtCodBarras.Text);
+                cmd.Parameters.AddWithValue("@imagem", Img());
 
                 // Verifica se o código de barras já existe no Banco
                 if (txtCodBarras.Text != codAntigo)
@@ -313,6 +317,7 @@ namespace SistemaLoja.Cadastros
             btnEditar.Enabled = true;
             btnExcluir.Enabled = true;
             btnSalvar.Enabled = false;
+            btnImg.Enabled = true;
             habilitarCampos();
 
             id = grid.CurrentRow.Cells[0].Value.ToString();
@@ -323,8 +328,18 @@ namespace SistemaLoja.Cadastros
             txtCusto.Text = grid.CurrentRow.Cells[5].Value.ToString();
             txtCodBarras.Text = grid.CurrentRow.Cells[6].Value.ToString();
             txtEstoque.Text = grid.CurrentRow.Cells[8].Value.ToString();
-            img.Text = grid.CurrentRow.Cells[9].Value.ToString();
             codAntigo = grid.CurrentRow.Cells[6].Value.ToString();
+
+            if (grid.CurrentRow.Cells[10].Value != DBNull.Value)
+            {
+                byte[] imagem = (byte[])grid.CurrentRow.Cells[10].Value;
+                MemoryStream ms = new MemoryStream(imagem);
+                img.Image = System.Drawing.Image.FromStream(ms);
+            }
+            else
+            {
+                img.Image = Properties.Resources.sem_foto;
+            }
         }
 
         private void txtBuscar_TextChanged(object sender, EventArgs e)
@@ -374,5 +389,20 @@ namespace SistemaLoja.Cadastros
                     e.Handled = true;
             }
         }
+
+        private byte[] Img()
+        {
+            byte[] imagem_byte = null;
+            if (foto == "")
+            {
+                return null;
+            }
+
+            FileStream fs = new FileStream(foto, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+            imagem_byte = br.ReadBytes((int)fs.Length);
+            return imagem_byte;
+        }
+
     }
 }

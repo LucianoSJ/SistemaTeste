@@ -54,7 +54,7 @@
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=8.0.16.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -103,11 +103,6 @@
     </Compile>
     <Compile Include="Cadastros\FrmUsuarios.Designer.cs">
       <DependentUpon>FrmUsuarios.cs</DependentUpon>
-    </Compile>
-    <Compile Include="db_sistemaDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db_sistemaDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Filtros\FrmFiltrarProduto.cs">
       <SubType>Form</SubType>
@@ -214,6 +209,11 @@
     <Compile Include="Servicos\FrmTroca.Designer.cs">
       <DependentUpon>FrmTroca.cs</DependentUpon>
     </Compile>
+    <Compile Include="sistemalojaDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>sistemalojaDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <EmbeddedResource Include="Cadastros\FrmCargos.resx">
       <DependentUpon>FrmCargos.cs</DependentUpon>
@@ -296,17 +296,6 @@
     <EmbeddedResource Include="Servicos\FrmTroca.resx">
       <DependentUpon>FrmTroca.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="db_sistemaDataSet.xsc">
-      <DependentUpon>db_sistemaDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="db_sistemaDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>db_sistemaDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="db_sistemaDataSet.xss">
-      <DependentUpon>db_sistemaDataSet.xsd</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -317,6 +306,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="sistemalojaDataSet.xsc">
+      <DependentUpon>sistemalojaDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="sistemalojaDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>sistemalojaDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="sistemalojaDataSet.xss">
+      <DependentUpon>sistemalojaDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace SistemaLoja.Servicos
         Double total;
         int quantidade;
         String LiberarConsutaParcelas = "Não";
+        string foto;
         public FrmCaixa()
         {
             InitializeComponent();
@@ -390,6 +392,9 @@ namespace SistemaLoja.Servicos
 
         private void ConsultaCodigoDeBarras()
         {
+            Image imagem = null;
+            MemoryStream es = null;
+
             con.AbrirCon();
             if (Program.Botao == "codBarras")
             {
@@ -409,6 +414,11 @@ namespace SistemaLoja.Servicos
                         txtEstoque.Text = Convert.ToString(reader["estoque"]);
                         txt_Valor_Total.Text = Convert.ToString(reader["valor_venda"]);
                         txt_Custo.Text = Convert.ToString(reader["valor_compra"]);
+
+                        byte[] foto = (byte[])reader["imagem"];
+                        es = new MemoryStream(foto);
+                        imagem = Image.FromStream(es);
+                        img.Image = imagem;
                     }
 
                     if (txt_Valor_Total.Text != String.Empty && cbx_Qtde.Text != String.Empty)
@@ -1177,6 +1187,20 @@ namespace SistemaLoja.Servicos
         private void button5_Click(object sender, EventArgs e)
         {
             cbx_FormPagamento.Text = "PIX";
+        }
+
+        private byte[] Img()
+        {
+            byte[] imagem_byte = null;
+            if (foto == "")
+            {
+                return null;
+            }
+
+            FileStream fs = new FileStream(foto, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+            imagem_byte = br.ReadBytes((int)fs.Length);
+            return imagem_byte;
         }
     }
 }
