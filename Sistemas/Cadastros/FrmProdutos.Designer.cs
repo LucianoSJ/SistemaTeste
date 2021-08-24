@@ -53,6 +53,8 @@ namespace SistemaLoja.Cadastros
             this.label9 = new System.Windows.Forms.Label();
             this.img = new System.Windows.Forms.PictureBox();
             this.btnImg = new System.Windows.Forms.Button();
+            this.txtdesconto = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             this.SuspendLayout();
@@ -154,11 +156,11 @@ namespace SistemaLoja.Cadastros
             this.grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grid.Cursor = System.Windows.Forms.Cursors.Hand;
             this.grid.GridColor = System.Drawing.SystemColors.ControlLightLight;
-            this.grid.Location = new System.Drawing.Point(24, 145);
+            this.grid.Location = new System.Drawing.Point(25, 168);
             this.grid.Name = "grid";
             this.grid.ReadOnly = true;
             this.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grid.Size = new System.Drawing.Size(675, 203);
+            this.grid.Size = new System.Drawing.Size(675, 190);
             this.grid.TabIndex = 79;
             this.grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.grid.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellContentDoubleClick);
@@ -166,7 +168,7 @@ namespace SistemaLoja.Cadastros
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 92);
+            this.label5.Location = new System.Drawing.Point(20, 89);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 13);
             this.label5.TabIndex = 77;
@@ -181,22 +183,22 @@ namespace SistemaLoja.Cadastros
             "Administrador"});
             this.cbxFrornecedores.Location = new System.Drawing.Point(93, 84);
             this.cbxFrornecedores.Name = "cbxFrornecedores";
-            this.cbxFrornecedores.Size = new System.Drawing.Size(171, 21);
+            this.cbxFrornecedores.Size = new System.Drawing.Size(163, 21);
             this.cbxFrornecedores.TabIndex = 2;
             // 
             // txtValor
             // 
             this.txtValor.Enabled = false;
-            this.txtValor.Location = new System.Drawing.Point(356, 5);
+            this.txtValor.Location = new System.Drawing.Point(383, 5);
             this.txtValor.Name = "txtValor";
-            this.txtValor.Size = new System.Drawing.Size(171, 20);
+            this.txtValor.Size = new System.Drawing.Size(143, 20);
             this.txtValor.TabIndex = 3;
             this.txtValor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtValor_KeyPress);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(318, 12);
+            this.label4.Location = new System.Drawing.Point(351, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(34, 13);
             this.label4.TabIndex = 76;
@@ -205,7 +207,7 @@ namespace SistemaLoja.Cadastros
             // txtDescricao
             // 
             this.txtDescricao.Enabled = false;
-            this.txtDescricao.Location = new System.Drawing.Point(92, 111);
+            this.txtDescricao.Location = new System.Drawing.Point(92, 140);
             this.txtDescricao.Name = "txtDescricao";
             this.txtDescricao.Size = new System.Drawing.Size(435, 20);
             this.txtDescricao.TabIndex = 7;
@@ -213,7 +215,7 @@ namespace SistemaLoja.Cadastros
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(29, 112);
+            this.label3.Location = new System.Drawing.Point(36, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 13);
             this.label3.TabIndex = 75;
@@ -222,7 +224,7 @@ namespace SistemaLoja.Cadastros
             // txtNome
             // 
             this.txtNome.Enabled = false;
-            this.txtNome.Location = new System.Drawing.Point(92, 58);
+            this.txtNome.Location = new System.Drawing.Point(92, 113);
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(435, 20);
             this.txtNome.TabIndex = 1;
@@ -230,7 +232,7 @@ namespace SistemaLoja.Cadastros
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(49, 65);
+            this.label2.Location = new System.Drawing.Point(57, 117);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 74;
@@ -240,14 +242,14 @@ namespace SistemaLoja.Cadastros
             // 
             this.txtBuscar.Location = new System.Drawing.Point(93, 5);
             this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.Size = new System.Drawing.Size(171, 20);
+            this.txtBuscar.Size = new System.Drawing.Size(163, 20);
             this.txtBuscar.TabIndex = 73;
             this.txtBuscar.TextChanged += new System.EventHandler(this.txtBuscar_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 12);
+            this.label1.Location = new System.Drawing.Point(52, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 66;
@@ -256,16 +258,16 @@ namespace SistemaLoja.Cadastros
             // txtCusto
             // 
             this.txtCusto.Enabled = false;
-            this.txtCusto.Location = new System.Drawing.Point(356, 32);
+            this.txtCusto.Location = new System.Drawing.Point(383, 32);
             this.txtCusto.Name = "txtCusto";
-            this.txtCusto.Size = new System.Drawing.Size(171, 20);
+            this.txtCusto.Size = new System.Drawing.Size(143, 20);
             this.txtCusto.TabIndex = 4;
             this.txtCusto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCusto_KeyPress);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(313, 39);
+            this.label7.Location = new System.Drawing.Point(347, 36);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(37, 13);
             this.label7.TabIndex = 84;
@@ -274,15 +276,15 @@ namespace SistemaLoja.Cadastros
             // txtCodBarras
             // 
             this.txtCodBarras.Enabled = false;
-            this.txtCodBarras.Location = new System.Drawing.Point(93, 32);
+            this.txtCodBarras.Location = new System.Drawing.Point(93, 56);
             this.txtCodBarras.Name = "txtCodBarras";
-            this.txtCodBarras.Size = new System.Drawing.Size(171, 20);
+            this.txtCodBarras.Size = new System.Drawing.Size(163, 20);
             this.txtCodBarras.TabIndex = 5;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(22, 39);
+            this.label8.Location = new System.Drawing.Point(30, 60);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(65, 13);
             this.label8.TabIndex = 86;
@@ -291,15 +293,15 @@ namespace SistemaLoja.Cadastros
             // txtEstoque
             // 
             this.txtEstoque.Enabled = false;
-            this.txtEstoque.Location = new System.Drawing.Point(356, 85);
+            this.txtEstoque.Location = new System.Drawing.Point(383, 85);
             this.txtEstoque.Name = "txtEstoque";
-            this.txtEstoque.Size = new System.Drawing.Size(171, 20);
+            this.txtEstoque.Size = new System.Drawing.Size(143, 20);
             this.txtEstoque.TabIndex = 6;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(301, 92);
+            this.label9.Location = new System.Drawing.Point(336, 89);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 88;
@@ -330,11 +332,30 @@ namespace SistemaLoja.Cadastros
             this.btnImg.UseVisualStyleBackColor = false;
             this.btnImg.Click += new System.EventHandler(this.btnImg_Click);
             // 
+            // txtdesconto
+            // 
+            this.txtdesconto.Enabled = false;
+            this.txtdesconto.Location = new System.Drawing.Point(383, 59);
+            this.txtdesconto.Name = "txtdesconto";
+            this.txtdesconto.Size = new System.Drawing.Size(143, 20);
+            this.txtdesconto.TabIndex = 90;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(289, 63);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(96, 13);
+            this.label6.TabIndex = 91;
+            this.label6.Text = "Valor de desconto:";
+            // 
             // FrmProdutos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(722, 472);
+            this.Controls.Add(this.txtdesconto);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnImg);
             this.Controls.Add(this.img);
             this.Controls.Add(this.txtEstoque);
@@ -348,7 +369,6 @@ namespace SistemaLoja.Cadastros
             this.Controls.Add(this.btnSalvar);
             this.Controls.Add(this.btnNovo);
             this.Controls.Add(this.grid);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.cbxFrornecedores);
             this.Controls.Add(this.txtValor);
             this.Controls.Add(this.label4);
@@ -358,6 +378,7 @@ namespace SistemaLoja.Cadastros
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.label5);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmProdutos";
@@ -396,5 +417,7 @@ namespace SistemaLoja.Cadastros
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.PictureBox img;
         private System.Windows.Forms.Button btnImg;
+        private System.Windows.Forms.TextBox txtdesconto;
+        private System.Windows.Forms.Label label6;
     }
 }

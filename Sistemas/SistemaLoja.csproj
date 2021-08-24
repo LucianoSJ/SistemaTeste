@@ -54,6 +54,10 @@
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.DataDesign.DataSetDesigner, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Designer.Interfaces, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -209,11 +213,6 @@
     <Compile Include="Servicos\FrmTroca.Designer.cs">
       <DependentUpon>FrmTroca.cs</DependentUpon>
     </Compile>
-    <Compile Include="sistemalojaDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>sistemalojaDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <EmbeddedResource Include="Cadastros\FrmCargos.resx">
       <DependentUpon>FrmCargos.cs</DependentUpon>
@@ -306,16 +305,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="sistemalojaDataSet.xsc">
-      <DependentUpon>sistemalojaDataSet.xsd</DependentUpon>
+    <None Include="sistemalojaDataSet1.xsc">
+      <DependentUpon>sistemalojaDataSet1.xsd</DependentUpon>
     </None>
-    <None Include="sistemalojaDataSet.xsd">
+    <None Include="sistemalojaDataSet1.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>sistemalojaDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="sistemalojaDataSet.xss">
-      <DependentUpon>sistemalojaDataSet.xsd</DependentUpon>
+    <None Include="sistemalojaDataSet1.xss">
+      <DependentUpon>sistemalojaDataSet1.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

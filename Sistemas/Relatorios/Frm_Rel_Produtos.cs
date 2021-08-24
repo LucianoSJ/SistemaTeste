@@ -19,6 +19,8 @@ namespace SistemaLoja.Relatorios
 
         private void Frm_Rel_Produtos_Load(object sender, EventArgs e)
         {
+            // TODO: esta linha de código carrega dados na tabela 'sistemalojaDataSet.tbprodutos'. Você pode movê-la ou removê-la conforme necessário.
+            this.tbprodutosTableAdapter.Fill(this.sistemalojaDataSet.tbprodutos);
 
             this.reportViewer1.RefreshReport();
         }

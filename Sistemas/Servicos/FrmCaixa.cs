@@ -414,6 +414,7 @@ namespace SistemaLoja.Servicos
                         txtEstoque.Text = Convert.ToString(reader["estoque"]);
                         txt_Valor_Total.Text = Convert.ToString(reader["valor_venda"]);
                         txt_Custo.Text = Convert.ToString(reader["valor_compra"]);
+                        lblDescProduto.Text = Convert.ToString(reader["desconto"]);
 
                         byte[] foto = (byte[])reader["imagem"];
                         es = new MemoryStream(foto);
@@ -425,6 +426,7 @@ namespace SistemaLoja.Servicos
                     {
                         txt_Valor_Total.Text = (float.Parse(txtValor.Text) * int.Parse(cbx_Qtde.Text)).ToString();
                         txt_Valor_Total.Text = double.Parse(txt_Valor_Total.Text).ToString("C2");
+                        lblDescProduto.Text = double.Parse(lblDescProduto.Text).ToString("C2");
                     }
 
                     txtValor.Text = double.Parse(txtValor.Text).ToString("C2");
@@ -539,6 +541,30 @@ namespace SistemaLoja.Servicos
             Program.forAberto = "caixa";
             Program.ExecultadoVenda = "Não";
             LimparTudo();
+        }
+
+        private void CalcularDescontoDoProduto()
+        {
+            if ((Convert.ToDecimal(lblDescProduto.Text.Replace("R$", ""))) > 0)
+            {
+                lblProComDesc.Visible = true;
+                lblDescProduto.Visible = true;
+            }
+            else
+            {
+                lblProComDesc.Visible = false;
+                lblDescProduto.Visible = false;
+            }
+            if ((Convert.ToDecimal(lblDesTotalProd.Text.Replace("R$", ""))) > 0)
+            {
+                lblDesTotalProd.Visible = true;
+                lblDesTotalProd.Visible = true;
+            }
+            else
+            {
+                lblDesTotalProd.Visible = false;
+                lblDesTotalProd.Visible = false;
+            }
         }
 
         private void LimparTudo()
@@ -751,6 +777,7 @@ namespace SistemaLoja.Servicos
                     {
                         Program.Botao = "codBarras";
                         ConsultaCodigoDeBarras();
+                        CalcularDescontoDoProduto();
                     }
                     else
                     {
@@ -806,7 +833,7 @@ namespace SistemaLoja.Servicos
                             ExcluirParcelas();
                             GeradorDeParcelas();
                             ListarParcelas();
-                            //FormatarDG_Parcelas();   
+                            //FormatarDG_Parcelas();
                         }
                     }
                 }
@@ -1138,6 +1165,12 @@ namespace SistemaLoja.Servicos
                 decimal total = valor * quantidade;
 
                 txt_Valor_Total.Text = String.Format("{0:C}", total);
+
+                valor = Convert.ToDecimal(lblDescProduto.Text.Replace("R$", ""));
+                quantidade = int.Parse(cbx_Qtde.Text);
+                total = valor * quantidade;
+
+                lblDesTotalProd.Text = String.Format("{0:C}", total);
             }
         }
 

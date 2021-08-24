@@ -102,6 +102,10 @@ namespace SistemaLoja.Servicos
             this.label3 = new System.Windows.Forms.Label();
             this.btn_Excluir = new System.Windows.Forms.Button();
             this.btn_Editar = new System.Windows.Forms.Button();
+            this.lblProComDesc = new System.Windows.Forms.Label();
+            this.lblTotaDesProd = new System.Windows.Forms.Label();
+            this.lblDescProduto = new System.Windows.Forms.Label();
+            this.lblDesTotalProd = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.img)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.pnlRight.SuspendLayout();
@@ -1049,7 +1053,7 @@ namespace SistemaLoja.Servicos
             // 
             this.txt_Custo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txt_Custo.Enabled = false;
-            this.txt_Custo.Location = new System.Drawing.Point(90, 240);
+            this.txt_Custo.Location = new System.Drawing.Point(348, 214);
             this.txt_Custo.Name = "txt_Custo";
             this.txt_Custo.Size = new System.Drawing.Size(78, 20);
             this.txt_Custo.TabIndex = 125;
@@ -1059,7 +1063,7 @@ namespace SistemaLoja.Servicos
             // 
             this.lbl_Custo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbl_Custo.AutoSize = true;
-            this.lbl_Custo.Location = new System.Drawing.Point(21, 245);
+            this.lbl_Custo.Location = new System.Drawing.Point(279, 219);
             this.lbl_Custo.Name = "lbl_Custo";
             this.lbl_Custo.Size = new System.Drawing.Size(64, 13);
             this.lbl_Custo.TabIndex = 126;
@@ -1090,7 +1094,7 @@ namespace SistemaLoja.Servicos
             // 
             this.txt_CustoTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txt_CustoTotal.Enabled = false;
-            this.txt_CustoTotal.Location = new System.Drawing.Point(246, 240);
+            this.txt_CustoTotal.Location = new System.Drawing.Point(348, 240);
             this.txt_CustoTotal.Name = "txt_CustoTotal";
             this.txt_CustoTotal.Size = new System.Drawing.Size(78, 20);
             this.txt_CustoTotal.TabIndex = 129;
@@ -1100,7 +1104,7 @@ namespace SistemaLoja.Servicos
             // 
             this.lbl_CustoTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbl_CustoTotal.AutoSize = true;
-            this.lbl_CustoTotal.Location = new System.Drawing.Point(177, 245);
+            this.lbl_CustoTotal.Location = new System.Drawing.Point(279, 245);
             this.lbl_CustoTotal.Name = "lbl_CustoTotal";
             this.lbl_CustoTotal.Size = new System.Drawing.Size(64, 13);
             this.lbl_CustoTotal.TabIndex = 130;
@@ -1159,11 +1163,55 @@ namespace SistemaLoja.Servicos
             this.btn_Editar.UseVisualStyleBackColor = false;
             this.btn_Editar.Click += new System.EventHandler(this.btn_Editar_Click);
             // 
+            // lblProComDesc
+            // 
+            this.lblProComDesc.AutoSize = true;
+            this.lblProComDesc.Location = new System.Drawing.Point(46, 205);
+            this.lblProComDesc.Name = "lblProComDesc";
+            this.lblProComDesc.Size = new System.Drawing.Size(119, 13);
+            this.lblProComDesc.TabIndex = 134;
+            this.lblProComDesc.Text = "Produto com Desconto:";
+            this.lblProComDesc.Visible = false;
+            // 
+            // lblTotaDesProd
+            // 
+            this.lblTotaDesProd.AutoSize = true;
+            this.lblTotaDesProd.Location = new System.Drawing.Point(12, 227);
+            this.lblTotaDesProd.Name = "lblTotaDesProd";
+            this.lblTotaDesProd.Size = new System.Drawing.Size(153, 13);
+            this.lblTotaDesProd.TabIndex = 135;
+            this.lblTotaDesProd.Text = "Total de Desconto do Produto:";
+            this.lblTotaDesProd.Visible = false;
+            // 
+            // lblDescProduto
+            // 
+            this.lblDescProduto.AutoSize = true;
+            this.lblDescProduto.Location = new System.Drawing.Point(166, 205);
+            this.lblDescProduto.Name = "lblDescProduto";
+            this.lblDescProduto.Size = new System.Drawing.Size(13, 13);
+            this.lblDescProduto.TabIndex = 136;
+            this.lblDescProduto.Text = "0";
+            this.lblDescProduto.Visible = false;
+            // 
+            // lblDesTotalProd
+            // 
+            this.lblDesTotalProd.AutoSize = true;
+            this.lblDesTotalProd.Location = new System.Drawing.Point(165, 228);
+            this.lblDesTotalProd.Name = "lblDesTotalProd";
+            this.lblDesTotalProd.Size = new System.Drawing.Size(13, 13);
+            this.lblDesTotalProd.TabIndex = 137;
+            this.lblDesTotalProd.Text = "0";
+            this.lblDesTotalProd.Visible = false;
+            // 
             // FrmCaixa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.lblDesTotalProd);
+            this.Controls.Add(this.lblDescProduto);
+            this.Controls.Add(this.lblTotaDesProd);
+            this.Controls.Add(this.lblProComDesc);
             this.Controls.Add(this.btn_Editar);
             this.Controls.Add(this.btn_Excluir);
             this.Controls.Add(this.label3);
@@ -1283,5 +1331,9 @@ namespace SistemaLoja.Servicos
         private System.Windows.Forms.Label lbl_Sub_TotalA;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label lbl_V_Entrada;
+        private System.Windows.Forms.Label lblProComDesc;
+        private System.Windows.Forms.Label lblTotaDesProd;
+        private System.Windows.Forms.Label lblDescProduto;
+        private System.Windows.Forms.Label lblDesTotalProd;
     }
 }
